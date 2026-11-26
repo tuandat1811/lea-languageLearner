@@ -42,7 +42,7 @@ Mỗi bài gồm: **Từ vựng** (8–10 từ, IPA, phát âm) → **Ngữ phá
 | 🎧 Nghe | Nghe từ khoá; bài nghe hội thoại phát từng câu, ẩn/hiện lời và bản dịch; nghe cấu trúc | Nghe chọn nghĩa, nghe chọn câu, chép chính tả |
 | 🎤 Nói | Bảng phát âm từ khoá (IPA, nghe chậm, 🎤 chấm thử); nói theo mẫu từng câu | Đọc to từ/câu, nói câu từ nghĩa tiếng Việt; **nói tự do** theo chủ đề (đếm từ, từ mới đã dùng) |
 | 📖 Đọc | Bài đọc tô sáng từ vựng (chạm để nghe), bản dịch, câu hỏi định hướng | Nối từ, đọc chọn nghĩa, đọc hiểu |
-| ✍️ Viết | Cấu trúc câu, bài viết mẫu | Dịch, sắp xếp, điền từ; **viết đoạn văn** có checklist (số câu, số từ, từ mới, viết hoa, dấu câu), lưu nháp |
+| ✍️ Viết | Cấu trúc câu, bài viết mẫu | Dịch, sắp xếp, điền từ; **viết đoạn văn** (tự chấm ngầm số câu, số từ, từ mới, viết hoa, dấu câu), lưu nháp |
 
 **👄 Phát âm** (`#/pronunciation`, dữ liệu `data/en-pron.js`): 10 bài – nguyên âm dài/ngắn, /æ/–/e/, th, /s/–/ʃ/–/tʃ/, âm cuối, đuôi -s/-es, đuôi -ed, /l/–/n/–/r/, trọng âm, ngữ điệu & nối âm. Mỗi bài có bài giảng (khẩu hình, ví dụ, cặp từ dễ nhầm) và bài tập: nghe phân biệt cặp từ, phân loại cách đọc, nói.
 

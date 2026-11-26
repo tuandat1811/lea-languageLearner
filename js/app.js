@@ -584,7 +584,10 @@
     return '<div class="tips"><b>💡 Cách học hiệu quả</b><ol>' + items.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol></div>';
   }
 
-  /** Checklist for free writing / speaking. */
+  /**
+   * Silent requirement check for free writing / speaking. The checklist itself is
+   * not shown to the learner; only the used-vocab chips are rendered.
+   */
   function freeCheck(text, lesson, minSentences, minWords, minVocab, written) {
     var sentences = text.split(/[.!?]+/).map(function (s) { return s.trim(); }).filter(Boolean);
     var words = (text.match(/[\p{L}']+/gu) || []).length;
@@ -598,9 +601,7 @@
       items.push({ ok: sentences.length > 0 && sentences.every(function (s) { return /^[^\p{L}]*\p{Lu}/u.test(s); }), label: 'Viết hoa chữ cái đầu mỗi câu' });
       items.push({ ok: /[.!?]["”']?\s*$/.test(text.trim()), label: 'Kết thúc câu bằng dấu . ! hoặc ?' });
     }
-    var html = '<ul class="checklist">' + items.map(function (it) {
-      return '<li class="' + (it.ok ? 'ok' : '') + '">' + (it.ok ? '✅' : '⬜') + ' ' + it.label + '</li>';
-    }).join('') + '</ul><div class="chips">' + lesson.vocab.map(function (v) {
+    var html = '<div class="chips">' + lesson.vocab.map(function (v) {
       var u = used.indexOf(v) >= 0;
       return '<span class="chip-word' + (u ? ' used' : '') + '" title="' + esc(v.vi) + '">' + (u ? '✓ ' : '') + esc(v.en) + '</span>';
     }).join('') + '</div>';
@@ -684,7 +685,7 @@
             '<p class="muted">Gợi ý mở đầu: ' + lesson.sentences.slice(0, 2).map(function (s) { return '<i>' + esc(s.en) + '</i>'; }).join(' · ') + '</p>' +
             (L.speech.sttSupported
               ? '<div class="free-box"><button class="btn btn-red" data-free-speak>🎤 Bắt đầu nói</button><div class="free-transcript muted">Lời bạn nói sẽ hiện ở đây…</div></div>'
-              : '<p class="notice">Trình duyệt chưa hỗ trợ nhận diện giọng nói (hãy dùng Chrome hoặc Edge). Bạn vẫn có thể tự nói to và tự đánh giá theo danh sách bên dưới.</p>') +
+              : '<p class="notice">Trình duyệt chưa hỗ trợ nhận diện giọng nói (hãy dùng Chrome hoặc Edge). Bạn vẫn có thể tự nói to theo yêu cầu ở trên.</p>') +
             '<div class="free-check"></div></section>',
         bind: function (root) {
           bindMiniMics(root);
