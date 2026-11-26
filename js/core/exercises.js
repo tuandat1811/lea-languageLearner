@@ -88,20 +88,17 @@
     return 1 - levenshtein(a, b) / Math.max(a.length, b.length);
   }
 
-  /** Compare typed text against accepted answers. */
+  /**
+   * Compare typed practice answers. No typo is forgiven: a wrong letter is a wrong
+   * answer (like ≠ likes). Case, punctuation, contractions and the course's
+   * equivalents (e.g. colour = color) are normalized before comparing.
+   */
   function checkText(input, answers, course) {
     var got = normalize(input, course);
-    var bestDist = Infinity, bestAns = answers[0], bestLen = 0;
     for (var i = 0; i < answers.length; i++) {
-      var want = normalize(answers[i], course);
-      if (got === want) return { ok: true, exact: true };
-      var d = levenshtein(got, want);
-      if (d < bestDist) { bestDist = d; bestAns = answers[i]; bestLen = want.length; }
+      if (got === normalize(answers[i], course)) return { ok: true, exact: true };
     }
-    // Forgive a small typo: 1 letter for words of 5+ letters, 2 for long sentences.
-    var allowed = bestLen >= 15 ? 2 : bestLen >= 5 ? 1 : 0;
-    var close = got.length > 0 && bestDist <= allowed;
-    return { ok: close, exact: false, close: close, closest: bestAns };
+    return { ok: false, exact: false };
   }
 
   /** Compare recognised speech alternatives against the target. */

@@ -1105,12 +1105,12 @@
     input.addEventListener('input', function () { ctx.ready(input.value.trim().length > 0); });
     ctx.setCheck(function () {
       var got = wrap ? wrap(input.value) : input.value;
-      // Grammar tests compare exactly; normal practice forgives a small typo.
+      // Neither forgives typos. Grammar tests also require exact case and punctuation;
+      // practice ignores case and punctuation.
       var r = ex.strict ? L.exercises.checkStrict(got, answers, course()) : L.exercises.checkText(got, answers, course());
       input.classList.add(r.ok ? 'correct' : 'wrong');
       input.disabled = true;
-      var note = r.ok && !r.exact ? ' (gần đúng – chú ý chính tả)' : '';
-      return { ok: r.ok, answer: (reveal || answers[0]) + note, speak: answers[0] };
+      return { ok: r.ok, answer: reveal || answers[0], speak: answers[0] };
     });
   }
 

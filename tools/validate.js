@@ -106,7 +106,9 @@ const cases = [
   ['he isnt short', ['He is not short.'], true],
   ['I have 2 cats', ['I have two cats.'], true],
   ['goodbye', ['hello'], false],
-  ['delicous', ['delicious'], true], // one typo forgiven
+  ['delicous', ['delicious'], false], // no typo is forgiven
+  ['He like football', ['He likes football.'], false],
+  ['he likes football', ['He likes football.'], true], // case and punctuation are not typos
   ["I'll help you", ['I will help you.'], true],
   ['she wasnt at school', ["She wasn't at school."], true],
   ['I promise I will not be late', ["I promise I won't be late."], true],
