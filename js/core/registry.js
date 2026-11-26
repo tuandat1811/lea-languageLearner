@@ -71,11 +71,11 @@ window.LEA = window.LEA || {};
   // Study paces for the learning plan (lessons per week).
   L.PACES = [
     {
-      id: 'christmas', name: 'Thử thách Giáng sinh', icon: '🎅', perWeek: 5,
+      id: 'intensive', name: 'Tăng tốc', icon: '🚀', perWeek: 5,
       desc: '1 bài mỗi ngày từ thứ Hai đến thứ Sáu, khoảng 35 phút/ngày. Thứ Bảy ôn tập, Chủ nhật nghỉ.',
       week: [
         ['T2', 'Học 1 bài: từ vựng → ngữ pháp → 4 kỹ năng'], ['T3', 'Học 1 bài'], ['T4', 'Học 1 bài'],
-        ['T5', 'Học 1 bài'], ['T6', 'Học 1 bài'], ['T7', 'Ôn tập từ vựng + luyện lại kỹ năng dưới 3 sao'], ['CN', 'Nghỉ ngơi 🎄'],
+        ['T5', 'Học 1 bài'], ['T6', 'Học 1 bài'], ['T7', 'Ôn tập từ vựng + luyện lại kỹ năng dưới 3 sao'], ['CN', 'Nghỉ ngơi 😌'],
       ],
     },
     {

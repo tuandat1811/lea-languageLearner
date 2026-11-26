@@ -1,8 +1,8 @@
-/* Falling snow on a full-screen canvas. */
+/* Gentle rain on a full-screen canvas (optional ambience, off by default). */
 (function (L) {
-  var canvas = document.getElementById('snow');
+  var canvas = document.getElementById('rain');
   var ctx = canvas.getContext('2d');
-  var flakes = [];
+  var drops = [];
   var running = false;
   var raf = 0;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -16,44 +16,45 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function makeFlake(top) {
+  function makeDrop(top) {
     return {
-      x: Math.random() * window.innerWidth,
-      y: top ? -10 : Math.random() * window.innerHeight,
-      r: 1 + Math.random() * 3,
-      vy: 0.3 + Math.random() * 1.1,
-      vx: -0.3 + Math.random() * 0.6,
-      phase: Math.random() * Math.PI * 2,
-      o: 0.4 + Math.random() * 0.6,
+      x: Math.random() * (window.innerWidth + 60),
+      y: top ? -20 - Math.random() * 40 : Math.random() * window.innerHeight,
+      len: 10 + Math.random() * 14,
+      vy: 6 + Math.random() * 5,
+      o: 0.15 + Math.random() * 0.3,
     };
   }
 
   function tick() {
     var w = window.innerWidth, h = window.innerHeight;
+    var color = getComputedStyle(document.documentElement).getPropertyValue('--rain').trim() || '120,110,150';
     ctx.clearRect(0, 0, w, h);
-    for (var i = 0; i < flakes.length; i++) {
-      var f = flakes[i];
-      f.phase += 0.01;
-      f.y += f.vy;
-      f.x += f.vx + Math.sin(f.phase) * 0.3;
-      if (f.y > h + 5 || f.x < -10 || f.x > w + 10) flakes[i] = makeFlake(true);
+    ctx.lineWidth = 1.2;
+    ctx.lineCap = 'round';
+    for (var i = 0; i < drops.length; i++) {
+      var d = drops[i];
+      d.y += d.vy;
+      d.x -= d.vy * 0.18;
+      if (d.y > h + 20) drops[i] = d = makeDrop(true);
+      ctx.strokeStyle = 'rgba(' + color + ',' + d.o + ')';
       ctx.beginPath();
-      ctx.fillStyle = 'rgba(255,255,255,' + f.o + ')';
-      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + d.len * 0.18, d.y - d.len);
+      ctx.stroke();
     }
     raf = requestAnimationFrame(tick);
   }
 
-  L.snow = {
+  L.rain = {
     start: function () {
       if (running || reduced) return;
       running = true;
       canvas.style.display = 'block';
       resize();
-      var count = Math.min(140, Math.round(window.innerWidth / 9));
-      flakes = [];
-      for (var i = 0; i < count; i++) flakes.push(makeFlake(false));
+      var count = Math.min(120, Math.round(window.innerWidth / 12));
+      drops = [];
+      for (var i = 0; i < count; i++) drops.push(makeDrop(false));
       tick();
     },
     stop: function () {

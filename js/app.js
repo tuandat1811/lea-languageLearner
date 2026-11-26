@@ -32,18 +32,17 @@
     clearTimeout(toast._t);
     toast._t = setTimeout(function () { t.classList.remove('show'); }, 2600);
   }
-  function daysToChristmas() {
-    var now = new Date();
-    var y = now.getFullYear();
-    var start = new Date(y, now.getMonth(), now.getDate());
-    var xmas = new Date(y, 11, 25);
-    if (start > xmas) xmas = new Date(y + 1, 11, 25);
-    return Math.round((xmas - start) / 86400000);
+  function greeting() {
+    var h = new Date().getHours();
+    return h < 11 ? '☀️ Chào buổi sáng! Học một chút cho ngày mới nhé' :
+      h < 14 ? '🍵 Chào buổi trưa! Nghỉ tay học vài từ mới nào' :
+      h < 18 ? '🌤️ Chào buổi chiều! Một bài nhỏ là đủ cho hôm nay' :
+      '🌙 Chào buổi tối! Ôn bài nhẹ nhàng trước khi nghỉ ngơi';
   }
   function celebrate() {
     var box = document.createElement('div');
     box.className = 'confetti';
-    var items = ['❄️', '⭐', '🎁', '🎄', '✨', '🔔'];
+    var items = ['⭐', '✨', '🎉', '📚', '💬', '🌸'];
     for (var i = 0; i < 36; i++) {
       var s = document.createElement('span');
       s.textContent = items[i % items.length];
@@ -97,10 +96,7 @@
     var days = Math.ceil(remaining / pace.perWeek * 7);
     var finish = new Date();
     finish.setDate(finish.getDate() + days);
-    var xmas = new Date(finish.getFullYear(), 11, 25);
-    var now = new Date();
-    var beforeXmas = finish < new Date(now.getFullYear(), 11, 25) && now < new Date(now.getFullYear(), 11, 25);
-    return { pace: pace, remaining: remaining, days: days, finish: finish, beforeXmas: beforeXmas, xmas: xmas, levelName: levelName };
+    return { pace: pace, remaining: remaining, days: days, finish: finish, levelName: levelName };
   }
 
   function dueReviewCount(c) {
@@ -127,9 +123,6 @@
     var next = store.nextLesson(c);
     var started = Object.keys((store.state.progress[c.code] || { lessons: {} }).lessons).length > 0;
     var doneCount = c.lessonList.filter(function (l) { return store.isLessonComplete(l); }).length;
-    var d = daysToChristmas();
-    var countdown = d === 0 ? '🎄 Hôm nay là Giáng sinh – Merry Christmas!' :
-      d === 1 ? '🎅 Ngày mai là Giáng sinh rồi!' : '🎁 Còn <b>' + d + '</b> ngày nữa là Giáng sinh';
 
     var langs = L.languageOrder.map(function (code) {
       var lc = L.languages[code];
@@ -151,7 +144,7 @@
     var roadmap = c.units.map(function (u, i) {
       var p = unitProgress(c, u);
       return '<li class="road-item' + (p.complete ? ' done' : '') + '">' +
-        '<span class="road-dot">' + (p.complete ? '🎁' : u.icon) + '</span>' +
+        '<span class="road-dot">' + (p.complete ? '✅' : u.icon) + '</span>' +
         '<div><div class="road-title">Chặng ' + (i + 1) + ': ' + esc(u.title) + ' <span class="muted">· ' + esc(u.titleEn) + '</span></div>' +
         '<div class="road-goal">' + esc(u.goal) + '</div></div>' +
         '<span class="road-count">' + p.done + '/' + p.total + '</span></li>';
@@ -160,11 +153,11 @@
     app.innerHTML =
       '<section class="hero">' +
         '<div class="hero-text">' +
-          '<p class="countdown">' + countdown + '</p>' +
+          '<p class="greeting">' + greeting() + '</p>' +
           '<h1>Học ' + esc(c.name) + ' <span class="accent">từ con số 0</span></h1>' +
           '<p class="lead">' + esc(c.description) + '</p>' +
           '<div class="hero-actions">' +
-            (next ? '<a class="btn btn-red btn-lg" href="#/lesson/' + next.id + '">' + (started ? '▶ Học tiếp: ' + esc(next.title) : '🎄 Bắt đầu học ngay') + '</a>'
+            (next ? '<a class="btn btn-red btn-lg" href="#/lesson/' + next.id + '">' + (started ? '▶ Học tiếp: ' + esc(next.title) : '🚀 Bắt đầu học ngay') + '</a>'
                   : '<a class="btn btn-gold btn-lg" href="#/review">🏆 Bạn đã học xong! Ôn tập</a>') +
             '<a class="btn btn-ghost btn-lg" href="#/course">Xem lộ trình</a>' +
           '</div>' +
@@ -174,7 +167,7 @@
             '<div><b>' + store.currentStreak() + '</b><span>ngày liên tiếp</span></div>' +
           '</div>' +
         '</div>' +
-        '<div class="hero-art" aria-hidden="true">' + treeSvg() + '</div>' +
+        '<div class="hero-art" aria-hidden="true">' + deskSvg() + '</div>' +
       '</section>' +
 
       planStrip(c, next) +
@@ -209,7 +202,7 @@
       todo = 'Bạn đã học hết các bài hiện có – hãy ôn tập!';
     }
     var finishTxt = p.remaining
-      ? 'Còn ' + p.remaining + ' bài · dự kiến xong ' + p.levelName + ' ngày <b>' + fmtDate(p.finish) + '</b>' + (p.beforeXmas ? ' – kịp trước Giáng sinh 🎄' : '')
+      ? 'Còn ' + p.remaining + ' bài · dự kiến xong ' + p.levelName + ' ngày <b>' + fmtDate(p.finish) + '</b>'
       : 'Đã học xong các bài hiện có 🎉';
     return '<section class="plan-strip">' +
       '<div class="plan-item"><span class="plan-label">📌 Hôm nay</span><span>' + todo + '</span></div>' +
@@ -240,7 +233,7 @@
           var p = unitProgress(c, u);
           done += p.done; total += p.total;
           title = '<a href="#/lesson/' + u.lessons[0].id + '">' + u.icon + ' ' + esc(u.title) + '</a>';
-          status = p.complete ? '<span class="tag ok">🎁 Xong</span>' : '<span class="tag">' + p.done + '/' + p.total + ' bài</span>';
+          status = p.complete ? '<span class="tag ok">✅ Xong</span>' : '<span class="tag">' + p.done + '/' + p.total + ' bài</span>';
         } else {
           title = esc(it.title);
           status = '<span class="tag soon">Sắp có</span>';
@@ -281,7 +274,7 @@
         '<div class="pace-grid">' + paces + '</div>' +
         '<h3>Một tuần mẫu – ' + esc(p.pace.name) + '</h3><div class="week">' + week + '</div>' +
         '<p class="estimate">' + (p.remaining
-          ? 'Còn <b>' + p.remaining + '</b> bài ở ' + p.levelName + ' → dự kiến hoàn thành ngày <b>' + fmtDate(p.finish) + '</b>' + (p.beforeXmas ? ' – kịp trước Giáng sinh 🎄' : '') + '.'
+          ? 'Còn <b>' + p.remaining + '</b> bài ở ' + p.levelName + ' → dự kiến hoàn thành ngày <b>' + fmtDate(p.finish) + '</b>' + '.'
           : 'Bạn đã học xong các bài hiện có! 🎉') + '</p>' +
         '<h3>Một buổi học chuẩn</h3><ol class="steps">' +
           '<li><b>Khởi động 5 phút:</b> vào trang <a href="#/review">Ôn tập</a> để ôn từ cũ.</li>' +
@@ -307,20 +300,34 @@
     });
   }
 
-  function treeSvg() {
-    return '<svg viewBox="0 0 220 260" class="tree-svg">' +
-      '<polygon points="110,10 116,28 135,28 120,39 126,57 110,46 94,57 100,39 85,28 104,28" fill="#f4c04f" class="tree-star"/>' +
-      '<polygon points="110,40 170,120 50,120" fill="#1e7a4c"/>' +
-      '<polygon points="110,80 185,175 35,175" fill="#19693f"/>' +
-      '<polygon points="110,125 200,230 20,230" fill="#145536"/>' +
-      '<rect x="96" y="230" width="28" height="24" rx="3" fill="#7a4a2b"/>' +
-      '<circle cx="95" cy="105" r="7" fill="#c62f3e" class="bauble b1"/>' +
-      '<circle cx="130" cy="150" r="8" fill="#f4c04f" class="bauble b2"/>' +
-      '<circle cx="80" cy="160" r="7" fill="#3a8dde" class="bauble b3"/>' +
-      '<circle cx="120" cy="200" r="9" fill="#c62f3e" class="bauble b1"/>' +
-      '<circle cx="70" cy="212" r="7" fill="#f4c04f" class="bauble b2"/>' +
-      '<circle cx="160" cy="210" r="7" fill="#fff" class="bauble b3"/>' +
-      '<path d="M70,120 Q110,140 150,118 M55,170 Q110,195 168,168" stroke="#f7e3a1" stroke-width="3" fill="none" stroke-dasharray="2 6" stroke-linecap="round"/>' +
+  function deskSvg() {
+    // A cosy study corner: window, shelf, open book with speech bubbles, mug and plant.
+    return '<svg viewBox="0 0 320 260" class="desk-svg">' +
+      '<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--sky-top)"/><stop offset="1" stop-color="var(--sky-low)"/></linearGradient></defs>' +
+      '<rect x="0" y="0" width="320" height="260" rx="28" fill="var(--wall)"/>' +
+      '<rect x="170" y="26" width="120" height="104" rx="8" fill="var(--frame)"/>' +
+      '<rect x="178" y="34" width="104" height="88" rx="4" fill="url(#sky)"/>' +
+      '<circle cx="250" cy="62" r="13" fill="var(--orb)"/>' +
+      '<path d="M178,122 L178,100 L196,100 L196,88 L214,88 L214,104 L232,104 L232,94 L252,94 L252,108 L282,108 L282,122 Z" fill="var(--city)"/>' +
+      '<rect x="228" y="34" width="4" height="88" fill="var(--frame)"/>' +
+      '<rect x="28" y="70" width="110" height="6" rx="3" fill="var(--frame)"/>' +
+      '<rect x="36" y="38" width="12" height="32" rx="2" fill="#e9967a"/><rect x="50" y="44" width="10" height="26" rx="2" fill="#9d8fd6"/>' +
+      '<rect x="62" y="34" width="13" height="36" rx="2" fill="#7fb59a"/><rect x="77" y="42" width="10" height="28" rx="2" fill="#f2c46d"/>' +
+      '<rect x="104" y="54" width="18" height="16" rx="3" fill="#c9785a"/>' +
+      '<path d="M113,54 C106,40 100,42 98,34 M113,54 C116,40 124,40 126,30" stroke="var(--leaf)" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<rect x="0" y="176" width="320" height="84" fill="var(--desk)"/>' +
+      '<rect x="0" y="168" width="320" height="12" fill="var(--desk-top)"/>' +
+      '<path d="M70,170 C90,158 108,156 120,162 C132,156 150,158 170,170 Z" fill="#f4e5d7"/>' +
+      '<path d="M74,166 C92,154 108,152 120,158 L120,162 C108,156 90,158 74,168 Z M166,166 C148,154 132,152 120,158 L120,162 C132,156 150,158 166,168 Z" fill="#fffaf4"/>' +
+      '<g class="bubble b1"><rect x="40" y="96" width="78" height="34" rx="14" fill="var(--accent)"/><path d="M70,129 L64,142 L82,129 Z" fill="var(--accent)"/>' +
+        '<text x="79" y="118" text-anchor="middle" font-family="Baloo 2, Nunito, sans-serif" font-weight="700" font-size="15" fill="#fffaf4">Hello!</text></g>' +
+      '<g class="bubble b2"><rect x="122" y="108" width="70" height="30" rx="13" fill="var(--accent-2)"/><path d="M150,137 L158,148 L164,137 Z" fill="var(--accent-2)"/>' +
+        '<text x="157" y="128" text-anchor="middle" font-family="Baloo 2, Nunito, sans-serif" font-weight="700" font-size="14" fill="#fffaf4">Xin chào</text></g>' +
+      '<rect x="222" y="144" width="26" height="26" rx="5" fill="var(--accent)"/>' +
+      '<path d="M248,150 C258,150 258,164 248,164" stroke="var(--accent)" stroke-width="4" fill="none"/>' +
+      '<path class="steam" d="M230,138 C226,130 234,126 230,118 M240,138 C236,130 244,126 240,118" stroke="var(--muted)" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<rect x="266" y="150" width="22" height="20" rx="4" fill="#c9785a"/>' +
+      '<ellipse cx="270" cy="146" rx="8" ry="12" fill="var(--leaf)"/><ellipse cx="284" cy="144" rx="7" ry="13" fill="var(--leaf-2)"/>' +
       '</svg>';
   }
 
@@ -350,18 +357,18 @@
         '<div class="unit-label">Chặng ' + (ui + 1) + '</div>' +
         '<h2>' + esc(u.title) + ' <span class="muted">· ' + esc(u.titleEn) + '</span></h2>' +
         '<p class="muted">' + esc(u.goal) + '</p></div>' +
-        '<div class="unit-gift" title="' + (p.complete ? 'Đã mở quà!' : 'Hoàn thành chặng để mở quà') + '">' + (p.complete ? '🎁' : '🎀') + '</div></div>' +
+        (p.complete ? '<div class="unit-medal" title="Đã hoàn thành chặng">🏅</div>' : '') + '</div>' +
         '<div class="lesson-path">';
       u.lessons.forEach(function (l) {
         var unlocked = store.isLessonUnlocked(c, l);
         var done = store.isLessonComplete(l);
         var current = next && next.id === l.id;
         var stars = store.lessonStars(l);
-        var cls = 'ornament' + (done ? ' done' : '') + (current ? ' current' : '') + (!unlocked ? ' locked' : '');
-        var inner = '<span class="ornament-ball"><span class="ornament-cap"></span>' + (unlocked ? l.icon : '🔒') + '</span>' +
-          '<span class="ornament-title">' + esc(l.title) + '</span>' +
-          '<span class="ornament-sub">' + esc(l.titleEn) + '</span>' +
-          '<span class="ornament-stars">' + (done ? '★ ' + stars + '/12' : unlocked ? skillDots(l) : 'Chưa mở') + '</span>';
+        var cls = 'node' + (done ? ' done' : '') + (current ? ' current' : '') + (!unlocked ? ' locked' : '');
+        var inner = '<span class="node-ball">' + (unlocked ? l.icon : '🔒') + '</span>' +
+          '<span class="node-title">' + esc(l.title) + '</span>' +
+          '<span class="node-sub">' + esc(l.titleEn) + '</span>' +
+          '<span class="node-stars">' + (done ? '★ ' + stars + '/12' : unlocked ? skillDots(l) : 'Chưa mở') + '</span>';
         html += unlocked ? '<a class="' + cls + '" href="#/lesson/' + l.id + '">' + inner + '</a>' : '<div class="' + cls + '">' + inner + '</div>';
       });
       html += '</div></section>';
@@ -896,7 +903,7 @@
         renderStats();
         var nextP = c.pronunciation[p.order + 1];
         app.innerHTML =
-          '<div class="result panel"><div class="result-icon">' + (res.stars ? '👄' : '☃️') + '</div>' +
+          '<div class="result panel"><div class="result-icon">' + (res.stars ? '👄' : '🌱') + '</div>' +
             '<h1>Phát âm: ' + Math.round(res.score * 100) + '%</h1>' +
             '<div class="result-stars">' + starsHtml(res.stars) + '</div><p>' + starMessage(res.stars) + '</p>' +
             '<p class="muted">Đúng ' + correct + '/' + total + ' câu · +' + res.xp + ' ⭐</p>' +
@@ -913,7 +920,7 @@
   // =====================================================================
   // PRACTICE
   // =====================================================================
-  var PRAISE = ['Chính xác! 🎉', 'Tuyệt vời! ⭐', 'Giỏi quá! 🎄', 'Đúng rồi! 🔔', 'Xuất sắc! 🎁'];
+  var PRAISE = ['Chính xác! 🎉', 'Tuyệt vời! ⭐', 'Giỏi quá! 💯', 'Đúng rồi! 👏', 'Xuất sắc! 🌟'];
   var HINTS = {
     listen_choose: '🎧 Nghe và chọn nghĩa đúng',
     listen_pick: '🎧 Nghe và chọn câu bạn nghe được',
@@ -1202,7 +1209,7 @@
   R.speak_translate = { html: function (ex) { return speakHtml(ex, true); }, bind: bindSpeak };
 
   function starMessage(stars) {
-    return stars === 3 ? 'Hoàn hảo! Ông già Noel cũng phải khen bạn 🎅' :
+    return stars === 3 ? 'Hoàn hảo! Bạn làm tốt quá 🌟' :
       stars === 2 ? 'Rất tốt! Thêm chút nữa là đạt 3 sao ⭐' :
       stars === 1 ? 'Bạn đã vượt qua! Luyện lại để được nhiều sao hơn nhé.' :
       'Chưa đạt 60%. Xem lại bài giảng và thử lại nhé – bạn làm được mà! 💪';
@@ -1220,7 +1227,7 @@
       '<div class="practice">' +
         '<div class="practice-top">' +
           '<a class="close-btn" href="' + opts.backHref + '" title="Thoát" aria-label="Thoát">✕</a>' +
-          '<div class="candy-bar"><span></span></div>' +
+          '<div class="progress-bar"><span></span></div>' +
           '<span class="counter"></span>' +
         '</div>' +
         '<div class="practice-title">' + opts.title + '</div>' +
@@ -1232,7 +1239,7 @@
 
     function show() {
       var ex = exs[i];
-      $('.candy-bar span', app).style.width = (i / exs.length * 100) + '%';
+      $('.progress-bar span', app).style.width = (i / exs.length * 100) + '%';
       $('.counter', app).textContent = (i + 1) + '/' + exs.length;
       hint.textContent = ex.prompt || HINTS[ex.type] || '';
       body.innerHTML = R[ex.type].html(ex);
@@ -1327,7 +1334,7 @@
 
       app.innerHTML =
         '<div class="result panel">' +
-          '<div class="result-icon">' + (unitDone ? '🎁' : lessonDone ? '🏆' : res.stars ? '🎄' : '☃️') + '</div>' +
+          '<div class="result-icon">' + (unitDone ? '🏅' : lessonDone ? '🏆' : res.stars ? '🎉' : '🌱') + '</div>' +
           '<h1>' + (unitDone ? 'Bạn đã mở quà chặng "' + esc(unit.title) + '"!' : lessonDone ? 'Hoàn thành bài học!' : skill.icon + ' ' + skill.name + ': ' + pct + '%') + '</h1>' +
           '<div class="result-stars">' + starsHtml(res.stars) + '</div>' +
           '<p>' + msg + '</p>' +
@@ -1351,7 +1358,7 @@
       if (lp.learned || Object.keys(lp.skills).length) words = words.concat(l.vocab);
     });
     if (!words.length) {
-      app.innerHTML = '<div class="panel center empty"><div class="result-icon">☃️</div><h1>Chưa có từ để ôn</h1>' +
+      app.innerHTML = '<div class="panel center empty"><div class="result-icon">🌱</div><h1>Chưa có từ để ôn</h1>' +
         '<p class="muted">Hãy học bài đầu tiên, các từ vựng sẽ xuất hiện ở đây để bạn ôn tập mỗi ngày.</p>' +
         '<a class="btn btn-red" href="#/course">Đến lộ trình</a></div>';
       return;
@@ -1373,7 +1380,7 @@
 
     function showCard() {
       if (idx >= deck.length) {
-        app.innerHTML = head + '<div class="panel center"><div class="result-icon">🎄</div><h2>Xong lượt ôn tập!</h2><p>Bạn nhớ ' + remembered + '/' + deck.length + ' từ.</p><a class="btn btn-red" href="#/review" data-again>Ôn tiếp</a> <a class="btn btn-green" href="#/course">Về lộ trình</a></div>';
+        app.innerHTML = head + '<div class="panel center"><div class="result-icon">🎉</div><h2>Xong lượt ôn tập!</h2><p>Bạn nhớ ' + remembered + '/' + deck.length + ' từ.</p><a class="btn btn-red" href="#/review" data-again>Ôn tiếp</a> <a class="btn btn-green" href="#/course">Về lộ trình</a></div>';
         $('[data-again]', app).addEventListener('click', function (e) { e.preventDefault(); viewReview(); });
         celebrate();
         return;
@@ -1448,8 +1455,9 @@
           '<input type="range" min="0.5" max="1.2" step="0.05" value="' + s.rate + '" class="rate" /></label>' +
         '<label class="field"><span>Giọng ' + esc(c.name) + '</span><select class="voice">' + voiceOpts + '</select></label>' +
         '<button class="btn btn-green test-voice">▶ Nghe thử</button>' +
-        '<h2>🎄 Giao diện & học tập</h2>' +
-        '<label class="toggle"><input type="checkbox" class="snow-toggle"' + (s.snow ? ' checked' : '') + ' /> Hiệu ứng tuyết rơi</label>' +
+        '<h2>🎨 Giao diện & học tập</h2>' +
+        '<label class="toggle"><input type="checkbox" class="dark-toggle"' + (s.theme === 'dark' ? ' checked' : '') + ' /> Chế độ tối</label>' +
+        '<label class="toggle"><input type="checkbox" class="rain-toggle"' + (s.rain ? ' checked' : '') + ' /> Hiệu ứng mưa nhẹ</label>' +
         '<label class="toggle"><input type="checkbox" class="unlock-toggle"' + (s.unlockAll ? ' checked' : '') + ' /> Mở khoá tất cả bài học (dành cho người đã có nền tảng)</label>' +
         '<h2>🧪 Hỗ trợ của trình duyệt</h2>' +
         '<ul class="support">' +
@@ -1464,11 +1472,9 @@
     var rate = $('.rate', app);
     rate.addEventListener('input', function () { $('.rate-val', app).textContent = (+rate.value).toFixed(2); store.setSetting('rate', +rate.value); });
     $('.voice', app).addEventListener('change', function (e) { store.setSetting('voice', e.target.value); });
-    $('.test-voice', app).addEventListener('click', function () { L.speech.speak('Hello! Merry Christmas and happy learning!'); });
-    $('.snow-toggle', app).addEventListener('change', function (e) {
-      store.setSetting('snow', e.target.checked);
-      if (e.target.checked) L.snow.start(); else L.snow.stop();
-    });
+    $('.test-voice', app).addEventListener('click', function () { L.speech.speak('Hello! Welcome to Lea. Happy learning!'); });
+    $('.dark-toggle', app).addEventListener('change', function (e) { setTheme(e.target.checked ? 'dark' : 'light'); });
+    $('.rain-toggle', app).addEventListener('change', function (e) { setRain(e.target.checked); });
     $('.unlock-toggle', app).addEventListener('change', function (e) { store.setSetting('unlockAll', e.target.checked); });
     $('.reset', app).addEventListener('click', function () {
       if (confirm('Xoá toàn bộ tiến độ học? Thao tác này không thể hoàn tác.')) {
@@ -1483,7 +1489,7 @@
   }
 
   function viewNotFound() {
-    app.innerHTML = '<div class="panel center"><div class="result-icon">🦌</div><h1>Không tìm thấy trang</h1><a class="btn btn-red" href="#/">Về trang chủ</a></div>';
+    app.innerHTML = '<div class="panel center"><div class="result-icon">🧭</div><h1>Không tìm thấy trang</h1><a class="btn btn-red" href="#/">Về trang chủ</a></div>';
   }
 
   // =====================================================================
@@ -1517,7 +1523,29 @@
     window.scrollTo(0, 0);
   }
 
+  // Theme (light/dark) and ambient rain, toggled from the header or Settings.
+  function syncToggles() {
+    var s = store.settings();
+    var tb = $('#theme-btn'), rb = $('#rain-btn');
+    if (tb) { tb.textContent = s.theme === 'dark' ? '☀' : '☾'; tb.setAttribute('aria-pressed', s.theme === 'dark'); tb.title = s.theme === 'dark' ? 'Chế độ sáng' : 'Chế độ tối'; }
+    if (rb) { rb.setAttribute('aria-pressed', !!s.rain); rb.title = s.rain ? 'Tắt mưa' : 'Bật mưa nhẹ'; }
+  }
+  function setTheme(t) {
+    store.setSetting('theme', t);
+    document.documentElement.setAttribute('data-theme', t);
+    syncToggles();
+  }
+  function setRain(on) {
+    store.setSetting('rain', on);
+    if (on) L.rain.start(); else L.rain.stop();
+    syncToggles();
+  }
+  $('#theme-btn').addEventListener('click', function () { setTheme(store.settings().theme === 'dark' ? 'light' : 'dark'); if (location.hash === '#/settings') viewSettings(); });
+  $('#rain-btn').addEventListener('click', function () { setRain(!store.settings().rain); if (location.hash === '#/settings') viewSettings(); });
+
   window.addEventListener('hashchange', route);
-  if (store.settings().snow) L.snow.start();
+  document.documentElement.setAttribute('data-theme', store.settings().theme);
+  if (store.settings().rain) L.rain.start();
+  syncToggles();
   route();
 })(window.LEA);

@@ -84,11 +84,11 @@ Chọn nhịp độ trên trang Giáo trình; trang chủ sẽ gợi ý việc c
 
 | Kế hoạch | Nhịp độ | Thời gian/ngày | Một cấp (20 bài) | Cả 4 cấp |
 |---|---|---|---|---|
-| 🎅 Thử thách Giáng sinh | 5 bài/tuần | ~35 phút | ~4 tuần | ~4 tháng |
+| 🚀 Tăng tốc | 5 bài/tuần | ~35 phút | ~4 tuần | ~4 tháng |
 | ⭐ Tiêu chuẩn | 3 bài/tuần | ~25 phút | ~7 tuần | ~6 tháng |
 | ☕ Thong thả | 2 bài/tuần | ~15 phút | ~10 tuần | ~9 tháng |
 
-Bắt đầu Thử thách Giáng sinh từ 26/11 thì xong Cấp 1 vào khoảng 24/12. Bài cuối là chặng "Giáng sinh vui vẻ".
+Bắt đầu nhịp Tăng tốc từ 26/11 thì xong Cấp 1 vào khoảng 24/12. Bài cuối là chặng "Giáng sinh vui vẻ".
 
 **Một buổi học chuẩn**
 

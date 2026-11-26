@@ -1,6 +1,6 @@
-# 🎄 Lea – Học ngoại ngữ mùa Giáng sinh
+# 📚 Lea – Học ngoại ngữ mỗi ngày
 
-Website học ngoại ngữ cho người Việt, giao diện tiếng Việt, theme Giáng sinh.
+Website học ngoại ngữ cho người Việt, giao diện tiếng Việt, theme "góc học tập" ấm áp (kem – đất nung – tím lavender), có chế độ sáng/tối và hiệu ứng mưa nhẹ.
 Khoá đầu tiên: **Tiếng Anh từ con số 0 đến B2** – 4 cấp, 40 chặng, 80 bài, đủ 4 kỹ năng **Nghe – Nói – Đọc – Viết**.
 
 Web tĩnh thuần HTML/CSS/JS, không cần build, không cần cài thư viện.
@@ -63,12 +63,12 @@ Bài tập được sinh tự động từ dữ liệu bài học (`js/core/exer
 
 ```
 index.html
-css/style.css            Theme Giáng sinh
+css/style.css            Theme góc học tập (sáng/tối qua biến CSS)
 js/core/registry.js      Đăng ký ngôn ngữ, danh sách 4 kỹ năng
 js/core/storage.js       Tiến độ, sao, chuỗi ngày, ôn tập (localStorage)
 js/core/speech.js        Đọc (speechSynthesis) & nhận diện giọng nói
 js/core/exercises.js     Sinh bài tập & chấm đáp án
-js/ui/snow.js            Tuyết rơi
+js/ui/rain.js            Hiệu ứng mưa nhẹ (tuỳ chọn)
 js/app.js                Router + các trang
 data/en.js               Khoá tiếng Anh
 tools/serve.js           Server tĩnh

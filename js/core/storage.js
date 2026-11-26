@@ -5,7 +5,7 @@
 
   function defaults() {
     return {
-      settings: { lang: 'en', rate: 0.85, voice: '', snow: true, unlockAll: false, pace: 'standard' },
+      settings: { lang: 'en', rate: 0.85, voice: '', theme: 'light', rain: false, unlockAll: false, pace: 'standard' },
       xp: 0,
       streak: { count: 0, last: '' },
       progress: {},
@@ -16,6 +16,9 @@
   try {
     state = Object.assign(defaults(), JSON.parse(localStorage.getItem(KEY) || '{}'));
     state.settings = Object.assign(defaults().settings, state.settings || {});
+    // Migrate settings from the old Christmas theme.
+    delete state.settings.snow;
+    if (state.settings.pace === 'christmas') state.settings.pace = 'intensive';
   } catch (e) {
     state = defaults();
   }
