@@ -11,7 +11,7 @@ Dữ liệu giáo trình nằm ở `data/en.js` → `syllabus`. Trên web, xem t
 | 1 · Nền tảng | A0 – A1 | 10 / 20 | Giao tiếp câu đơn: chào hỏi, bản thân, gia đình, đồ ăn, thói quen, thời gian, nhà cửa | Đã có trên web |
 | 2 · Sơ cấp | A2 | 10 / 20 | Kể chuyện quá khứ, nói kế hoạch, so sánh, mua sắm, lời khuyên | Đã có trên web (`data/en-a2.js`) |
 | 3 · Tiền trung cấp | B1 | 10 / 20 | Kể trải nghiệm, nguyên nhân – kết quả, giả thiết, mô tả chi tiết | Đã có trên web (`data/en-b1.js`) |
-| 4 · Trung cấp | B2 | 10 / 20 | Đoạn văn mạch lạc, tường thuật, lập luận, câu phức (nền tảng IELTS) | Đề cương |
+| 4 · Trung cấp | B2 | 10 / 20 | Đoạn văn mạch lạc, tường thuật, lập luận, câu phức (nền tảng IELTS) | Đã có trên web (`data/en-b2.js`) |
 
 Mỗi bài gồm: **Từ vựng** (8–10 từ, phiên âm, phát âm) → **Ngữ pháp** (giải thích bằng tiếng Việt) → **Câu mẫu** → luyện **Nghe – Nói – Đọc – Viết**. Đạt từ 60% mỗi kỹ năng thì mở khoá bài tiếp theo.
 
@@ -63,18 +63,18 @@ Mỗi bài gồm: **Từ vựng** (8–10 từ, phiên âm, phát âm) → **Ng�
 
 ## Cấp 4 · Trung cấp (B2)
 
-| # | Chặng | Ngữ pháp trọng tâm | Tham khảo |
-|---|---|---|---|
-| 1 | Thì hoàn thành nâng cao | Hiện tại hoàn thành tiếp diễn; quá khứ hoàn thành | §3.1.4, §3.2.3 |
-| 2 | Tương lai nâng cao | Tương lai tiếp diễn & hoàn thành | §3.3.3, §3.3.4 |
-| 3 | Giá như… | Điều kiện loại 2 và 3; wish; if only | §13.2, §13.5, §23.4.12 |
-| 4 | Anh ấy nói rằng… | Câu tường thuật; say / tell | §45, §37 |
-| 5 | Nhờ người khác làm | Bị động nâng cao; have/get sth done; make/let/help | §24, §25 |
-| 6 | Phỏng đoán quá khứ | must / might / could have + P2; should have | §15 |
-| 7 | Mặc dù… | although / despite; so…that; such…that | §33, §23.3 |
-| 8 | Viết câu chuẩn | Hòa hợp chủ – vị; cấu trúc song song; tránh thừa từ | §4, §43, §42 |
-| 9 | Câu gọn gàng | Rút gọn mệnh đề quan hệ; V-ing / P2 mở đầu câu | §26.7, §40 |
-| 10 | Nhấn mạnh | Đảo ngữ; câu giả định; would rather | §46, §30, §13.8 |
+| # | Chặng | Bài 1 / Bài 2 | Ngữ pháp trọng tâm | Tham khảo |
+|---|---|---|---|---|
+| 31 | Thì hoàn thành nâng cao | Đã… suốt / Trước khi… | Hiện tại hoàn thành tiếp diễn; quá khứ hoàn thành | §3.1.4, §3.2.3 |
+| 32 | Tương lai nâng cao | Giờ này ngày mai / Đến lúc đó… | Tương lai tiếp diễn & hoàn thành; by the time | §3.3.3, §3.3.4 |
+| 33 | Giá như… | Nếu tôi là bạn… / Giá mà… | Điều kiện loại 2 và 3; wish; if only | §13.2, §13.5, §23.4.12 |
+| 34 | Anh ấy nói rằng… | Cô ấy bảo rằng… / Anh ấy hỏi… | Câu tường thuật; say / tell; câu hỏi và mệnh lệnh | §45, §37 |
+| 35 | Nhờ người khác làm | Đang được, đã được / Đi cắt tóc | Bị động nâng cao; have/get sth done; make/let | §24, §25 |
+| 36 | Phỏng đoán quá khứ | Chắc hẳn đã… / Lẽ ra nên… | must / might / can't have + V3; should / needn't have | §15, §7.1.2 |
+| 37 | Mặc dù… | Mặc dù vậy / Đến nỗi… | although / despite / in spite of; so…that; such…that | §33, §23.3 |
+| 38 | Viết câu chuẩn | Chủ ngữ và động từ / Câu song song | Hòa hợp chủ – vị; cấu trúc song song; tránh thừa từ | §4, §43, §42 |
+| 39 | Câu gọn gàng | Rút gọn mệnh đề quan hệ / Mở đầu bằng V-ing | Rút gọn mệnh đề; V-ing / Having V3 mở đầu câu | §26.7, §40 |
+| 40 | Nhấn mạnh | Chưa bao giờ… / Mong rằng… | Đảo ngữ; câu giả định; would rather; It's time | §46, §30, §13.8 |
 
 Các mục nâng cao còn lại của tài liệu (need/dare §7, no matter §10.8, so sánh kép §19.6, các cụm nối §23.4, the/no the với địa danh §2.3.2, ngữ động từ §48, từ dễ nhầm lẫn) dùng làm **bài đọc thêm** sau Cấp 4 hoặc khi luyện thi IELTS/TOEFL.
 

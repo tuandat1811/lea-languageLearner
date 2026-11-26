@@ -89,6 +89,9 @@ const cases = [
   ['I have just seen your message', ["I've just seen your message."], true],
   ['she hasnt answered my email yet', ["She hasn't answered my email yet."], true],
   ["I haven't seen my neighbor for a month", ["I haven't seen my neighbour for a month."], true],
+  ['I realized that I had forgotten my passport', ['I realised that I had forgotten my passport.'], true],
+  ["I'd rather stay in tonight", ['I would rather stay in tonight.'], true],
+  ['The flight has been canceled', ['The flight has been cancelled.'], true],
 ];
 for (const [input, answers, want] of cases) {
   const got = L.exercises.checkText(input, answers, en).ok;

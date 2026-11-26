@@ -1,7 +1,7 @@
 # 🎄 Lea – Học ngoại ngữ mùa Giáng sinh
 
 Website học ngoại ngữ cho người Việt, giao diện tiếng Việt, theme Giáng sinh.
-Khoá đầu tiên: **Tiếng Anh từ con số 0 (A0 → A1)** – 10 chặng, 20 bài, đủ 4 kỹ năng **Nghe – Nói – Đọc – Viết**.
+Khoá đầu tiên: **Tiếng Anh từ con số 0 đến B2** – 4 cấp, 40 chặng, 80 bài, đủ 4 kỹ năng **Nghe – Nói – Đọc – Viết**.
 
 Web tĩnh thuần HTML/CSS/JS, không cần build, không cần cài thư viện.
 
@@ -16,6 +16,8 @@ Nên dùng **Chrome** hoặc **Edge**: nhận diện giọng nói (Web Speech AP
 
 ## Lộ trình tiếng Anh
 
+Cấp 1 · Nền tảng (A0 – A1), `data/en.js`:
+
 | Chặng | Chủ đề | Bài 1 | Bài 2 | Ngữ pháp chính |
 |---|---|---|---|---|
 | 1 | Chào hỏi | Xin chào! | Lời nói lịch sự | Chào theo buổi, thank you / sorry / please |
@@ -29,7 +31,7 @@ Nên dùng **Chrome** hoặc **Edge**: nhận diện giọng nói (Web Speech AP
 | 9 | Nhà của tôi | Các phòng trong nhà | Ở đâu? | There is/are, giới từ vị trí |
 | 10 | Giáng sinh vui vẻ | Mùa Giáng sinh | Tiệc Giáng sinh | Số nhiều bất quy tắc, hiện tại tiếp diễn, Let's |
 
-Đây là Cấp 1 của giáo trình 4 cấp A0 → B2. Cấp 2 (A2, chặng 11–20: mua sắm, quá khứ đơn, tương lai, so sánh…) nằm ở `data/en-a2.js`; Cấp 3 (B1, chặng 21–30: hiện tại hoàn thành, câu điều kiện, bị động, mệnh đề quan hệ…) ở `data/en-b1.js`. Đề cương Cấp 4 và kế hoạch học tập (3 nhịp độ) nằm ở [docs/giao-trinh.md](docs/giao-trinh.md) và trang **Giáo trình** trên web.
+Các cấp tiếp theo: Cấp 2 (A2, chặng 11–20: mua sắm, quá khứ đơn, tương lai, so sánh…) nằm ở `data/en-a2.js`; Cấp 3 (B1, chặng 21–30: hiện tại hoàn thành, câu điều kiện, bị động, mệnh đề quan hệ…) ở `data/en-b1.js`; Cấp 4 (B2, chặng 31–40: câu điều kiện loại 2–3, câu tường thuật, đảo ngữ…) ở `data/en-b2.js`. Chi tiết giáo trình và kế hoạch học tập (3 nhịp độ) nằm ở [docs/giao-trinh.md](docs/giao-trinh.md) và trang **Giáo trình** trên web.
 
 Trước bài 1 có trang **Bảng chữ cái** (26 chữ cái + từ ví dụ, bấm để nghe).
 
