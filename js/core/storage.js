@@ -49,6 +49,32 @@
     lesson: lessonProgress,
     markLearned: function (lessonId) { lessonProgress(lessonId).learned = true; save(); },
 
+    /** Lecture pages (bài giảng) viewed per skill. */
+    markLecture: function (lessonId, skillId) {
+      var lp = lessonProgress(lessonId);
+      lp.lectures = lp.lectures || {};
+      lp.lectures[skillId] = true;
+      save();
+    },
+    lectureSeen: function (lessonId, skillId) {
+      var lp = this.peekLesson(lessonId);
+      return !!(lp.lectures && lp.lectures[skillId]);
+    },
+
+    addXp: function (n) { state.xp += n; this.touchStreak(); save(); },
+
+    /** Free writing / speaking drafts. */
+    saveDraft: function (lessonId, kind, text) {
+      var lp = lessonProgress(lessonId);
+      lp.drafts = lp.drafts || {};
+      lp.drafts[kind] = text;
+      save();
+    },
+    getDraft: function (lessonId, kind) {
+      var lp = this.peekLesson(lessonId);
+      return (lp.drafts && lp.drafts[kind]) || '';
+    },
+
     /** Read-only view of a lesson's progress (does not create an entry). */
     peekLesson: function (lessonId) {
       return langProgress().lessons[lessonId] || { learned: false, skills: {} };

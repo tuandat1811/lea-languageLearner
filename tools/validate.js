@@ -71,6 +71,32 @@ for (const code of L.languageOrder) {
   }
 }
 
+// Pronunciation lessons.
+for (const code of L.languageOrder) {
+  const c = L.languages[code];
+  const list = c.pronunciation || [];
+  if (list.length) console.log(`${c.flag} ${c.name}: ${list.length} pronunciation lessons`);
+  for (const p of list) {
+    const where = `${code}/${p.id}`;
+    if (!p.explain || p.explain.length < 2) fail(`${where}: needs explanation`);
+    if (!p.examples || p.examples.length < 3) fail(`${where}: needs ≥3 examples`);
+    if (!p.sentences || p.sentences.length < 2) fail(`${where}: needs ≥2 sentences`);
+    if (!(p.pairs && p.pairs.length >= 4) && !(p.groups && p.groups.items.length >= 5)) fail(`${where}: needs ≥4 pairs or ≥5 group items`);
+    (p.pairs || []).forEach((pair) => { if (pair.length !== 2 || pair[0] === pair[1]) fail(`${where}: bad pair ${pair}`); });
+    if (p.groups) {
+      p.groups.items.forEach((it) => { if (!(it.group >= 0 && it.group < p.groups.labels.length)) fail(`${where}: bad group for ${it.word}`); });
+      p.groups.labels.forEach((_, gi) => { if (!p.groups.items.some((it) => it.group === gi)) fail(`${where}: empty group ${gi}`); });
+    }
+    for (let n = 0; n < 40; n++) {
+      const exs = L.exercises.build('pron', c, p);
+      if (exs.length < 6) fail(`${where}: only ${exs.length} exercises`);
+      exs.forEach((ex) => {
+        if (ex.options && (new Set(ex.options).size !== ex.options.length || ex.answer < 0)) fail(`${where}/${ex.type}: bad options`);
+      });
+    }
+  }
+}
+
 // Answer checking sanity checks (English).
 const en = L.languages.en;
 const cases = [

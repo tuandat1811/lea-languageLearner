@@ -82,6 +82,37 @@
       });
     },
 
+    /**
+     * Listen continuously until stop() is called (free speaking).
+     * onUpdate(text) receives the running transcript. Returns { promise, stop } or null.
+     */
+    listenLong: function (onUpdate) {
+      if (!Recognition) return null;
+      var course = L.getCourse(L.store.settings().lang);
+      if (synth) synth.cancel();
+      var rec = new Recognition();
+      rec.lang = course.speechLang;
+      rec.continuous = true;
+      rec.interimResults = true;
+      var finalText = '';
+      var promise = new Promise(function (resolve, reject) {
+        rec.onresult = function (e) {
+          var interim = '';
+          for (var i = e.resultIndex; i < e.results.length; i++) {
+            var t = e.results[i][0].transcript;
+            if (e.results[i].isFinal) finalText += t + ' ';
+            else interim += t;
+          }
+          if (onUpdate) onUpdate((finalText + interim).trim());
+        };
+        rec.onerror = function (e) { if (e.error !== 'no-speech' && e.error !== 'aborted') reject(new Error(e.error || 'error')); };
+        rec.onend = function () { resolve(finalText.trim()); };
+      });
+      try { rec.start(); } catch (err) { return null; }
+      L.speech._active = rec;
+      return { promise: promise, stop: function () { try { rec.stop(); } catch (e) { /* ignore */ } } };
+    },
+
     stopListening: function () {
       if (L.speech._active) { try { L.speech._active.stop(); } catch (e) { /* ignore */ } }
     },

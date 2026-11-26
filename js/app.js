@@ -145,7 +145,8 @@
 
     var skills = L.SKILLS.map(function (s) {
       return '<div class="skill-intro"><span class="skill-icon">' + s.icon + '</span><h3>' + s.name + '</h3><p>' + esc(s.desc) + '</p></div>';
-    }).join('');
+    }).join('') + '<a class="skill-intro" href="#/pronunciation"><span class="skill-icon">👄</span><h3>Phát âm</h3><p>' +
+      (c.pronunciation || []).length + ' bài luyện âm khó, đuôi -s/-ed, trọng âm, ngữ điệu</p></a>';
 
     var roadmap = c.units.map(function (u, i) {
       var p = unitProgress(c, u);
@@ -181,7 +182,7 @@
       '<section class="panel"><h2>🌍 Chọn ngôn ngữ</h2><div class="lang-grid">' + langs + '</div></section>' +
 
       '<section class="panel"><h2>🎯 Học đủ 4 kỹ năng trong mỗi bài</h2>' +
-        '<p class="muted">Mỗi bài học bắt đầu bằng <b>từ vựng</b> và <b>ngữ pháp</b>, sau đó bạn luyện lần lượt 4 kỹ năng. Đạt từ 60% mỗi kỹ năng để mở khoá bài tiếp theo.</p>' +
+        '<p class="muted">Mỗi bài học bắt đầu bằng <b>từ vựng</b> và <b>ngữ pháp</b>. Mỗi kỹ năng có <b>bài giảng</b> riêng (bài nghe, nói theo mẫu, bài đọc, viết đoạn văn) và <b>bài tập</b> chấm điểm. Đạt từ 60% mỗi kỹ năng để mở khoá bài tiếp theo. Phần <b>Phát âm</b> luyện riêng các âm khó.</p>' +
         '<div class="skill-grid">' + skills + '</div></section>' +
 
       '<section class="panel"><h2>🗺️ Lộ trình ' + esc(c.level) + '</h2><ol class="roadmap">' + roadmap + '</ol>' +
@@ -407,14 +408,31 @@
     var skills = L.SKILLS.map(function (s, i) {
       var r = store.skillResult(lesson.id, s.id);
       var passed = r && r.stars > 0;
-      return '<a class="skill-card' + (passed ? ' passed' : '') + '" href="#/practice/' + lesson.id + '/' + s.id + '">' +
+      var seen = store.lectureSeen(lesson.id, s.id);
+      return '<div class="skill-card' + (passed ? ' passed' : '') + '">' +
         '<span class="skill-step">' + (i + 1) + '</span>' +
         '<span class="skill-icon">' + s.icon + '</span>' +
         '<span class="skill-name">' + s.name + '</span>' +
         '<span class="skill-desc">' + esc(s.desc) + '</span>' +
-        (r ? starsHtml(r.stars) + '<span class="skill-score">Cao nhất: ' + Math.round(r.best * 100) + '%</span>' : '<span class="skill-score">Chưa luyện</span>') +
-        '<span class="btn btn-small ' + (passed ? 'btn-ghost-dark' : 'btn-red') + '">' + (passed ? 'Luyện lại' : 'Bắt đầu') + '</span></a>';
+        (r ? starsHtml(r.stars) + '<span class="skill-score">Cao nhất: ' + Math.round(r.best * 100) + '%</span>' : '<span class="skill-score">Chưa làm bài tập</span>') +
+        '<div class="skill-actions">' +
+          '<a class="btn btn-small ' + (seen ? 'btn-ghost-dark' : 'btn-green') + '" href="#/study/' + lesson.id + '/' + s.id + '">📘 Bài giảng' + (seen ? ' ✓' : '') + '</a>' +
+          '<a class="btn btn-small ' + (passed ? 'btn-ghost-dark' : 'btn-red') + '" href="#/practice/' + lesson.id + '/' + s.id + '">✏️ ' + (passed ? 'Làm lại' : 'Bài tập') + '</a>' +
+        '</div></div>';
     }).join('');
+    var pr = suggestedPron(c, lesson);
+    if (pr) {
+      var pres = store.skillResult(pr.id, 'pron');
+      skills += '<div class="skill-card pron-card' + (pres && pres.stars ? ' passed' : '') + '">' +
+        '<span class="skill-step">+</span><span class="skill-icon">👄</span>' +
+        '<span class="skill-name">Phát âm</span>' +
+        '<span class="skill-desc">Gợi ý: ' + esc(pr.title) + ' <b>' + esc(pr.focus) + '</b></span>' +
+        (pres ? starsHtml(pres.stars) : '<span class="skill-score">Không bắt buộc</span>') +
+        '<div class="skill-actions">' +
+          '<a class="btn btn-small btn-green" href="#/pron/' + pr.id + '">📘 Bài giảng</a>' +
+          '<a class="btn btn-small btn-red" href="#/practice/' + pr.id + '/pron">✏️ Bài tập</a>' +
+        '</div></div>';
+    }
 
     var prev = c.lessonList[lesson.order - 1];
     var nxt = c.lessonList[lesson.order + 1];
@@ -447,7 +465,7 @@
         '<p class="center"><button class="btn btn-red" data-goto="practice">Bắt đầu luyện 4 kỹ năng →</button></p></section>' +
 
       '<section class="tab-panel panel" data-panel="practice" hidden><h2>🏋️ Luyện 4 kỹ năng</h2>' +
-        '<p class="muted">Hoàn thành cả 4 kỹ năng (mỗi kỹ năng ≥ 60%) để mở khoá bài tiếp theo.</p>' +
+        '<p class="muted">Mỗi kỹ năng có <b>bài giảng</b> (học cách nghe, nói, đọc, viết với nội dung của bài) và <b>bài tập</b>. Hoàn thành bài tập cả 4 kỹ năng (mỗi kỹ năng ≥ 60%) để mở khoá bài tiếp theo.</p>' +
         '<div class="skill-cards">' + skills + '</div></section>' +
 
       '<div class="lesson-nav">' +
@@ -469,6 +487,430 @@
   }
 
   // =====================================================================
+  // STUDY – per-skill lecture pages (bài giảng) built from lesson data
+  // =====================================================================
+  function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  /** Split a reading text into lines (dialogue by \n, prose by sentence). */
+  function linesOf(text) {
+    var parts = text.indexOf('\n') >= 0 ? text.split('\n') : (text.match(/[^.!?]+[.!?]+["”']?|[^.!?]+$/g) || [text]);
+    return parts.map(function (s) { return s.trim(); }).filter(Boolean).map(function (line) {
+      var m = line.match(/^([A-Z][A-Za-z .]{0,20}):\s(.+)$/);
+      return m ? { speaker: m[1], text: m[2] } : { speaker: '', text: line };
+    });
+  }
+
+  function vocabRegex(vocab) {
+    var words = vocab.map(function (v) { return v.en; }).sort(function (a, b) { return b.length - a.length; });
+    return new RegExp('(^|[^\\p{L}])(' + words.map(escRe).join('|') + ')(s|es|ed|d|ing)?(?=$|[^\\p{L}])', 'giu');
+  }
+
+  /** Escaped text with lesson vocabulary wrapped in clickable <mark>s. */
+  function highlightVocab(text, vocab) {
+    var map = {};
+    vocab.forEach(function (v) { map[v.en.toLowerCase()] = v; });
+    return multiline(text).replace(vocabRegex(vocab), function (m, pre, w, suf) {
+      var v = map[w.toLowerCase()];
+      if (!v) return m;
+      return pre + '<mark class="vocab-mark" data-speak="' + esc(v.en) + '" title="' + esc(v.vi) + '">' + w + (suf || '') + '</mark>';
+    });
+  }
+
+  function usedVocab(text, vocab) {
+    return vocab.filter(function (v) {
+      return new RegExp('(^|[^\\p{L}])' + escRe(v.en) + '(s|es|ed|d|ing)?(?=$|[^\\p{L}])', 'iu').test(text);
+    });
+  }
+
+  function lessonLevel(c, lesson) { return levelOfUnit(c)[lesson.unitId] || 0; }
+
+  /** Pronunciation lesson suggested for a course lesson (spread evenly over the course). */
+  function suggestedPron(c, lesson) {
+    var list = c.pronunciation || [];
+    if (!list.length) return null;
+    return list[Math.min(list.length - 1, Math.floor(lesson.order * list.length / c.lessonList.length))];
+  }
+
+  function micBtn(text) {
+    return '<button class="mini-mic" data-mic="' + esc(text) + '" title="Nói thử" aria-label="Nói thử">🎤</button><span class="mic-result"></span>';
+  }
+
+  /** Inline "try saying it" buttons with instant feedback. */
+  function bindMiniMics(root) {
+    $$('[data-mic]', root).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var out = btn.nextElementSibling;
+        if (!L.speech.sttSupported) { toast('Trình duyệt chưa hỗ trợ nhận diện giọng nói – hãy dùng Chrome hoặc Edge.'); return; }
+        btn.classList.add('recording');
+        out.textContent = 'Đang nghe…';
+        L.speech.listen().then(function (alts) {
+          btn.classList.remove('recording');
+          if (!alts.length) { out.textContent = 'Không nghe thấy gì, thử lại nhé.'; return; }
+          var r = L.exercises.checkSpeech(alts, [btn.getAttribute('data-mic')], course());
+          out.innerHTML = (r.ok ? '✅ ' : '🔁 ') + '“' + esc(r.heard) + '” <span class="pct ' + (r.ok ? 'good' : 'bad') + '">' + Math.round(r.score * 100) + '%</span>';
+        }).catch(function (err) {
+          btn.classList.remove('recording');
+          out.textContent = '⚠️ ' + (err && /not-allowed/.test(err.message) ? 'Cần cho phép dùng micro.' : 'Không nghe được, thử lại nhé.');
+        });
+      });
+    });
+  }
+
+  var playToken = 0;
+  function stopPlayback() { playToken++; if (window.speechSynthesis) window.speechSynthesis.cancel(); }
+
+  /** Read lines one by one, highlighting the current row. */
+  function playLines(lines, rows, slow) {
+    var token = ++playToken;
+    var i = 0;
+    (function nextLine() {
+      if (token !== playToken || i >= lines.length) {
+        rows.forEach(function (r) { r.classList.remove('current'); });
+        return;
+      }
+      rows.forEach(function (r, j) { r.classList.toggle('current', j === i); });
+      L.speech.speak(lines[i].text, { slow: slow }).then(function () { i++; setTimeout(nextLine, 300); });
+    })();
+  }
+
+  function tipsBox(items) {
+    return '<div class="tips"><b>💡 Cách học hiệu quả</b><ol>' + items.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol></div>';
+  }
+
+  /** Checklist for free writing / speaking. */
+  function freeCheck(text, lesson, minSentences, minWords, minVocab, written) {
+    var sentences = text.split(/[.!?]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+    var words = (text.match(/[\p{L}']+/gu) || []).length;
+    var used = usedVocab(text, lesson.vocab);
+    var items = [
+      { ok: words >= minWords, label: 'Ít nhất ' + minWords + ' từ (hiện có ' + words + ')' },
+      { ok: used.length >= minVocab, label: 'Dùng ít nhất ' + minVocab + ' từ mới của bài (đã dùng ' + used.length + ')' },
+    ];
+    if (written) {
+      items.unshift({ ok: sentences.length >= minSentences, label: 'Ít nhất ' + minSentences + ' câu (hiện có ' + sentences.length + ')' });
+      items.push({ ok: sentences.length > 0 && sentences.every(function (s) { return /^[^\p{L}]*\p{Lu}/u.test(s); }), label: 'Viết hoa chữ cái đầu mỗi câu' });
+      items.push({ ok: /[.!?]["”']?\s*$/.test(text.trim()), label: 'Kết thúc câu bằng dấu . ! hoặc ?' });
+    }
+    var html = '<ul class="checklist">' + items.map(function (it) {
+      return '<li class="' + (it.ok ? 'ok' : '') + '">' + (it.ok ? '✅' : '⬜') + ' ' + it.label + '</li>';
+    }).join('') + '</ul><div class="chips">' + lesson.vocab.map(function (v) {
+      var u = used.indexOf(v) >= 0;
+      return '<span class="chip-word' + (u ? ' used' : '') + '" title="' + esc(v.vi) + '">' + (u ? '✓ ' : '') + esc(v.en) + '</span>';
+    }).join('') + '</div>';
+    return { html: html, pass: items.every(function (it) { return it.ok; }) };
+  }
+
+  var LECTURES = {
+    listening: function (c, lesson) {
+      var lines = linesOf(lesson.reading.text);
+      return {
+        html:
+          tipsBox([
+            'Nghe lần 1 <b>không nhìn chữ</b> – chỉ cố đoán xem ai nói, nói về chuyện gì.',
+            'Nghe lần 2, bấm <b>"Hiện lời"</b> để đối chiếu; chú ý những từ bạn chưa nghe ra.',
+            'Nghe chậm 🐢 từng câu và <b>nhắc lại ngay</b> theo người đọc (shadowing).',
+            'Cuối cùng nghe lại cả bài một lần nữa mà không nhìn chữ.',
+          ]) +
+          '<section class="panel"><h2>1️⃣ Nghe từ khoá</h2><p class="muted">Đây là những từ sẽ xuất hiện trong bài nghe. Nghe và nhắc lại.</p>' +
+            '<p><button class="btn btn-green" data-play-vocab>▶ Nghe lần lượt ' + lesson.vocab.length + ' từ</button></p>' +
+            '<div class="chips">' + lesson.vocab.map(function (v) {
+              return '<button class="chip-word" data-speak="' + esc(v.en) + '" title="' + esc(v.vi) + '">🔊 ' + esc(v.en) + '</button>';
+            }).join('') + '</div></section>' +
+          '<section class="panel"><h2>2️⃣ Bài nghe: ' + esc(lesson.reading.title) + '</h2>' +
+            '<div class="player-bar">' +
+              '<button class="btn btn-red" data-play="normal">▶ Phát cả bài</button>' +
+              '<button class="btn btn-ghost-dark" data-play="slow">🐢 Phát chậm</button>' +
+              '<button class="btn btn-ghost-dark" data-stop>⏹ Dừng</button>' +
+              '<label class="toggle"><input type="checkbox" data-show-text /> Hiện lời</label>' +
+              '<label class="toggle"><input type="checkbox" data-show-vi /> Hiện bản dịch</label>' +
+            '</div>' +
+            '<div class="listen-lines hide-text">' + lines.map(function (l) {
+              return '<div class="listen-line">' + speakBtn(l.text) + '<div>' + (l.speaker ? '<b class="speaker">' + esc(l.speaker) + ':</b> ' : '') +
+                '<span class="line-text">' + esc(l.text) + '</span></div></div>';
+            }).join('') + '</div>' +
+            '<div class="translation-box" hidden>' + multiline(lesson.reading.vi) + '</div></section>' +
+          '<section class="panel"><h2>3️⃣ Nghe cấu trúc của bài</h2><p class="muted">' + esc(lesson.grammar.title) + ' – nghe và chú ý cách người bản xứ nói các câu này.</p>' +
+            '<div class="examples">' + lesson.grammar.examples.concat(lesson.sentences.slice(0, 3)).filter(function (s, i, all) {
+              var key = L.exercises.normalize(s.en, c);
+              return all.findIndex(function (o) { return L.exercises.normalize(o.en, c) === key; }) === i;
+            }).map(function (s) {
+              return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div></div>';
+            }).join('') + '</div></section>',
+        bind: function (root) {
+          var rows = $$('.listen-line', root);
+          $$('[data-play]', root).forEach(function (b) {
+            b.addEventListener('click', function () { playLines(lines, rows, b.getAttribute('data-play') === 'slow'); });
+          });
+          $('[data-stop]', root).addEventListener('click', stopPlayback);
+          $('[data-play-vocab]', root).addEventListener('click', function () {
+            playLines(lesson.vocab.map(function (v) { return { text: v.en }; }), $$('.chips .chip-word', root), false);
+          });
+          $('[data-show-text]', root).addEventListener('change', function (e) { $('.listen-lines', root).classList.toggle('hide-text', !e.target.checked); });
+          $('[data-show-vi]', root).addEventListener('change', function (e) { $('.translation-box', root).hidden = !e.target.checked; });
+        },
+      };
+    },
+
+    speaking: function (c, lesson) {
+      var lvl = lessonLevel(c, lesson);
+      var minWords = [10, 20, 35, 50][Math.min(lvl, 3)];
+      var minVocab = Math.min(3, lesson.vocab.length);
+      var unit = c.units[lesson.unitIndex];
+      return {
+        html:
+          tipsBox([
+            'Nghe mẫu rồi nói theo <b>ngay lập tức</b>, bắt chước cả ngữ điệu (shadowing).',
+            'Chú ý <b>âm cuối</b> (s, t, d, k) – người Việt hay quên đọc. Xem thêm mục 👄 Phát âm.',
+            'Dấu <b>ˈ</b> trong phiên âm đứng trước âm tiết được <b>nhấn mạnh</b>.',
+            'Bấm 🎤 để máy chấm thử. Nếu máy nghe sai, hãy nói chậm và rõ hơn – không cần nói to.',
+          ]) +
+          '<section class="panel"><h2>1️⃣ Phát âm từ khoá</h2><div class="pron-table">' + lesson.vocab.map(function (v) {
+            return '<div class="pron-row"><span class="pron-word">' + esc(v.en) + '</span><span class="vocab-ipa">' + esc(v.ipa || '') + '</span>' +
+              '<span class="muted">' + esc(v.vi) + '</span><span class="pron-actions">' + speakBtn(v.en, { slow: true }) + micBtn(v.en) + '</span></div>';
+          }).join('') + '</div></section>' +
+          '<section class="panel"><h2>2️⃣ Nói theo mẫu</h2><p class="muted">Nghe từng câu, nói theo 3 lần, rồi bấm 🎤 để kiểm tra.</p><div class="examples">' +
+            lesson.sentences.map(function (s) {
+              return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div>' + micBtn(s.en) + '</div>';
+            }).join('') + '</div></section>' +
+          '<section class="panel"><h2>3️⃣ Bài tập nói tự do</h2>' +
+            '<p>Hãy nói về chủ đề <b>"' + esc(unit.title) + '"</b> (' + esc(lesson.title) + '). Dùng cấu trúc <b>' + esc(lesson.grammar.title) + '</b> và ít nhất ' + minVocab + ' từ mới.</p>' +
+            '<p class="muted">Gợi ý mở đầu: ' + lesson.sentences.slice(0, 2).map(function (s) { return '<i>' + esc(s.en) + '</i>'; }).join(' · ') + '</p>' +
+            (L.speech.sttSupported
+              ? '<div class="free-box"><button class="btn btn-red" data-free-speak>🎤 Bắt đầu nói</button><div class="free-transcript muted">Lời bạn nói sẽ hiện ở đây…</div></div>'
+              : '<p class="notice">Trình duyệt chưa hỗ trợ nhận diện giọng nói (hãy dùng Chrome hoặc Edge). Bạn vẫn có thể tự nói to và tự đánh giá theo danh sách bên dưới.</p>') +
+            '<div class="free-check"></div></section>',
+        bind: function (root) {
+          bindMiniMics(root);
+          var btn = $('[data-free-speak]', root);
+          var checkEl = $('.free-check', root);
+          function update(text) {
+            var r = freeCheck(text, lesson, 0, minWords, minVocab, false);
+            checkEl.innerHTML = r.html + (r.pass ? '<p class="success">🎉 Tuyệt vời! Bài nói đạt yêu cầu.</p>' : '');
+            return r.pass;
+          }
+          update(store.getDraft(lesson.id, 'speak'));
+          if (!btn) return;
+          var session = null;
+          var out = $('.free-transcript', root);
+          var saved = store.getDraft(lesson.id, 'speak');
+          if (saved) out.textContent = saved;
+          btn.addEventListener('click', function () {
+            if (session) { session.stop(); return; }
+            session = L.speech.listenLong(function (t) { out.textContent = t; update(t); });
+            if (!session) { toast('Không bật được micro.'); return; }
+            btn.textContent = '⏹ Dừng';
+            btn.classList.add('recording');
+            session.promise.then(function (text) {
+              finish(text);
+            }).catch(function (err) {
+              toast(err && /not-allowed/.test(err.message) ? 'Cần cho phép dùng micro.' : 'Có lỗi khi nghe, thử lại nhé.');
+              finish(out.textContent);
+            });
+          });
+          function finish(text) {
+            session = null;
+            btn.textContent = '🎤 Nói lại';
+            btn.classList.remove('recording');
+            if (!text) return;
+            store.saveDraft(lesson.id, 'speak', text);
+            if (update(text) && !store.getDraft(lesson.id, 'speakDone')) {
+              store.saveDraft(lesson.id, 'speakDone', '1');
+              store.addXp(20); renderStats(); toast('+20 ⭐ cho bài nói tự do!'); celebrate();
+            }
+          }
+        },
+      };
+    },
+
+    reading: function (c, lesson) {
+      var r = lesson.reading;
+      var found = usedVocab(r.text, lesson.vocab);
+      return {
+        html:
+          tipsBox([
+            'Đọc lướt lần 1 để nắm <b>ý chính</b>: bài nói về ai, ở đâu, chuyện gì?',
+            'Đọc kỹ lần 2, <b>đoán nghĩa từ mới qua ngữ cảnh</b> trước khi xem bản dịch.',
+            'Từ <mark class="vocab-mark">được tô màu</mark> là từ vựng của bài – chạm vào để nghe, giữ chuột để xem nghĩa.',
+            'Đọc các câu hỏi trước rồi quay lại tìm câu trả lời trong bài – đó là kỹ năng "đọc tìm thông tin".',
+          ]) +
+          '<section class="panel"><h2>📖 ' + esc(r.title) + '</h2>' +
+            '<div class="player-bar">' + speakBtn(r.text, { slow: true }) + '<span class="muted">Nghe cả bài</span>' +
+            '<label class="toggle"><input type="checkbox" data-show-vi /> Hiện bản dịch</label></div>' +
+            '<p class="passage-text big">' + highlightVocab(r.text, lesson.vocab) + '</p>' +
+            '<div class="translation-box" hidden>' + multiline(r.vi) + '</div></section>' +
+          '<section class="panel"><h2>🔑 Từ vựng trong bài (' + found.length + ')</h2><div class="chips">' +
+            found.map(function (v) { return '<button class="chip-word" data-speak="' + esc(v.en) + '">' + esc(v.en) + ' – ' + esc(v.vi) + '</button>'; }).join('') +
+          '</div></section>' +
+          '<section class="panel"><h2>❓ Đọc và tìm câu trả lời</h2><p class="muted">Bạn sẽ trả lời các câu hỏi này trong phần bài tập. Hãy tìm câu trả lời trong bài đọc trước nhé.</p><ol class="steps">' +
+            r.questions.map(function (q) { return '<li>' + esc(q.q) + '</li>'; }).join('') + '</ol></section>',
+        bind: function (root) {
+          $('[data-show-vi]', root).addEventListener('change', function (e) { $('.translation-box', root).hidden = !e.target.checked; });
+        },
+      };
+    },
+
+    writing: function (c, lesson) {
+      var lvl = lessonLevel(c, lesson);
+      var minSentences = [3, 4, 5, 6][Math.min(lvl, 3)];
+      var minWords = [15, 30, 50, 70][Math.min(lvl, 3)];
+      var minVocab = Math.min(3, lesson.vocab.length);
+      var unit = c.units[lesson.unitIndex];
+      var g = lesson.grammar;
+      return {
+        html:
+          tipsBox([
+            'Mỗi câu tiếng Anh cần có <b>chủ ngữ + động từ</b>: I <b>am</b> a student (không viết "I student").',
+            'Trật tự cơ bản: <b>Chủ ngữ – Động từ – Tân ngữ – Nơi chốn – Thời gian</b>: I read books at home every evening.',
+            '<b>Viết hoa</b> chữ cái đầu câu, chữ I và tên riêng; kết thúc câu bằng dấu <b>.</b> hoặc <b>?</b>',
+            'Viết xong, đọc lại một lượt để kiểm tra chia động từ (he <b>likes</b>, they <b>are</b>…).',
+          ]) +
+          '<section class="panel"><h2>1️⃣ Cấu trúc cần dùng: ' + esc(g.title) + '</h2><ul class="grammar-points">' +
+            g.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul></section>' +
+          '<section class="panel"><h2>2️⃣ Bài viết mẫu</h2><p class="muted">Đọc bài mẫu, chú ý cách các câu nối với nhau.</p>' +
+            '<p class="passage-text">' + highlightVocab(lesson.reading.text, lesson.vocab) + '</p>' +
+            '<details class="translation"><summary>Xem bản dịch</summary><p>' + multiline(lesson.reading.vi) + '</p></details></section>' +
+          '<section class="panel"><h2>3️⃣ Bài tập viết đoạn văn</h2>' +
+            '<p>Viết <b>' + minSentences + '–' + (minSentences + 3) + ' câu</b> về chủ đề <b>"' + esc(unit.title) + '"</b> (' + esc(lesson.title) + '). Dùng cấu trúc <b>' + esc(g.title) + '</b> và ít nhất ' + minVocab + ' từ mới.</p>' +
+            '<p class="muted">Gợi ý: ' + lesson.sentences.slice(0, 3).map(function (s) { return '<i>' + esc(s.en) + '</i>'; }).join(' · ') + '</p>' +
+            '<textarea class="free-text" rows="7" spellcheck="false" placeholder="Viết đoạn văn của bạn bằng tiếng Anh…"></textarea>' +
+            '<div class="player-bar"><button class="btn btn-ghost-dark" data-read-mine>🔊 Nghe bài của bạn</button><span class="muted save-state"></span></div>' +
+            '<div class="free-check"></div></section>',
+        bind: function (root) {
+          var ta = $('.free-text', root), checkEl = $('.free-check', root), saveState = $('.save-state', root);
+          ta.value = store.getDraft(lesson.id, 'write');
+          var timer;
+          function update() {
+            var res = freeCheck(ta.value, lesson, minSentences, minWords, minVocab, true);
+            checkEl.innerHTML = res.html + (res.pass ? '<p class="success">🎉 Tuyệt vời! Đoạn văn đạt yêu cầu.</p>' : '');
+            if (res.pass && !store.getDraft(lesson.id, 'writeDone')) {
+              store.saveDraft(lesson.id, 'writeDone', '1');
+              store.addXp(20); renderStats(); toast('+20 ⭐ cho bài viết đoạn văn!'); celebrate();
+            }
+          }
+          ta.addEventListener('input', function () {
+            clearTimeout(timer);
+            saveState.textContent = 'Đang lưu…';
+            timer = setTimeout(function () { store.saveDraft(lesson.id, 'write', ta.value); saveState.textContent = 'Đã lưu nháp ✓'; update(); }, 500);
+          });
+          $('[data-read-mine]', root).addEventListener('click', function () {
+            if (ta.value.trim()) L.speech.speak(ta.value); else toast('Hãy viết gì đó trước nhé!');
+          });
+          update();
+        },
+      };
+    },
+  };
+
+  function viewStudy(lessonId, skillId) {
+    var c = course();
+    var lesson = c.lessonById[lessonId];
+    var skill = L.SKILLS.find(function (s) { return s.id === skillId; });
+    if (!lesson || !skill) return viewNotFound();
+    if (!store.isLessonUnlocked(c, lesson)) { location.hash = '#/course'; return; }
+    store.markLecture(lesson.id, skill.id);
+    var unit = c.units[lesson.unitIndex];
+    var lecture = LECTURES[skill.id](c, lesson);
+    var nav = L.SKILLS.map(function (s) {
+      return '<a class="tab' + (s.id === skill.id ? ' active' : '') + '" href="#/study/' + lesson.id + '/' + s.id + '">' + s.icon + ' ' + s.name + '</a>';
+    }).join('');
+
+    app.innerHTML =
+      '<div class="breadcrumb"><a href="#/course">Lộ trình</a> › Chặng ' + (unit.index + 1) + ' › <a href="#/lesson/' + lesson.id + '">' + esc(lesson.title) + '</a></div>' +
+      '<div class="page-head"><h1>' + skill.icon + ' Bài giảng ' + skill.name + '</h1><p class="muted">' + esc(lesson.title) + ' · ' + esc(lesson.titleEn) + '</p></div>' +
+      '<nav class="tabs">' + nav + '</nav>' +
+      lecture.html +
+      '<div class="study-foot"><a class="btn btn-red btn-lg" href="#/practice/' + lesson.id + '/' + skill.id + '">✏️ Làm bài tập ' + skill.name + ' →</a>' +
+      '<a class="btn btn-ghost" href="#/lesson/' + lesson.id + '">Về bài học</a></div>';
+    lecture.bind(app);
+  }
+
+  // =====================================================================
+  // PRONUNCIATION
+  // =====================================================================
+  function viewPronList() {
+    var c = course();
+    var list = c.pronunciation || [];
+    var cards = list.map(function (p, i) {
+      var r = store.skillResult(p.id, 'pron');
+      return '<div class="skill-card' + (r && r.stars ? ' passed' : '') + '">' +
+        '<span class="skill-step">' + (i + 1) + '</span><span class="skill-icon">' + p.icon + '</span>' +
+        '<span class="skill-name">' + esc(p.title) + '</span>' +
+        '<span class="skill-desc"><b>' + esc(p.focus) + '</b> · ' + esc(p.titleEn) + '</span>' +
+        (r ? starsHtml(r.stars) : '<span class="skill-score">Chưa luyện</span>') +
+        '<div class="skill-actions"><a class="btn btn-small btn-green" href="#/pron/' + p.id + '">📘 Bài giảng</a>' +
+        '<a class="btn btn-small btn-red" href="#/practice/' + p.id + '/pron">✏️ Bài tập</a></div></div>';
+    }).join('');
+    app.innerHTML =
+      '<div class="page-head"><h1>👄 Phát âm</h1><p class="muted">' + list.length + ' bài luyện những âm và quy tắc người Việt hay gặp khó. Mỗi bài có bài giảng (cách đặt lưỡi, môi, ví dụ) và bài tập nghe – phân biệt – nói.</p></div>' +
+      '<div class="panel"><div class="tips"><b>Đọc phiên âm IPA</b><ul class="steps">' +
+        '<li>Phiên âm nằm giữa hai dấu gạch chéo: <b>/kæt/</b> = cat. Mỗi ký hiệu là <b>một âm</b>, không phải một chữ cái.</li>' +
+        '<li>Dấu <b>ː</b> nghĩa là âm kéo dài: /iː/ trong <i>see</i>. Dấu <b>ˈ</b> đứng trước âm tiết được nhấn: /ˈteɪbl/.</li>' +
+        '<li>Một số âm không có trong tiếng Việt: /θ/ (think), /ð/ (this), /æ/ (cat), /ʃ/ (she), /r/ (red).</li>' +
+      '</ul></div><div class="skill-cards">' + cards + '</div></div>';
+  }
+
+  function viewPronLesson(id) {
+    var c = course();
+    var p = c.pronById && c.pronById[id];
+    if (!p) return viewNotFound();
+    var nextP = c.pronunciation[p.order + 1];
+    app.innerHTML =
+      '<div class="breadcrumb"><a href="#/pronunciation">Phát âm</a> › Bài ' + (p.order + 1) + '</div>' +
+      '<div class="lesson-hero"><div class="lesson-icon">' + p.icon + '</div><div>' +
+        '<div class="unit-label">Phát âm · ' + esc(p.focus) + '</div>' +
+        '<h1>' + esc(p.title) + ' <span class="muted">· ' + esc(p.titleEn) + '</span></h1></div></div>' +
+      '<section class="panel"><h2>📘 Bài giảng</h2><ul class="grammar-points">' + p.explain.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        tipsBox(p.tips) + '</section>' +
+      '<section class="panel"><h2>🔊 Nghe và nói theo</h2><div class="pron-table">' + p.examples.map(function (w) {
+        return '<div class="pron-row"><span class="pron-word">' + esc(w.word) + '</span><span class="vocab-ipa">' + esc(w.ipa || '') + '</span>' +
+          '<span class="muted">' + esc(w.vi) + '</span><span class="pron-actions">' + speakBtn(w.word, { slow: true }) + micBtn(w.word) + '</span></div>';
+      }).join('') + '</div></section>' +
+      (p.pairs ? '<section class="panel"><h2>⚖️ Cặp từ dễ nhầm</h2><p class="muted">Bấm lần lượt hai từ trong mỗi cặp và nghe sự khác biệt.</p><div class="pair-grid">' +
+        p.pairs.map(function (pair) {
+          return '<div class="pair"><button class="btn btn-ghost-dark" data-speak="' + esc(pair[0]) + '">🔊 ' + esc(pair[0]) + '</button><span>vs</span>' +
+            '<button class="btn btn-ghost-dark" data-speak="' + esc(pair[1]) + '">🔊 ' + esc(pair[1]) + '</button></div>';
+        }).join('') + '</div></section>' : '') +
+      (p.groups ? '<section class="panel"><h2>🗂️ Phân loại</h2><div class="group-grid">' + p.groups.labels.map(function (label, gi) {
+        return '<div class="group-col"><h3>' + esc(label) + '</h3>' + p.groups.items.filter(function (it) { return it.group === gi; }).map(function (it) {
+          return '<button class="chip-word" data-speak="' + esc(it.word) + '">🔊 ' + esc(it.word) + '</button>';
+        }).join('') + '</div>';
+      }).join('') + '</div></section>' : '') +
+      '<section class="panel"><h2>🗣️ Luyện câu</h2><div class="examples">' + p.sentences.map(function (s) {
+        return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div>' + micBtn(s.en) + '</div>';
+      }).join('') + '</div></section>' +
+      '<div class="study-foot"><a class="btn btn-red btn-lg" href="#/practice/' + p.id + '/pron">✏️ Làm bài tập phát âm →</a>' +
+        (nextP ? '<a class="btn btn-ghost" href="#/pron/' + nextP.id + '">Bài tiếp: ' + esc(nextP.title) + ' →</a>' : '') + '</div>';
+    bindMiniMics(app);
+  }
+
+  function viewPronPractice(id) {
+    var c = course();
+    var p = c.pronById && c.pronById[id];
+    if (!p) return viewNotFound();
+    runExercises({
+      exs: L.exercises.build('pron', c, p),
+      title: '👄 Phát âm · ' + esc(p.title),
+      backHref: '#/pron/' + p.id,
+      onDone: function (correct, total) {
+        var res = store.recordSkill(p.id, 'pron', correct, total);
+        renderStats();
+        var nextP = c.pronunciation[p.order + 1];
+        app.innerHTML =
+          '<div class="result panel"><div class="result-icon">' + (res.stars ? '👄' : '☃️') + '</div>' +
+            '<h1>Phát âm: ' + Math.round(res.score * 100) + '%</h1>' +
+            '<div class="result-stars">' + starsHtml(res.stars) + '</div><p>' + starMessage(res.stars) + '</p>' +
+            '<p class="muted">Đúng ' + correct + '/' + total + ' câu · +' + res.xp + ' ⭐</p>' +
+            '<div class="result-actions"><a class="btn btn-ghost-dark" href="#/pron/' + p.id + '">📘 Xem lại bài giảng</a>' +
+            '<a class="btn btn-ghost-dark" href="#/practice/' + p.id + '/pron" data-retry>↻ Luyện lại</a>' +
+            (nextP ? '<a class="btn btn-red" href="#/pron/' + nextP.id + '">Bài tiếp →</a>' : '<a class="btn btn-green" href="#/pronunciation">Về Phát âm</a>') +
+          '</div></div>';
+        $('[data-retry]', app).addEventListener('click', function (e) { e.preventDefault(); viewPronPractice(id); });
+        if (res.stars >= 2) celebrate();
+      },
+    });
+  }
+
+  // =====================================================================
   // PRACTICE
   // =====================================================================
   var PRAISE = ['Chính xác! 🎉', 'Tuyệt vời! ⭐', 'Giỏi quá! 🎄', 'Đúng rồi! 🔔', 'Xuất sắc! 🎁'];
@@ -484,6 +926,8 @@
     translate: '✍️ Viết bằng tiếng Anh',
     order: '🧱 Sắp xếp các từ thành câu đúng',
     fill: '✍️ Điền từ còn thiếu',
+    pron_pair: '👂 Nghe và chọn từ bạn nghe được',
+    pron_group: '👄 Chọn cách đọc đúng',
   };
 
   function optionsHtml(opts) {
@@ -529,6 +973,19 @@
     },
   };
   R.listen_pick = R.listen_choose;
+  R.pron_pair = R.listen_choose;
+
+  R.pron_group = {
+    html: function (ex) {
+      return '<div class="speak-target"><div class="speak-text">' + esc(ex.text) + '</div>' +
+        (ex.ipa ? '<div class="vocab-ipa">' + esc(ex.ipa) + '</div>' : '') +
+        '<div class="speak-listen">' + speakBtn(ex.text, { slow: true }) + '</div></div>' + optionsHtml(ex.options);
+    },
+    bind: function (root, ex, ctx) {
+      bindOptions(root, ex, ctx, ex.reveal);
+      setTimeout(function () { L.speech.speak(ex.text); }, 300);
+    },
+  };
 
   R.dictation = {
     html: function (ex) {
@@ -744,24 +1201,29 @@
   R.speak = { html: function (ex) { return speakHtml(ex, false); }, bind: bindSpeak };
   R.speak_translate = { html: function (ex) { return speakHtml(ex, true); }, bind: bindSpeak };
 
-  function viewPractice(lessonId, skillId) {
-    var c = course();
-    var lesson = c.lessonById[lessonId];
-    var skill = L.SKILLS.find(function (s) { return s.id === skillId; });
-    if (!lesson || !skill) return viewNotFound();
-    if (!store.isLessonUnlocked(c, lesson)) { location.hash = '#/course'; return; }
+  function starMessage(stars) {
+    return stars === 3 ? 'Hoàn hảo! Ông già Noel cũng phải khen bạn 🎅' :
+      stars === 2 ? 'Rất tốt! Thêm chút nữa là đạt 3 sao ⭐' :
+      stars === 1 ? 'Bạn đã vượt qua! Luyện lại để được nhiều sao hơn nhé.' :
+      'Chưa đạt 60%. Xem lại bài giảng và thử lại nhé – bạn làm được mà! 💪';
+  }
 
-    var exs = L.exercises.build(skillId, c, lesson);
+  /**
+   * Generic exercise runner shared by lesson practice and pronunciation practice.
+   * opts: { exs, title, backHref, onDone(correct, total) }
+   */
+  function runExercises(opts) {
+    var exs = opts.exs;
     var i = 0, correct = 0;
 
     app.innerHTML =
       '<div class="practice">' +
         '<div class="practice-top">' +
-          '<a class="close-btn" href="#/lesson/' + lesson.id + '" title="Thoát" aria-label="Thoát">✕</a>' +
+          '<a class="close-btn" href="' + opts.backHref + '" title="Thoát" aria-label="Thoát">✕</a>' +
           '<div class="candy-bar"><span></span></div>' +
           '<span class="counter"></span>' +
         '</div>' +
-        '<div class="practice-title">' + skill.icon + ' ' + skill.name + ' · ' + esc(lesson.title) + '</div>' +
+        '<div class="practice-title">' + opts.title + '</div>' +
         '<div class="practice-card"><p class="ex-hint"></p><div class="ex-body"></div></div>' +
         '<div class="practice-foot"></div>' +
       '</div>';
@@ -772,7 +1234,7 @@
       var ex = exs[i];
       $('.candy-bar span', app).style.width = (i / exs.length * 100) + '%';
       $('.counter', app).textContent = (i + 1) + '/' + exs.length;
-      hint.textContent = HINTS[ex.type] || '';
+      hint.textContent = ex.prompt || HINTS[ex.type] || '';
       body.innerHTML = R[ex.type].html(ex);
 
       var state = { locked: false, check: null, key: null };
@@ -822,15 +1284,33 @@
 
     function next() {
       i++;
-      if (i < exs.length) show(); else finish();
+      if (i < exs.length) show();
+      else { keyHandler = null; opts.onDone(correct, exs.length); }
     }
 
-    function finish() {
-      keyHandler = null;
+    show();
+  }
+
+  function viewPractice(lessonId, skillId) {
+    if (skillId === 'pron') return viewPronPractice(lessonId);
+    var c = course();
+    var lesson = c.lessonById[lessonId];
+    var skill = L.SKILLS.find(function (s) { return s.id === skillId; });
+    if (!lesson || !skill) return viewNotFound();
+    if (!store.isLessonUnlocked(c, lesson)) { location.hash = '#/course'; return; }
+
+    runExercises({
+      exs: L.exercises.build(skillId, c, lesson),
+      title: skill.icon + ' ' + skill.name + ' · ' + esc(lesson.title),
+      backHref: '#/study/' + lesson.id + '/' + skillId,
+      onDone: finish,
+    });
+
+    function finish(correct, total) {
       var unit = c.units[lesson.unitIndex];
       var wasLessonDone = store.isLessonComplete(lesson);
       var wasUnitDone = unitProgress(c, unit).complete;
-      var res = store.recordSkill(lesson.id, skillId, correct, exs.length);
+      var res = store.recordSkill(lesson.id, skillId, correct, total);
       var lessonDone = !wasLessonDone && store.isLessonComplete(lesson);
       var unitDone = !wasUnitDone && unitProgress(c, unit).complete;
       renderStats();
@@ -838,14 +1318,11 @@
       var nextSkill = L.SKILLS.find(function (s) { return !store.isSkillPassed(lesson.id, s.id); });
       var nextLesson = c.lessonList[lesson.order + 1];
       var pct = Math.round(res.score * 100);
-      var msg = res.stars === 3 ? 'Hoàn hảo! Ông già Noel cũng phải khen bạn 🎅' :
-        res.stars === 2 ? 'Rất tốt! Thêm chút nữa là đạt 3 sao ⭐' :
-        res.stars === 1 ? 'Bạn đã vượt qua! Luyện lại để được nhiều sao hơn nhé.' :
-        'Chưa đạt 60%. Xem lại từ vựng và thử lại nhé – bạn làm được mà! 💪';
+      var msg = starMessage(res.stars);
 
       var actions = '<a class="btn btn-ghost-dark" href="#/practice/' + lesson.id + '/' + skillId + '" data-retry>↻ Luyện lại</a>';
       if (lessonDone && nextLesson) actions += '<a class="btn btn-red" href="#/lesson/' + nextLesson.id + '">Bài tiếp theo →</a>';
-      else if (nextSkill && res.stars > 0) actions += '<a class="btn btn-red" href="#/practice/' + lesson.id + '/' + nextSkill.id + '">' + nextSkill.icon + ' Luyện ' + nextSkill.name + ' →</a>';
+      else if (nextSkill && res.stars > 0) actions += '<a class="btn btn-red" href="#/study/' + lesson.id + '/' + nextSkill.id + '">' + nextSkill.icon + ' Học ' + nextSkill.name + ' →</a>';
       actions += '<a class="btn btn-green" href="#/lesson/' + lesson.id + '">Về bài học</a>';
 
       app.innerHTML =
@@ -854,14 +1331,12 @@
           '<h1>' + (unitDone ? 'Bạn đã mở quà chặng "' + esc(unit.title) + '"!' : lessonDone ? 'Hoàn thành bài học!' : skill.icon + ' ' + skill.name + ': ' + pct + '%') + '</h1>' +
           '<div class="result-stars">' + starsHtml(res.stars) + '</div>' +
           '<p>' + msg + '</p>' +
-          '<p class="muted">Đúng ' + correct + '/' + exs.length + ' câu · +' + res.xp + ' ⭐</p>' +
+          '<p class="muted">Đúng ' + correct + '/' + total + ' câu · +' + res.xp + ' ⭐</p>' +
           '<div class="result-actions">' + actions + '</div>' +
         '</div>';
       $('[data-retry]', app).addEventListener('click', function (e) { e.preventDefault(); viewPractice(lessonId, skillId); });
       if (res.stars >= 2 || lessonDone) celebrate();
     }
-
-    show();
   }
 
   // =====================================================================
@@ -1020,13 +1495,20 @@
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     var parts = (location.hash.replace(/^#\/?/, '') || '').split('/');
     var page = parts[0] || 'home';
-    $$('#nav a').forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-nav') === (page === 'lesson' || page === 'practice' ? 'course' : page)); });
+    var navPage = page === 'lesson' || page === 'study' ? 'course' :
+      page === 'pron' ? 'pronunciation' :
+      page === 'practice' ? (parts[2] === 'pron' ? 'pronunciation' : 'course') : page;
+    $$('#nav a').forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-nav') === navPage); });
+    stopPlayback();
     document.body.classList.toggle('in-practice', page === 'practice');
     if (page === 'home') viewHome();
     else if (page === 'course') viewCourse();
     else if (page === 'lesson') viewLesson(parts[1]);
     else if (page === 'practice') viewPractice(parts[1], parts[2]);
     else if (page === 'syllabus') viewSyllabus();
+    else if (page === 'study') viewStudy(parts[1], parts[2]);
+    else if (page === 'pronunciation') viewPronList();
+    else if (page === 'pron') viewPronLesson(parts[1]);
     else if (page === 'review') viewReview();
     else if (page === 'alphabet') viewAlphabet();
     else if (page === 'settings') viewSettings();

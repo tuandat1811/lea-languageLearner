@@ -35,12 +35,16 @@ Các cấp tiếp theo: Cấp 2 (A2, chặng 11–20: mua sắm, quá khứ đơ
 
 Trước bài 1 có trang **Bảng chữ cái** (26 chữ cái + từ ví dụ, bấm để nghe).
 
-Mỗi bài gồm: **Từ vựng** (8–10 từ, IPA, phát âm) → **Ngữ pháp** → **Câu mẫu** → **Luyện 4 kỹ năng**:
+Mỗi bài gồm: **Từ vựng** (8–10 từ, IPA, phát âm) → **Ngữ pháp** → **Câu mẫu** → **4 kỹ năng**, mỗi kỹ năng có **bài giảng** (`#/study/<bài>/<kỹ năng>`, dựng từ dữ liệu bài học) và **bài tập** chấm điểm:
 
-- 🎧 **Nghe**: nghe chọn nghĩa, nghe chọn câu, nghe – chép chính tả
-- 🎤 **Nói**: đọc to từ/câu (chấm bằng nhận diện giọng nói), nói câu từ nghĩa tiếng Việt
-- 📖 **Đọc**: nối từ, đọc câu chọn nghĩa, đọc hiểu đoạn văn/hội thoại
-- ✍️ **Viết**: dịch từ, sắp xếp câu, điền từ, dịch câu
+| Kỹ năng | Bài giảng | Bài tập |
+|---|---|---|
+| 🎧 Nghe | Nghe từ khoá; bài nghe hội thoại phát từng câu, ẩn/hiện lời và bản dịch; nghe cấu trúc | Nghe chọn nghĩa, nghe chọn câu, chép chính tả |
+| 🎤 Nói | Bảng phát âm từ khoá (IPA, nghe chậm, 🎤 chấm thử); nói theo mẫu từng câu | Đọc to từ/câu, nói câu từ nghĩa tiếng Việt; **nói tự do** theo chủ đề (đếm từ, từ mới đã dùng) |
+| 📖 Đọc | Bài đọc tô sáng từ vựng (chạm để nghe), bản dịch, câu hỏi định hướng | Nối từ, đọc chọn nghĩa, đọc hiểu |
+| ✍️ Viết | Cấu trúc câu, bài viết mẫu | Dịch, sắp xếp, điền từ; **viết đoạn văn** có checklist (số câu, số từ, từ mới, viết hoa, dấu câu), lưu nháp |
+
+**👄 Phát âm** (`#/pronunciation`, dữ liệu `data/en-pron.js`): 10 bài – nguyên âm dài/ngắn, /æ/–/e/, th, /s/–/ʃ/–/tʃ/, âm cuối, đuôi -s/-es, đuôi -ed, /l/–/n/–/r/, trọng âm, ngữ điệu & nối âm. Mỗi bài có bài giảng (khẩu hình, ví dụ, cặp từ dễ nhầm) và bài tập: nghe phân biệt cặp từ, phân loại cách đọc, nói.
 
 Đạt ≥ 60% mỗi kỹ năng để mở khoá bài tiếp theo (1–3 sao). Có **Ôn tập** từ vựng theo phương pháp lặp lại ngắt quãng, chuỗi ngày học 🔥 và điểm sao ⭐. Tiến độ lưu trong `localStorage`.
 

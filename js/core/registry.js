@@ -56,6 +56,11 @@ window.LEA = window.LEA || {};
     if (extra.noLooseContractions) {
       course.noLooseContractions = (course.noLooseContractions || []).concat(extra.noLooseContractions);
     }
+    if (extra.pronunciation) {
+      course.pronunciation = (course.pronunciation || []).concat(extra.pronunciation);
+      course.pronById = {};
+      course.pronunciation.forEach(function (p, i) { p.order = i; course.pronById[p.id] = p; });
+    }
     index(course);
   };
 

@@ -225,6 +225,32 @@
     },
   };
 
+  /** Pronunciation practice: minimal pairs, sound / stress groups, and speaking. */
+  builders.pron = function (course, p) {
+    var ex = [];
+    if (p.pairs) {
+      sample(p.pairs, Math.min(4, p.pairs.length)).forEach(function (pair) {
+        var target = pair[Math.random() < 0.5 ? 0 : 1];
+        var opts = shuffle(pair);
+        ex.push({ type: 'pron_pair', audio: target, options: opts, answer: opts.indexOf(target), reveal: target + '  (' + pair.join(' / ') + ')' });
+      });
+    }
+    if (p.groups) {
+      sample(p.groups.items, p.pairs ? 3 : 5).forEach(function (it) {
+        ex.push({
+          type: 'pron_group', text: it.word, ipa: it.ipa || '', prompt: p.groups.question,
+          options: p.groups.labels.slice(), answer: it.group, reveal: it.word + ' → ' + p.groups.labels[it.group],
+        });
+      });
+    }
+    sample(p.examples, 2).forEach(function (w) {
+      ex.push({ type: 'speak', text: w.word, ipa: w.ipa, vi: w.vi, answers: [w.word] });
+    });
+    var s = sample(p.sentences, 1)[0];
+    ex.push({ type: 'speak', text: s.en, vi: s.vi, answers: [s.en] });
+    return ex;
+  };
+
   L.exercises = {
     build: function (skillId, course, lesson) { return builders[skillId](course, lesson); },
     normalize: normalize,
