@@ -372,8 +372,100 @@
         html += unlocked ? '<a class="' + cls + '" href="#/lesson/' + l.id + '">' + inner + '</a>' : '<div class="' + cls + '">' + inner + '</div>';
       });
       html += '</div></section>';
+      if (c.testAfterUnit[u.id]) html += testCard(c, c.testAfterUnit[u.id]);
     });
     app.innerHTML = html;
+  }
+
+  // =====================================================================
+  // GRAMMAR TESTS (one after every few units)
+  // =====================================================================
+  function testUnlocked(c, test) {
+    return store.settings().unlockAll || test.lessons.every(function (l) { return store.isLessonComplete(l); });
+  }
+
+  /** Grammar topics of the units a test covers, taken from the syllabus. */
+  function testTopics(c, test) {
+    var byUnit = {};
+    (c.syllabus || []).forEach(function (lv) { lv.units.forEach(function (it) { if (it.unit) byUnit[it.unit] = it.grammar; }); });
+    return test.units.map(function (u) { return byUnit[u.id] || u.lessons.map(function (l) { return l.grammar.title; }).join('; '); });
+  }
+
+  function testCard(c, test) {
+    var open = testUnlocked(c, test);
+    var res = store.skillResult(test.id, 'grammar');
+    var status = !open
+      ? '<span class="muted">🔒 Hoàn thành chặng ' + test.firstUnit + '–' + test.lastUnit + ' để mở</span>'
+      : (res ? '<div class="stars-line">' + starsHtml(res.stars) + ' <span class="muted">Cao nhất ' + Math.round(res.best * 100) + '%</span></div>' : '') +
+        '<a class="btn ' + (res && res.stars ? 'btn-ghost-dark' : 'btn-red') + '" href="#/test/' + test.id + '">' + (res ? '↻ Làm lại' : '📝 Làm bài') + '</a>';
+    return '<section class="test-card' + (open ? '' : ' locked') + (res && res.stars ? ' passed' : '') + '">' +
+      '<div class="test-icon">📝</div>' +
+      '<div class="test-info"><div class="unit-label">Bài kiểm tra ' + test.number + ' · Chặng ' + test.firstUnit + '–' + test.lastUnit + '</div>' +
+        '<h2>Kiểm tra ngữ pháp</h2>' +
+        '<p class="muted">' + testTopics(c, test).map(esc).join(' · ') + '</p></div>' +
+      '<div class="test-status">' + status + '</div></section>';
+  }
+
+  function viewTest(testId) {
+    var c = course();
+    var test = c.testById[testId];
+    if (!test) return viewNotFound();
+    if (!testUnlocked(c, test)) { location.hash = '#/course'; return; }
+    var res = store.skillResult(test.id, 'grammar');
+
+    app.innerHTML =
+      '<div class="breadcrumb"><a href="#/course">Lộ trình</a> › Bài kiểm tra ' + test.number + '</div>' +
+      '<div class="page-head"><h1>📝 Kiểm tra ngữ pháp · Chặng ' + test.firstUnit + '–' + test.lastUnit + '</h1>' +
+        '<p class="muted">' + test.units.map(function (u) { return u.icon + ' ' + esc(u.title); }).join(' · ') + '</p></div>' +
+      '<section class="panel">' +
+        '<h2>Nội dung kiểm tra</h2><ul class="grammar-points">' + testTopics(c, test).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+        '<h2>Cấu trúc bài</h2>' +
+        '<div class="test-parts">' +
+          '<div class="test-part"><b>Phần I · Trắc nghiệm</b><span>6 câu</span><p class="muted">Chọn từ đúng điền vào chỗ trống; chọn câu đúng ngữ pháp.</p></div>' +
+          '<div class="test-part"><b>Phần II · Tự luận</b><span>4 câu</span><p class="muted">Viết dạng đúng của từ trong ngoặc; tìm lỗi sai và viết lại câu.</p></div>' +
+        '</div>' +
+        '<p class="notice">Phần tự luận được chấm <b>chính xác từng chữ và dấu câu</b>. Chỉ chữ cái đầu câu được phép viết thường.</p>' +
+        '<p>Đạt từ <b>60%</b> để qua bài. Mỗi lần làm, câu hỏi được chọn ngẫu nhiên từ các bài đã học.' +
+          (res ? ' Kết quả cao nhất của bạn: <b>' + Math.round(res.best * 100) + '%</b> ' + starsHtml(res.stars) + '.' : '') + '</p>' +
+        '<p class="center"><button class="btn btn-red btn-lg" data-start>Bắt đầu làm bài</button></p>' +
+      '</section>';
+    $('[data-start]', app).addEventListener('click', start);
+
+    function start() {
+      runExercises({
+        exs: L.exercises.buildTest(c, test),
+        title: '📝 Kiểm tra ngữ pháp · Chặng ' + test.firstUnit + '–' + test.lastUnit,
+        backHref: '#/course',
+        onDone: finish,
+      });
+    }
+
+    function finish(correct, total, log) {
+      var r = store.recordSkill(test.id, 'grammar', correct, total);
+      renderStats();
+      var pct = Math.round(r.score * 100);
+      var part = function (from, to) { return log.slice(from, to).filter(function (x) { return x.ok; }).length; };
+      var wrong = log.filter(function (x) { return !x.ok; });
+      app.innerHTML =
+        '<div class="result panel">' +
+          '<div class="result-icon">' + (r.stars ? '🎉' : '🌱') + '</div>' +
+          '<h1>Kiểm tra ngữ pháp: ' + pct + '%</h1>' +
+          '<div class="result-stars">' + starsHtml(r.stars) + '</div>' +
+          '<p>' + starMessage(r.stars) + '</p>' +
+          '<p class="muted">Trắc nghiệm ' + part(0, 6) + '/6 · Tự luận ' + part(6, total) + '/' + (total - 6) + ' · +' + r.xp + ' ⭐</p>' +
+          (wrong.length
+            ? '<div class="review-list"><h2>Câu cần xem lại</h2>' + wrong.map(function (x) {
+                return '<div class="review-item"><div class="muted small">' + esc(x.ex.prompt) + '</div>' +
+                  (x.ex.wrong ? '<div class="review-wrong">' + esc(x.ex.wrong) + '</div>' : '') +
+                  '<div>Đáp án: <b>' + esc(x.answer) + '</b></div></div>';
+              }).join('') +
+              '<p class="muted small">Ôn lại ngữ pháp: ' + test.lessons.map(function (l) { return '<a href="#/lesson/' + l.id + '">' + esc(l.title) + '</a>'; }).join(' · ') + '</p></div>'
+            : '') +
+          '<div class="result-actions"><button class="btn btn-ghost-dark" data-retry>↻ Làm lại</button><a class="btn btn-red" href="#/course">Về lộ trình</a></div>' +
+        '</div>';
+      $('[data-retry]', app).addEventListener('click', start);
+      if (r.stars >= 2) celebrate();
+    }
   }
 
   function skillDots(lesson) {
@@ -1006,12 +1098,15 @@
     },
   };
 
-  function bindInput(root, ex, ctx, answers, reveal) {
+  /** wrap(value) turns the typed text into the full text to compare (used by strict blanks). */
+  function bindInput(root, ex, ctx, answers, reveal, wrap) {
     var input = $('.answer-input', root);
     input.focus();
     input.addEventListener('input', function () { ctx.ready(input.value.trim().length > 0); });
     ctx.setCheck(function () {
-      var r = L.exercises.checkText(input.value, answers, course());
+      var got = wrap ? wrap(input.value) : input.value;
+      // Grammar tests compare exactly; normal practice forgives a small typo.
+      var r = ex.strict ? L.exercises.checkStrict(got, answers, course()) : L.exercises.checkText(got, answers, course());
       input.classList.add(r.ok ? 'correct' : 'wrong');
       input.disabled = true;
       var note = r.ok && !r.exact ? ' (gần đúng – chú ý chính tả)' : '';
@@ -1035,8 +1130,45 @@
         '<p class="muted center">' + esc(ex.vi) + (ex.hint ? ' · Gợi ý: <b>' + esc(ex.hint) + '</b>' : '') + '</p>';
     },
     bind: function (root, ex, ctx) {
-      bindInput(root, ex, ctx, [ex.answer], ex.before + ex.answer + ex.after);
+      var full = ex.before + ex.answer + ex.after;
+      if (ex.strict) {
+        // Compare the whole sentence so capitals inside it still count (a ≠ A mid-sentence).
+        bindInput(root, ex, ctx, [full], full, function (v) { return ex.before + v.trim() + ex.after; });
+      } else {
+        bindInput(root, ex, ctx, [ex.answer], full);
+      }
     },
+  };
+
+  // ---- Grammar test ----
+  R.fill_choice = {
+    html: function (ex) {
+      return '<div class="fill-sentence">' + esc(ex.before) + '<span class="blank">&nbsp;</span>' + esc(ex.after) + '</div>' +
+        '<p class="muted center">' + esc(ex.vi) + '</p>' + optionsHtml(ex.options);
+    },
+    bind: function (root, ex, ctx) {
+      bindOptions(root, ex, ctx, ex.reveal);
+      var blank = $('.blank', root);
+      $$('.option', root).forEach(function (b) {
+        b.addEventListener('click', function () { if (!ctx.locked()) { blank.textContent = ex.options[+b.getAttribute('data-i')]; blank.classList.add('filled'); } });
+      });
+    },
+  };
+
+  R.pick_sentence = {
+    html: function (ex) {
+      return '<div class="prompt-card"><span class="prompt-emoji">💬</span><span class="prompt-vi">' + esc(ex.vi) + '</span></div>' + optionsHtml(ex.options);
+    },
+    bind: function (root, ex, ctx) { bindOptions(root, ex, ctx, ex.reveal); },
+  };
+
+  R.correct = {
+    html: function (ex) {
+      return '<div class="wrong-sentence"><span class="wrong-tag">Câu sai</span>' + esc(ex.wrong) + '</div>' +
+        '<p class="muted">' + esc(ex.vi) + '</p>' +
+        '<input class="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Viết lại cả câu cho đúng…" />';
+    },
+    bind: function (root, ex, ctx) { bindInput(root, ex, ctx, ex.answers); },
   };
 
   R.order = {
@@ -1222,7 +1354,7 @@
    */
   function runExercises(opts) {
     var exs = opts.exs;
-    var i = 0, correct = 0;
+    var i = 0, correct = 0, log = [];
 
     app.innerHTML =
       '<div class="practice">' +
@@ -1259,6 +1391,7 @@
           if (state.locked) return;
           state.locked = true;
           if (ok) correct++;
+          log.push({ ex: ex, ok: ok, answer: answer });
           L.speech.stopListening();
           foot.innerHTML =
             '<div class="feedback ' + (ok ? 'ok' : 'bad') + '">' +
@@ -1293,7 +1426,7 @@
     function next() {
       i++;
       if (i < exs.length) show();
-      else { keyHandler = null; opts.onDone(correct, exs.length); }
+      else { keyHandler = null; opts.onDone(correct, exs.length, log); }
     }
 
     show();
@@ -1328,15 +1461,20 @@
       var pct = Math.round(res.score * 100);
       var msg = starMessage(res.stars);
 
+      // Finishing the last lesson before a grammar test opens that test.
+      var test = c.testAfterUnit[unit.id];
+      var testNow = lessonDone && test && testUnlocked(c, test) && !store.skillResult(test.id, 'grammar');
+
       var actions = '<a class="btn btn-ghost-dark" href="#/practice/' + lesson.id + '/' + skillId + '" data-retry>↻ Luyện lại</a>';
-      if (lessonDone && nextLesson) actions += '<a class="btn btn-red" href="#/lesson/' + nextLesson.id + '">Bài tiếp theo →</a>';
+      if (testNow) actions += '<a class="btn btn-red" href="#/test/' + test.id + '">📝 Làm bài kiểm tra ngữ pháp</a>';
+      else if (lessonDone && nextLesson) actions += '<a class="btn btn-red" href="#/lesson/' + nextLesson.id + '">Bài tiếp theo →</a>';
       else if (nextSkill && res.stars > 0) actions += '<a class="btn btn-red" href="#/study/' + lesson.id + '/' + nextSkill.id + '">' + nextSkill.icon + ' Học ' + nextSkill.name + ' →</a>';
       actions += '<a class="btn btn-green" href="#/lesson/' + lesson.id + '">Về bài học</a>';
 
       app.innerHTML =
         '<div class="result panel">' +
           '<div class="result-icon">' + (unitDone ? '🏅' : lessonDone ? '🏆' : res.stars ? '🎉' : '🌱') + '</div>' +
-          '<h1>' + (unitDone ? 'Bạn đã mở quà chặng "' + esc(unit.title) + '"!' : lessonDone ? 'Hoàn thành bài học!' : skill.icon + ' ' + skill.name + ': ' + pct + '%') + '</h1>' +
+          '<h1>' + (unitDone ? 'Bạn đã hoàn thành chặng "' + esc(unit.title) + '"!' : lessonDone ? 'Hoàn thành bài học!' : skill.icon + ' ' + skill.name + ': ' + pct + '%') + '</h1>' +
           '<div class="result-stars">' + starsHtml(res.stars) + '</div>' +
           '<p>' + msg + '</p>' +
           '<p class="muted">Đúng ' + correct + '/' + total + ' câu · +' + res.xp + ' ⭐</p>' +
@@ -1502,7 +1640,7 @@
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     var parts = (location.hash.replace(/^#\/?/, '') || '').split('/');
     var page = parts[0] || 'home';
-    var navPage = page === 'lesson' || page === 'study' ? 'course' :
+    var navPage = page === 'lesson' || page === 'study' || page === 'test' ? 'course' :
       page === 'pron' ? 'pronunciation' :
       page === 'practice' ? (parts[2] === 'pron' ? 'pronunciation' : 'course') : page;
     $$('#nav a').forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-nav') === navPage); });
@@ -1517,6 +1655,7 @@
     else if (page === 'pronunciation') viewPronList();
     else if (page === 'pron') viewPronLesson(parts[1]);
     else if (page === 'review') viewReview();
+    else if (page === 'test') viewTest(parts[1]);
     else if (page === 'alphabet') viewAlphabet();
     else if (page === 'settings') viewSettings();
     else viewNotFound();

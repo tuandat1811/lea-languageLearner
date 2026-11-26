@@ -574,6 +574,41 @@ body.in-practice .site-footer { display: none; }
 .group-col { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; }
 .group-col h3 { width: 100%; margin: 0 0 6px; color: var(--accent); }
 
+/* Grammar tests */
+.test-card {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  margin: -6px 0 22px; padding: 18px 22px; border-radius: var(--radius);
+  background: var(--accent-2-soft); border: 2px dashed color-mix(in srgb, var(--accent-2) 55%, transparent);
+}
+.test-card.passed { border-style: solid; border-color: var(--ok); background: var(--ok-soft); }
+.test-card.locked { opacity: .7; }
+.test-icon { font-size: 2.1rem; width: 64px; height: 64px; display: grid; place-items: center; background: var(--surface); border-radius: 18px; flex-shrink: 0; }
+.test-info { flex: 1; min-width: 220px; }
+.test-info h2 { margin: 0 0 2px; }
+.test-info p { margin: 0; font-size: 0.92rem; }
+.test-card .unit-label { color: var(--accent-2); }
+.test-status { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.stars-line { display: flex; align-items: center; gap: 8px; }
+.test-parts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.test-part { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px; }
+.test-part span { font-weight: 800; color: var(--accent); }
+.test-part p { grid-column: 1 / -1; margin: 0; font-size: 0.9rem; }
+.blank {
+  display: inline-block; min-width: 72px; margin: 0 6px; padding: 0 8px;
+  border-bottom: 3px solid var(--accent-2); color: var(--accent-2); font-weight: 800; line-height: 1.4;
+}
+.blank.filled { background: var(--accent-2-soft); border-radius: 8px 8px 0 0; }
+.wrong-sentence {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  font-size: 1.25rem; font-weight: 700; padding: 14px 18px; margin-bottom: 6px;
+  background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); border-radius: 14px;
+}
+.wrong-tag { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; color: var(--bad); }
+.review-list { text-align: left; margin: 18px 0 6px; }
+.review-list h2 { font-size: 1.2rem; }
+.review-item { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--bad); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
+.review-wrong { text-decoration: line-through; color: var(--muted); }
+
 /* Level banner (course map) */
 .level-banner {
   display: flex; gap: 16px; align-items: center;
@@ -666,7 +701,8 @@ body.in-practice .site-footer { display: none; }
   .hero { grid-template-columns: 1fr; }
   .hero-art { display: none; }
   .skill-grid { grid-template-columns: 1fr 1fr; }
-  .plan-strip, .pace-grid { grid-template-columns: 1fr; }
+  .plan-strip, .pace-grid, .test-parts { grid-template-columns: 1fr; }
+  .test-status { align-items: flex-start; }
   .pron-row { grid-template-columns: 1fr 1fr; }
   .week { grid-template-columns: repeat(2, 1fr); }
 }

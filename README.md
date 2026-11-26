@@ -48,6 +48,8 @@ Mỗi bài gồm: **Từ vựng** (8–10 từ, IPA, phát âm) → **Ngữ phá
 
 Đạt ≥ 60% mỗi kỹ năng để mở khoá bài tiếp theo (1–3 sao). Có **Ôn tập** từ vựng theo phương pháp lặp lại ngắt quãng, chuỗi ngày học 🔥 và điểm sao ⭐. Tiến độ lưu trong `localStorage`.
 
+**📝 Kiểm tra ngữ pháp** (`#/test/<id>`): sau mỗi 2 chặng (4 bài) có một bài kiểm tra 10 câu, mở khi học xong các bài đó. Phần I trắc nghiệm (6 câu: chọn từ điền vào chỗ trống, chọn câu đúng ngữ pháp); phần II tự luận (4 câu: viết dạng đúng của từ trong ngoặc, tìm lỗi sai và viết lại câu). Câu hỏi được sinh ngẫu nhiên từ phần ngữ pháp và câu mẫu (`builders.test` trong `js/core/exercises.js`), chỉ dùng các nhóm từ ngữ pháp đóng (am/is/are, a/an, have/has, -s ngôi thứ 3, for/since…) để mỗi chỗ trống có đúng một đáp án. Tự luận chấm chính xác từng ký tự; chỉ chấp nhận chữ cái đầu câu viết thường và dạng viết tắt/viết đầy đủ (doesn't = does not).
+
 ## Thêm ngôn ngữ mới
 
 1. Tạo `data/<mã>.js` (ví dụ `data/ja.js`) theo cấu trúc của `data/en.js` và gọi `LEA.registerLanguage({...})`:

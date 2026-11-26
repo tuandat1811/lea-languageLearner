@@ -126,5 +126,38 @@ for (const [input, answers, want] of cases) {
 const sp = L.exercises.checkSpeech(['good morning'], ['Good morning'], en);
 if (!sp.ok) fail('checkSpeech exact match failed');
 
+// Grammar tests: exact checking (only a lowercase first letter is forgiven).
+const strictCases = [
+  ['He likes football.', 'He likes football.', true],
+  ['he likes football.', 'He likes football.', true],
+  ['He like football.', 'He likes football.', false],
+  ['He watchs TV.', 'He watches TV.', false],
+  ['It is a apple.', 'It is an apple.', false],
+  ['She has a beautful garden.', 'She has a beautiful garden.', false],
+  ['He likes football', 'He likes football.', false],
+  ['He likes Football.', 'He likes football.', false],
+  ["She does not like tea.", "She doesn't like tea.", true],
+  ['She doesn’t like tea.', "She doesn't like tea.", true],
+];
+for (const [input, answer, want] of strictCases) {
+  const got = L.exercises.checkStrict(input, [answer], en).ok;
+  if (got !== want) fail(`checkStrict(${JSON.stringify(input)}) = ${got}, want ${want}`);
+}
+
+// Every grammar test must build 6 multiple-choice + 4 written questions.
+for (const code of L.languageOrder) {
+  const c = L.languages[code];
+  for (const t of c.tests) {
+    for (let run = 0; run < 20; run++) {
+      const exs = L.exercises.buildTest(c, t);
+      const mcq = exs.filter((e) => e.type === 'fill_choice' || e.type === 'pick_sentence');
+      if (exs.length !== 10 || mcq.length !== 6) { fail(`${code}/${t.id}: built ${mcq.length} MCQ + ${exs.length - mcq.length} written`); break; }
+      const bad = mcq.find((e) => !(e.answer >= 0 && e.answer < e.options.length) || new Set(e.options).size !== e.options.length);
+      if (bad) { fail(`${code}/${t.id}: bad options ${JSON.stringify(bad.options)}`); break; }
+    }
+  }
+  console.log(`${c.flag} ${c.name}: ${c.tests.length} grammar tests`);
+}
+
 console.log(errors ? `\n${errors} problem(s) found.` : '\n✓ All checks passed.');
 process.exit(errors ? 1 : 0);

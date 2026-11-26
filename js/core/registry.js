@@ -31,7 +31,28 @@ window.LEA = window.LEA || {};
         course.lessonById[lesson.id] = lesson;
       });
     });
+    // Grammar check-point tests: one after every TEST_EVERY units.
+    course.tests = [];
+    course.testById = {};
+    course.testAfterUnit = {};
+    for (var i = 0; i < course.units.length; i += L.TEST_EVERY) {
+      var units = course.units.slice(i, i + L.TEST_EVERY);
+      var test = {
+        id: 'test' + (course.tests.length + 1),
+        number: course.tests.length + 1,
+        units: units,
+        lessons: units.reduce(function (all, u) { return all.concat(u.lessons); }, []),
+        firstUnit: i + 1,
+        lastUnit: i + units.length,
+      };
+      course.tests.push(test);
+      course.testById[test.id] = test;
+      course.testAfterUnit[units[units.length - 1].id] = test;
+    }
   }
+
+  /** Number of units covered by each grammar test (≈ 4 lessons). */
+  L.TEST_EVERY = 2;
 
   L.registerLanguage = function (course) {
     if (!course || !course.code) throw new Error('Course needs a code');
