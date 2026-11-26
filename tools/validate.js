@@ -14,7 +14,10 @@ sandbox.LEA = undefined;
 vm.createContext(sandbox);
 const load = (f) => vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8'), sandbox, { filename: f });
 ['js/core/registry.js', 'js/core/storage.js', 'js/core/exercises.js'].forEach(load);
-fs.readdirSync(path.join(root, 'data')).filter((f) => f.endsWith('.js')).forEach((f) => load('data/' + f));
+// Base course files (en.js) must load before their extensions (en-a2.js).
+fs.readdirSync(path.join(root, 'data')).filter((f) => f.endsWith('.js'))
+  .sort((a, b) => (a.includes('-') - b.includes('-')) || a.localeCompare(b))
+  .forEach((f) => load('data/' + f));
 
 const L = sandbox.LEA;
 let errors = 0;
@@ -24,6 +27,15 @@ for (const code of L.languageOrder) {
   const c = L.languages[code];
   const ids = new Set();
   console.log(`\n${c.flag} ${c.name}: ${c.units.length} units, ${c.lessonList.length} lessons`);
+  const unitIds = new Set(c.units.map((u) => u.id));
+  const covered = new Set();
+  (c.syllabus || []).forEach((lv) => lv.units.forEach((it) => {
+    if (it.unit) {
+      if (!unitIds.has(it.unit)) fail(`${code}/syllabus ${lv.id}: unknown unit ${it.unit}`);
+      covered.add(it.unit);
+    } else if (!it.title || !it.grammar) fail(`${code}/syllabus ${lv.id}: planned unit needs title and grammar`);
+  }));
+  if (c.syllabus) unitIds.forEach((id) => { if (!covered.has(id)) fail(`${code}: unit ${id} missing from syllabus`); });
   for (const l of c.lessonList) {
     const where = `${code}/${l.id}`;
     if (ids.has(l.id)) fail(`${where}: duplicate id`);
@@ -69,6 +81,11 @@ const cases = [
   ['I have 2 cats', ['I have two cats.'], true],
   ['goodbye', ['hello'], false],
   ['delicous', ['delicious'], true], // one typo forgiven
+  ["I'll help you", ['I will help you.'], true],
+  ['she wasnt at school', ["She wasn't at school."], true],
+  ['I promise I will not be late', ["I promise I won't be late."], true],
+  ['I feel ill', ['I feel I will'], false], // "ill" must stay a word
+  ['We were busy', ["We're busy"], false],
 ];
 for (const [input, answers, want] of cases) {
   const got = L.exercises.checkText(input, answers, en).ok;

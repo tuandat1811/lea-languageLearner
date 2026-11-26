@@ -14,10 +14,10 @@ LEA.registerLanguage({
   nativeName: 'English',
   flag: '🇬🇧',
   speechLang: 'en-US',
-  level: 'A0 → A1',
-  tagline: 'Từ con số 0 đến giao tiếp cơ bản',
+  level: 'A0 → A2',
+  tagline: 'Từ con số 0 đến giao tiếp hằng ngày',
   description:
-    'Lộ trình 10 chặng, 20 bài học dành cho người chưa biết gì về tiếng Anh. Mỗi bài có từ vựng, ngữ pháp và luyện đủ 4 kỹ năng Nghe – Nói – Đọc – Viết.',
+    'Lộ trình 20 chặng, 40 bài học (Cấp 1 – 2) dành cho người chưa biết gì về tiếng Anh. Mỗi bài có từ vựng, ngữ pháp và luyện đủ 4 kỹ năng Nghe – Nói – Đọc – Viết.',
 
   // Viết tắt được mở rộng trước khi so sánh đáp án (I'm = I am ...).
   contractions: {
@@ -66,6 +66,78 @@ LEA.registerLanguage({
     { letter: 'X', ipa: '/eks/', word: 'fox', vi: 'con cáo', emoji: '🦊' },
     { letter: 'Y', ipa: '/waɪ/', word: 'yellow', vi: 'màu vàng', emoji: '💛' },
     { letter: 'Z', ipa: '/ziː/', word: 'zebra', vi: 'ngựa vằn', emoji: '🦓' },
+  ],
+
+  /*
+   * Giáo trình 4 cấp độ (A0 → B2). Thứ tự chủ điểm ngữ pháp đi từ cơ bản đến nâng cao,
+   * tham khảo bố cục của tài liệu "Ngữ pháp tiếng Anh cơ bản" (xem docs/giao-trinh.md).
+   * Cấp có status 'available' dùng các units bên dưới; cấp 'planned' mới có đề cương.
+   */
+  syllabus: [
+    {
+      id: 'L1', name: 'Cấp 1 · Nền tảng', cefr: 'A0 – A1', status: 'available', icon: '🌱',
+      outcome: 'Chào hỏi, giới thiệu bản thân, nói về gia đình, đồ ăn, thói quen hằng ngày, thời gian và nhà cửa bằng câu đơn.',
+      units: [
+        { unit: 'u1', grammar: 'Lời chào theo buổi; thank you / sorry / excuse me / please' },
+        { unit: 'u2', grammar: 'Động từ to be (am/is/are); đại từ chủ ngữ; tính từ sở hữu my/your' },
+        { unit: 'u3', grammar: 'Danh từ số nhiều -s; have/has; How many? How old?' },
+        { unit: 'u4', grammar: 'Tính từ đứng trước danh từ; a/an; this/that; What is this?' },
+        { unit: 'u5', grammar: "Sở hữu cách 's; be + tính từ; phủ định với not; we/they" },
+        { unit: 'u6', grammar: "like / don't like / likes; câu hỏi Do…?; Can I have…?" },
+        { unit: 'u7', grammar: 'Thì hiện tại đơn; do/does; trạng từ tần suất always/often/never' },
+        { unit: 'u8', grammar: "Giới từ thời gian on (ngày) / at (giờ); o'clock, half past" },
+        { unit: 'u9', grammar: 'There is / There are; giới từ vị trí in/on/under/next to/behind' },
+        { unit: 'u10', grammar: "Số nhiều bất quy tắc; thì hiện tại tiếp diễn; Let's…" },
+      ],
+    },
+    {
+      id: 'L2', name: 'Cấp 2 · Sơ cấp', cefr: 'A2', status: 'available', icon: '🌿',
+      outcome: 'Kể chuyện đã xảy ra, nói về kế hoạch, so sánh, mua sắm, xin và cho lời khuyên.',
+      units: [
+        { unit: 'u11', grammar: 'Đại từ tân ngữ me/him/her/us/them; đại từ sở hữu mine/yours/hers; Whose…?' },
+        { unit: 'u12', grammar: 'Danh từ đếm được & không đếm được; some/any; much/many/a lot of/a few/a little' },
+        { unit: 'u13', grammar: "Mạo từ a/an và the; chỉ đường; câu mệnh lệnh Go/Turn/Don't…" },
+        { unit: 'u14', grammar: "can / can't; like / love / enjoy / hate + V-ing" },
+        { unit: 'u15', grammar: "should / shouldn't; must / mustn't; have to / don't have to" },
+        { unit: 'u16', grammar: 'Quá khứ của be: was / were; was born; There was / There were' },
+        { unit: 'u17', grammar: "Quá khứ đơn: động từ -ed và bất quy tắc; did / didn't; ago" },
+        { unit: 'u18', grammar: "be going to (dự định); will / won't (dự đoán, lời hứa)" },
+        { unit: 'u19', grammar: 'So sánh hơn -er/more; so sánh nhất -est/most; as…as; good–better–best' },
+        { unit: 'u20', grammar: 'would like; lời mời; liên từ and / but / or / because / so' },
+      ],
+    },
+    {
+      id: 'L3', name: 'Cấp 3 · Tiền trung cấp', cefr: 'B1', status: 'planned', icon: '🌳',
+      outcome: 'Kể lại trải nghiệm, giải thích nguyên nhân – kết quả, đặt giả thiết, mô tả người và vật chi tiết.',
+      units: [
+        { title: 'Trải nghiệm', grammar: 'Hiện tại hoàn thành; ever / never; already / yet / just' },
+        { title: 'Bao lâu rồi?', grammar: 'for / since; hiện tại hoàn thành vs quá khứ đơn' },
+        { title: 'Khi đang… thì…', grammar: 'Quá khứ tiếp diễn; when / while' },
+        { title: 'Nếu…', grammar: 'Câu điều kiện loại 0 và loại 1; unless' },
+        { title: 'Ngày xưa', grammar: 'used to + V; be / get used to + V-ing' },
+        { title: 'Muốn làm & thích làm', grammar: 'Động từ + to V / V-ing; stop / remember / forget / try' },
+        { title: 'Được làm bởi…', grammar: 'Câu bị động thì hiện tại và quá khứ; by / with' },
+        { title: 'Người mà… vật mà…', grammar: 'Mệnh đề quan hệ who / which / that / whose' },
+        { title: 'Hỏi cho lịch sự', grammar: 'Câu hỏi đuôi; câu hỏi gián tiếp Do you know where…?; so / neither' },
+        { title: 'Cảm xúc & mức độ', grammar: 'Tính từ -ing / -ed; trạng từ cách thức -ly; too / enough' },
+      ],
+    },
+    {
+      id: 'L4', name: 'Cấp 4 · Trung cấp', cefr: 'B2', status: 'planned', icon: '🎄',
+      outcome: 'Viết đoạn văn mạch lạc, tường thuật, lập luận, dùng câu phức và các cấu trúc nâng cao (nền tảng cho IELTS).',
+      units: [
+        { title: 'Thì hoàn thành nâng cao', grammar: 'Hiện tại hoàn thành tiếp diễn; quá khứ hoàn thành' },
+        { title: 'Tương lai nâng cao', grammar: 'Tương lai tiếp diễn; tương lai hoàn thành; by the time' },
+        { title: 'Giá như…', grammar: 'Câu điều kiện loại 2 và 3; wish; if only' },
+        { title: 'Anh ấy nói rằng…', grammar: 'Câu tường thuật; say / tell; lùi thì' },
+        { title: 'Nhờ người khác làm', grammar: 'Bị động nâng cao; have / get something done; make / let / help' },
+        { title: 'Phỏng đoán quá khứ', grammar: 'must / might / could have + P2; should have + P2' },
+        { title: 'Mặc dù…', grammar: 'although / despite / in spite of; so…that; such…that' },
+        { title: 'Viết câu chuẩn', grammar: 'Hòa hợp chủ ngữ – động từ; cấu trúc song song; tránh thừa từ' },
+        { title: 'Câu gọn gàng', grammar: 'Rút gọn mệnh đề quan hệ; V-ing / P2 mở đầu câu' },
+        { title: 'Nhấn mạnh', grammar: 'Đảo ngữ Never / Hardly / Only…; câu giả định; would rather' },
+      ],
+    },
   ],
 
   units: [

@@ -73,6 +73,47 @@
       '<span class="chip" title="Chuỗi ngày học liên tiếp">🔥 ' + store.currentStreak() + '</span>';
   }
 
+  function fmtDate(d) { return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear(); }
+
+  /** Study-plan estimate for the lessons currently available. */
+  /** Syllabus level index (0-based) for each unit id. */
+  function levelOfUnit(c) {
+    var map = {};
+    (c.syllabus || []).forEach(function (lv, li) {
+      lv.units.forEach(function (it) { if (it.unit) map[it.unit] = li; });
+    });
+    return map;
+  }
+
+  function planInfo(c) {
+    var pace = L.PACES.find(function (p) { return p.id === store.settings().pace; }) || L.PACES[1];
+    var levels = c.syllabus || [];
+    var levelMap = levelOfUnit(c);
+    // Current level = first level that still has unfinished lessons.
+    var pending = c.lessonList.filter(function (l) { return !store.isLessonComplete(l); });
+    var levelIdx = pending.length ? (levelMap[pending[0].unitId] || 0) : Math.max(0, levels.length - 1);
+    var levelName = levels[levelIdx] ? 'Cấp ' + (levelIdx + 1) : 'khoá học';
+    var remaining = pending.filter(function (l) { return (levelMap[l.unitId] || 0) === levelIdx; }).length;
+    var days = Math.ceil(remaining / pace.perWeek * 7);
+    var finish = new Date();
+    finish.setDate(finish.getDate() + days);
+    var xmas = new Date(finish.getFullYear(), 11, 25);
+    var now = new Date();
+    var beforeXmas = finish < new Date(now.getFullYear(), 11, 25) && now < new Date(now.getFullYear(), 11, 25);
+    return { pace: pace, remaining: remaining, days: days, finish: finish, beforeXmas: beforeXmas, xmas: xmas, levelName: levelName };
+  }
+
+  function dueReviewCount(c) {
+    var today = new Date().toISOString().slice(0, 10);
+    var n = 0;
+    c.lessonList.forEach(function (l) {
+      var lp = store.peekLesson(l.id);
+      if (!lp.learned && !Object.keys(lp.skills).length) return;
+      l.vocab.forEach(function (w) { var it = store.srsItem(w.en); if (!it.due || it.due <= today) n++; });
+    });
+    return n;
+  }
+
   function unitProgress(c, unit) {
     var done = unit.lessons.filter(function (l) { return store.isLessonComplete(l); }).length;
     return { done: done, total: unit.lessons.length, complete: done === unit.lessons.length };
@@ -135,6 +176,8 @@
         '<div class="hero-art" aria-hidden="true">' + treeSvg() + '</div>' +
       '</section>' +
 
+      planStrip(c, next) +
+
       '<section class="panel"><h2>🌍 Chọn ngôn ngữ</h2><div class="lang-grid">' + langs + '</div></section>' +
 
       '<section class="panel"><h2>🎯 Học đủ 4 kỹ năng trong mỗi bài</h2>' +
@@ -142,12 +185,123 @@
         '<div class="skill-grid">' + skills + '</div></section>' +
 
       '<section class="panel"><h2>🗺️ Lộ trình ' + esc(c.level) + '</h2><ol class="roadmap">' + roadmap + '</ol>' +
-        '<p class="center"><a class="btn btn-green" href="#/course">Mở bản đồ bài học</a></p></section>';
+        '<p class="center"><a class="btn btn-green" href="#/course">Mở bản đồ bài học</a> <a class="btn btn-ghost-dark" href="#/syllabus">Giáo trình đầy đủ A0 → B2</a></p></section>';
 
     $$('.lang-card[data-lang]', app).forEach(function (b) {
       b.addEventListener('click', function () {
         store.setSetting('lang', b.getAttribute('data-lang'));
         route();
+      });
+    });
+  }
+
+  function planStrip(c, next) {
+    var p = planInfo(c);
+    var review = dueReviewCount(c);
+    var todo;
+    if (next) {
+      var skill = L.SKILLS.find(function (s) { return !store.isSkillPassed(next.id, s.id); });
+      var learned = store.peekLesson(next.id).learned;
+      todo = '<a href="#/lesson/' + next.id + '"><b>' + esc(next.title) + '</b></a> · ' +
+        (!learned ? 'học từ vựng & ngữ pháp' : skill ? 'luyện ' + skill.icon + ' ' + skill.name : 'hoàn thành bài');
+    } else {
+      todo = 'Bạn đã học hết các bài hiện có – hãy ôn tập!';
+    }
+    var finishTxt = p.remaining
+      ? 'Còn ' + p.remaining + ' bài · dự kiến xong ' + p.levelName + ' ngày <b>' + fmtDate(p.finish) + '</b>' + (p.beforeXmas ? ' – kịp trước Giáng sinh 🎄' : '')
+      : 'Đã học xong các bài hiện có 🎉';
+    return '<section class="plan-strip">' +
+      '<div class="plan-item"><span class="plan-label">📌 Hôm nay</span><span>' + todo + '</span></div>' +
+      '<div class="plan-item"><span class="plan-label">🔁 Ôn tập</span><span>' + (review ? '<a href="#/review">' + review + ' từ cần ôn</a>' : 'Không có từ cần ôn') + '</span></div>' +
+      '<div class="plan-item"><span class="plan-label">' + p.pace.icon + ' ' + esc(p.pace.name) + '</span><span>' + finishTxt + ' · <a href="#/syllabus">đổi kế hoạch</a></span></div>' +
+      '</section>';
+  }
+
+  // =====================================================================
+  // SYLLABUS + STUDY PLAN
+  // =====================================================================
+  function viewSyllabus() {
+    var c = course();
+    var levels = c.syllabus || [];
+    var totalUnits = levels.reduce(function (n, lv) { return n + lv.units.length; }, 0);
+    var unitById = {};
+    c.units.forEach(function (u) { unitById[u.id] = u; });
+
+    var unitNo = 0;
+    var levelHtml = levels.map(function (lv, li) {
+      var available = lv.status === 'available';
+      var done = 0, total = 0;
+      var rows = lv.units.map(function (it) {
+        unitNo++;
+        var u = it.unit && unitById[it.unit];
+        var status, title;
+        if (u) {
+          var p = unitProgress(c, u);
+          done += p.done; total += p.total;
+          title = '<a href="#/lesson/' + u.lessons[0].id + '">' + u.icon + ' ' + esc(u.title) + '</a>';
+          status = p.complete ? '<span class="tag ok">🎁 Xong</span>' : '<span class="tag">' + p.done + '/' + p.total + ' bài</span>';
+        } else {
+          title = esc(it.title);
+          status = '<span class="tag soon">Sắp có</span>';
+        }
+        return '<tr><td class="num">' + unitNo + '</td><td>' + title + '</td><td>' + esc(it.grammar) + '</td><td>' + status + '</td></tr>';
+      }).join('');
+      var badge = available ? '<span class="tag ok">Đang mở</span>' : '<span class="tag soon">Đang biên soạn</span>';
+      var progress = available && total ? '<div class="level-progress"><span style="width:' + Math.round(done / total * 100) + '%"></span></div><p class="muted small">' + done + '/' + total + ' bài hoàn thành</p>' : '';
+      return '<section class="level-card' + (available ? '' : ' planned') + '">' +
+        '<div class="level-head"><div class="level-icon">' + lv.icon + '</div><div>' +
+          '<div class="unit-label">Cấp ' + (li + 1) + ' · ' + esc(lv.cefr) + '</div>' +
+          '<h2>' + esc(lv.name) + ' ' + badge + '</h2>' +
+          '<p>🎯 ' + esc(lv.outcome) + '</p></div></div>' + progress +
+        '<details' + (available ? ' open' : '') + '><summary>' + lv.units.length + ' chặng · ' + lv.units.length * 2 + ' bài – xem chi tiết</summary>' +
+          '<div class="table-wrap"><table class="syllabus-table"><thead><tr><th>#</th><th>Chủ đề</th><th>Ngữ pháp trọng tâm</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+        '</details></section>';
+    }).join('');
+
+    var p = planInfo(c);
+    var paces = L.PACES.map(function (pc) {
+      var perLevel = levels.length ? levels[0].units.length * 2 : c.lessonList.length;
+      var weeks = Math.ceil(perLevel / pc.perWeek);
+      return '<button class="pace-card' + (pc.id === p.pace.id ? ' active' : '') + '" data-pace="' + pc.id + '">' +
+        '<span class="pace-icon">' + pc.icon + '</span><b>' + esc(pc.name) + '</b>' +
+        '<span class="muted">' + pc.perWeek + ' bài/tuần · ~' + weeks + ' tuần/cấp</span>' +
+        '<span class="small">' + esc(pc.desc) + '</span></button>';
+    }).join('');
+    var week = p.pace.week.map(function (d) {
+      return '<div class="day"><b>' + d[0] + '</b><span>' + esc(d[1]) + '</span></div>';
+    }).join('');
+
+    app.innerHTML =
+      '<div class="page-head"><h1>📚 Giáo trình ' + esc(c.name) + ' A0 → B2</h1>' +
+      '<p class="muted">' + levels.length + ' cấp độ · ' + totalUnits + ' chặng · ' + totalUnits * 2 + ' bài. Ngữ pháp được sắp xếp từ cơ bản đến nâng cao; mỗi bài luyện đủ 4 kỹ năng Nghe – Nói – Đọc – Viết.</p></div>' +
+
+      '<section class="panel"><h2>🗓️ Kế hoạch học tập</h2>' +
+        '<p class="muted">Chọn nhịp độ phù hợp với bạn. Kế hoạch được dùng để gợi ý việc cần làm mỗi ngày ở trang chủ.</p>' +
+        '<div class="pace-grid">' + paces + '</div>' +
+        '<h3>Một tuần mẫu – ' + esc(p.pace.name) + '</h3><div class="week">' + week + '</div>' +
+        '<p class="estimate">' + (p.remaining
+          ? 'Còn <b>' + p.remaining + '</b> bài ở ' + p.levelName + ' → dự kiến hoàn thành ngày <b>' + fmtDate(p.finish) + '</b>' + (p.beforeXmas ? ' – kịp trước Giáng sinh 🎄' : '') + '.'
+          : 'Bạn đã học xong các bài hiện có! 🎉') + '</p>' +
+        '<h3>Một buổi học chuẩn</h3><ol class="steps">' +
+          '<li><b>Khởi động 5 phút:</b> vào trang <a href="#/review">Ôn tập</a> để ôn từ cũ.</li>' +
+          '<li><b>Học mới 10 phút:</b> Từ vựng → Ngữ pháp → Câu mẫu. Đọc to theo từng câu.</li>' +
+          '<li><b>Luyện 4 kỹ năng 15–20 phút:</b> Nghe → Nói → Đọc → Viết (mỗi kỹ năng ~5 phút).</li>' +
+          '<li><b>Tổng kết:</b> kỹ năng nào dưới 2 sao thì luyện lại vào buổi sau.</li>' +
+        '</ol>' +
+        '<h3>Quy tắc vàng</h3><ul class="steps">' +
+          '<li>Học đều mỗi ngày – 15 phút mỗi ngày hiệu quả hơn 2 tiếng mỗi tuần.</li>' +
+          '<li>Cuối mỗi chặng (2 bài): ôn lại toàn bộ từ vựng của chặng trước khi sang chặng mới.</li>' +
+          '<li>Cuối mỗi cấp: luyện lại các kỹ năng còn 1 sao rồi mới lên cấp tiếp theo.</li>' +
+          '<li>Không hiểu ngữ pháp? Đọc lại phần Ngữ pháp và các câu ví dụ, sau đó làm lại phần Viết.</li>' +
+        '</ul></section>' +
+
+      '<div class="levels">' + levelHtml + '</div>';
+
+    $$('.pace-card', app).forEach(function (b) {
+      b.addEventListener('click', function () {
+        store.setSetting('pace', b.getAttribute('data-pace'));
+        viewSyllabus();
+        toast('Đã chọn kế hoạch: ' + b.querySelector('b').textContent);
       });
     });
   }
@@ -178,7 +332,17 @@
     var html = '<div class="page-head"><h1>🗺️ Lộ trình ' + esc(c.name) + '</h1>' +
       '<p class="muted">' + esc(c.tagline) + ' · ' + c.units.length + ' chặng · ' + c.lessonList.length + ' bài học</p></div>';
 
+    var levelMap = levelOfUnit(c);
+    var shownLevel = -1;
     c.units.forEach(function (u, ui) {
+      var li = levelMap[u.id];
+      var lv = c.syllabus && c.syllabus[li];
+      if (lv && li !== shownLevel) {
+        shownLevel = li;
+        html += '<div class="level-banner"><span class="level-icon">' + lv.icon + '</span><div>' +
+          '<div class="unit-label">Cấp ' + (li + 1) + ' · ' + esc(lv.cefr) + '</div>' +
+          '<h2>' + esc(lv.name) + '</h2><p>' + esc(lv.outcome) + '</p></div></div>';
+      }
       var p = unitProgress(c, u);
       html += '<section class="unit' + (p.complete ? ' complete' : '') + '">' +
         '<div class="unit-head"><div class="unit-badge">' + u.icon + '</div><div>' +
@@ -862,6 +1026,7 @@
     else if (page === 'course') viewCourse();
     else if (page === 'lesson') viewLesson(parts[1]);
     else if (page === 'practice') viewPractice(parts[1], parts[2]);
+    else if (page === 'syllabus') viewSyllabus();
     else if (page === 'review') viewReview();
     else if (page === 'alphabet') viewAlphabet();
     else if (page === 'settings') viewSettings();

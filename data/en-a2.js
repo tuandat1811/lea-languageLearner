@@ -1,0 +1,995 @@
+/*
+ * Khoá Tiếng Anh – Cấp 2 · Sơ cấp (A2): 10 chặng, 20 bài.
+ * Cùng cấu trúc bài học như data/en.js; nạp sau en.js trong index.html.
+ */
+LEA.extendLanguage('en', {
+  contractions: {
+    "wasn't": 'was not', "weren't": 'were not', "didn't": 'did not', "won't": 'will not',
+    "shouldn't": 'should not', "mustn't": 'must not', "i'll": 'i will', "you'll": 'you will',
+    "he'll": 'he will', "she'll": 'she will', "it'll": 'it will', "we'll": 'we will', "they'll": 'they will',
+  },
+  // Không mở rộng các từ có thật khi người học gõ thiếu dấu nháy (ill = ốm, well = tốt...).
+  noLooseContractions: ['ill', 'well', 'shell', 'hell'],
+
+  units: [
+    // ───────────────────────── CHẶNG 11 ─────────────────────────
+    {
+      id: 'u11', title: 'Mua sắm', titleEn: 'Shopping', icon: '🛍️',
+      goal: 'Hỏi giá, mua đồ và nói đồ vật là của ai.',
+      lessons: [
+        {
+          id: 'u11l1', title: 'Ở cửa hàng', titleEn: 'At the shop', icon: '🏪',
+          goal: 'Hỏi giá và dùng đại từ tân ngữ me / him / her / them.',
+          vocab: [
+            { en: 'shop', vi: 'cửa hàng', ipa: '/ʃɑːp/', emoji: '🏪', alts: ['store'] },
+            { en: 'buy', vi: 'mua', ipa: '/baɪ/', emoji: '🛒' },
+            { en: 'price', vi: 'giá tiền', ipa: '/praɪs/', emoji: '🏷️' },
+            { en: 'cheap', vi: 'rẻ', ipa: '/tʃiːp/', emoji: '🪙' },
+            { en: 'expensive', vi: 'đắt', ipa: '/ɪkˈspensɪv/', emoji: '💎' },
+            { en: 'shirt', vi: 'áo sơ mi', ipa: '/ʃɜːrt/', emoji: '👔' },
+            { en: 'shoes', vi: 'đôi giày', ipa: '/ʃuːz/', emoji: '👟' },
+            { en: 'money', vi: 'tiền', ipa: '/ˈmʌni/', emoji: '💵' },
+          ],
+          grammar: {
+            title: 'Đại từ tân ngữ: me, you, him, her, it, us, them',
+            points: [
+              'Đại từ tân ngữ đứng <b>sau động từ</b> hoặc <b>sau giới từ</b>: I like <b>it</b>. Can you help <b>me</b>?',
+              'I → <b>me</b>, you → <b>you</b>, he → <b>him</b>, she → <b>her</b>, it → <b>it</b>, we → <b>us</b>, they → <b>them</b>.',
+              'Hỏi giá: <b>How much is it?</b> (số ít) / <b>How much are they?</b> (số nhiều) – <b>It\'s</b> ten dollars.',
+              'Không nói "I like he" – phải nói <b>I like him</b>.',
+            ],
+            examples: [
+              { en: "How much is this shirt? – It's twenty dollars.", vi: 'Cái áo này giá bao nhiêu? – Hai mươi đô la.' },
+              { en: 'These shoes are nice. I want them.', vi: 'Đôi giày này đẹp. Tôi muốn mua chúng.' },
+            ],
+          },
+          sentences: [
+            { en: 'How much is this shirt?', vi: 'Cái áo sơ mi này giá bao nhiêu?' },
+            { en: 'It is twenty dollars.', vi: 'Nó giá hai mươi đô la.' },
+            { en: 'These shoes are expensive.', vi: 'Đôi giày này đắt.' },
+            { en: 'I want to buy them.', vi: 'Tôi muốn mua chúng.' },
+            { en: 'Can you help me?', vi: 'Bạn có thể giúp tôi không?' },
+            { en: 'The red shirt is cheap.', vi: 'Cái áo sơ mi đỏ thì rẻ.' },
+          ],
+          reading: {
+            title: 'Mua quà cho mẹ',
+            text: 'Lan goes to the shop with her brother. She wants to buy a gift for her mother. She sees a red shirt. It is cheap, only ten dollars. Lan buys it for her. Her brother helps her carry the bag.',
+            vi: 'Lan đi đến cửa hàng cùng anh trai. Cô ấy muốn mua một món quà cho mẹ. Cô ấy thấy một chiếc áo sơ mi đỏ. Nó rẻ, chỉ mười đô la. Lan mua nó cho mẹ. Anh trai giúp cô ấy xách túi.',
+            questions: [
+              { q: 'Lan muốn mua quà cho ai?', options: ['Mẹ', 'Anh trai', 'Bố', 'Bạn'], answer: 0 },
+              { q: 'Chiếc áo giá bao nhiêu?', options: ['10 đô la', '20 đô la', '12 đô la', '100 đô la'], answer: 0 },
+              { q: 'Ai giúp Lan xách túi?', options: ['Anh trai của Lan', 'Mẹ', 'Người bán hàng', 'Không ai'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u11l2', title: 'Của ai?', titleEn: 'Whose is it?', icon: '👛',
+          goal: 'Hỏi Whose…? và dùng đại từ sở hữu mine / yours / hers.',
+          vocab: [
+            { en: 'whose', vi: 'của ai', ipa: '/huːz/', emoji: '❓' },
+            { en: 'mine', vi: 'cái của tôi', ipa: '/maɪn/', emoji: '🙋' },
+            { en: 'yours', vi: 'cái của bạn', ipa: '/jʊrz/', emoji: '👉' },
+            { en: 'his', vi: 'của anh ấy', ipa: '/hɪz/', emoji: '👦' },
+            { en: 'hers', vi: 'cái của cô ấy', ipa: '/hɜːrz/', emoji: '👧' },
+            { en: 'ours', vi: 'cái của chúng tôi', ipa: '/aʊərz/', emoji: '👨‍👩‍👧' },
+            { en: 'theirs', vi: 'cái của họ', ipa: '/ðerz/', emoji: '👥' },
+            { en: 'wallet', vi: 'cái ví', ipa: '/ˈwɑːlɪt/', emoji: '👛' },
+          ],
+          grammar: {
+            title: 'Tính từ sở hữu và đại từ sở hữu',
+            points: [
+              'Tính từ sở hữu đứng <b>trước danh từ</b>: <b>my</b> bag, <b>your</b> phone, <b>her</b> hat.',
+              'Đại từ sở hữu đứng <b>một mình</b>, thay cho "tính từ sở hữu + danh từ": This bag is <b>mine</b> (= my bag).',
+              'my → <b>mine</b>, your → <b>yours</b>, his → <b>his</b>, her → <b>hers</b>, our → <b>ours</b>, their → <b>theirs</b>.',
+              'Hỏi chủ sở hữu: <b>Whose</b> bag is this? – It\'s <b>mine</b>. / It\'s <b>Tom\'s</b>.',
+            ],
+            examples: [
+              { en: "Whose phone is this? – It's mine.", vi: 'Đây là điện thoại của ai? – Của tôi.' },
+              { en: "That isn't my wallet. Mine is black.", vi: 'Đó không phải ví của tôi. Ví của tôi màu đen.' },
+            ],
+          },
+          sentences: [
+            { en: 'Whose bag is this?', vi: 'Đây là cái cặp của ai?' },
+            { en: 'It is mine.', vi: 'Nó là của tôi.' },
+            { en: 'That phone is hers.', vi: 'Chiếc điện thoại kia là của cô ấy.' },
+            { en: 'Is this wallet yours?', vi: 'Cái ví này có phải của bạn không?' },
+            { en: 'The red car is ours.', vi: 'Chiếc ô tô đỏ là của chúng tôi.' },
+            { en: 'These books are theirs.', vi: 'Những quyển sách này là của họ.' },
+          ],
+          reading: {
+            title: 'Cái ví của ai?',
+            text: "Teacher: Whose wallet is this? It is on the floor.\nTom: Is it brown? Mine is brown.\nTeacher: No, it is black.\nAnna: Oh, it is mine! Thank you very much.\nTeacher: You're welcome. Be careful!",
+            vi: 'Cô giáo: Cái ví này của ai? Nó nằm trên sàn.\nTom: Nó màu nâu ạ? Ví của em màu nâu.\nCô giáo: Không, nó màu đen.\nAnna: Ồ, của em ạ! Cảm ơn cô nhiều.\nCô giáo: Không có gì. Cẩn thận nhé!',
+            questions: [
+              { q: 'Cái ví màu gì?', options: ['Đen', 'Nâu', 'Đỏ', 'Trắng'], answer: 0 },
+              { q: 'Ví của Tom màu gì?', options: ['Nâu', 'Đen', 'Xanh dương', 'Không rõ'], answer: 0 },
+              { q: 'Cái ví là của ai?', options: ['Anna', 'Tom', 'Cô giáo', 'Không ai'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 12 ─────────────────────────
+    {
+      id: 'u12', title: 'Trong bếp', titleEn: 'In the kitchen', icon: '🍳',
+      goal: 'Nói về thực phẩm, dùng some / any / much / many.',
+      lessons: [
+        {
+          id: 'u12l1', title: 'Có gì trong tủ lạnh?', titleEn: 'In the fridge', icon: '🧊',
+          goal: 'Phân biệt danh từ đếm được – không đếm được; dùng some / any.',
+          vocab: [
+            { en: 'fridge', vi: 'tủ lạnh', ipa: '/frɪdʒ/', emoji: '🧊' },
+            { en: 'some', vi: 'một vài, một ít', ipa: '/sʌm/', emoji: '➕' },
+            { en: 'any', vi: 'nào, chút nào (câu hỏi, phủ định)', ipa: '/ˈeni/', emoji: '❔' },
+            { en: 'cheese', vi: 'phô mai', ipa: '/tʃiːz/', emoji: '🧀' },
+            { en: 'butter', vi: 'bơ (làm từ sữa)', ipa: '/ˈbʌtər/', emoji: '🧈' },
+            { en: 'sugar', vi: 'đường', ipa: '/ˈʃʊɡər/', emoji: '🍬' },
+            { en: 'tomato', vi: 'quả cà chua', ipa: '/təˈmeɪtoʊ/', emoji: '🍅' },
+            { en: 'orange', vi: 'quả cam', ipa: '/ˈɔːrɪndʒ/', emoji: '🍊' },
+          ],
+          grammar: {
+            title: 'Danh từ đếm được – không đếm được; some / any',
+            points: [
+              '<b>Đếm được</b>: có số ít, số nhiều – an egg, two tomatoes. <b>Không đếm được</b>: không thêm -s, không dùng a/an – milk, water, sugar, cheese.',
+              '<b>some</b> dùng trong câu <b>khẳng định</b>: There is <b>some</b> milk. There are <b>some</b> eggs.',
+              '<b>any</b> dùng trong câu <b>phủ định và câu hỏi</b>: There isn\'t <b>any</b> sugar. Are there <b>any</b> oranges?',
+              'Lời mời lịch sự vẫn dùng some: Would you like <b>some</b> tea?',
+            ],
+            examples: [
+              { en: 'There are some tomatoes in the fridge.', vi: 'Có vài quả cà chua trong tủ lạnh.' },
+              { en: "Is there any cheese? – No, there isn't.", vi: 'Có phô mai không? – Không có.' },
+            ],
+          },
+          sentences: [
+            { en: 'There is some milk in the fridge.', vi: 'Có một ít sữa trong tủ lạnh.' },
+            { en: 'There are some eggs.', vi: 'Có vài quả trứng.' },
+            { en: 'Is there any cheese?', vi: 'Có phô mai không?' },
+            { en: "There isn't any sugar.", vi: 'Không có chút đường nào.' },
+            { en: 'Are there any oranges?', vi: 'Có quả cam nào không?' },
+            { en: 'I need some butter.', vi: 'Tôi cần một ít bơ.' },
+          ],
+          reading: {
+            title: 'Làm bánh',
+            text: "Mai wants to make a cake. She opens the fridge. There are some eggs and there is some butter. But there isn't any milk. She goes to the shop and buys some milk and some sugar.",
+            vi: 'Mai muốn làm bánh. Cô ấy mở tủ lạnh. Có vài quả trứng và một ít bơ. Nhưng không có chút sữa nào. Cô ấy đi ra cửa hàng và mua một ít sữa và một ít đường.',
+            questions: [
+              { q: 'Mai muốn làm gì?', options: ['Làm bánh', 'Nấu cơm', 'Đi bơi', 'Mua giày'], answer: 0 },
+              { q: 'Trong tủ lạnh thiếu gì?', options: ['Sữa', 'Trứng', 'Bơ', 'Phô mai'], answer: 0 },
+              { q: 'Mai mua gì ở cửa hàng?', options: ['Sữa và đường', 'Trứng và bơ', 'Cam', 'Phô mai'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u12l2', title: 'Bao nhiêu?', titleEn: 'How much? How many?', icon: '⚖️',
+          goal: 'Hỏi số lượng với How much / How many; dùng a lot of, a few, a little.',
+          vocab: [
+            { en: 'much', vi: 'nhiều (không đếm được)', ipa: '/mʌtʃ/', emoji: '💧' },
+            { en: 'many', vi: 'nhiều (đếm được)', ipa: '/ˈmeni/', emoji: '🔢' },
+            { en: 'a lot of', vi: 'rất nhiều', ipa: '/ə lɑːt əv/', emoji: '📦', alts: ['lots of'] },
+            { en: 'a little', vi: 'một chút', ipa: '/ə ˈlɪtl/', emoji: '🤏' },
+            { en: 'a few', vi: 'một vài', ipa: '/ə fjuː/', emoji: '🖐️' },
+            { en: 'salt', vi: 'muối', ipa: '/sɔːlt/', emoji: '🧂' },
+            { en: 'vegetable', vi: 'rau củ', ipa: '/ˈvedʒtəbl/', emoji: '🥦' },
+            { en: 'meat', vi: 'thịt', ipa: '/miːt/', emoji: '🥩' },
+          ],
+          grammar: {
+            title: 'How much / How many; a lot of, a few, a little',
+            points: [
+              '<b>How many</b> + danh từ đếm được số nhiều: How many eggs do you need?',
+              '<b>How much</b> + danh từ không đếm được: How much salt do you want? (cũng dùng để hỏi giá)',
+              '<b>many / a few</b> đi với danh từ đếm được; <b>much / a little</b> đi với danh từ không đếm được.',
+              '<b>a lot of</b> dùng được cho cả hai loại. <b>much / many</b> thường dùng trong câu phủ định và câu hỏi.',
+            ],
+            examples: [
+              { en: 'How many apples are there? – There are a few.', vi: 'Có bao nhiêu quả táo? – Có vài quả.' },
+              { en: "I don't eat much meat.", vi: 'Tôi không ăn nhiều thịt.' },
+            ],
+          },
+          sentences: [
+            { en: 'How many eggs do you need?', vi: 'Bạn cần bao nhiêu quả trứng?' },
+            { en: 'How much salt do you want?', vi: 'Bạn muốn bao nhiêu muối?' },
+            { en: 'I eat a lot of vegetables.', vi: 'Tôi ăn rất nhiều rau.', alts: ['I eat lots of vegetables.'] },
+            { en: "I don't eat much meat.", vi: 'Tôi không ăn nhiều thịt.' },
+            { en: 'Add a little sugar.', vi: 'Cho thêm một chút đường.' },
+            { en: 'There are a few apples.', vi: 'Có vài quả táo.' },
+          ],
+          reading: {
+            title: 'Món súp rau',
+            text: "Today Ben cooks vegetable soup. He needs a lot of vegetables: three carrots, two tomatoes and a few potatoes. He doesn't use much salt. He adds a little meat. His family loves it!",
+            vi: 'Hôm nay Ben nấu súp rau. Cậu ấy cần rất nhiều rau củ: ba củ cà rốt, hai quả cà chua và vài củ khoai tây. Cậu ấy không dùng nhiều muối. Cậu ấy cho thêm một chút thịt. Cả nhà rất thích!',
+            questions: [
+              { q: 'Ben nấu món gì?', options: ['Súp rau', 'Bánh ngọt', 'Cơm rang', 'Mì'], answer: 0 },
+              { q: 'Ben có cho nhiều muối không?', options: ['Không nhiều', 'Rất nhiều', 'Không cho chút nào', 'Không rõ'], answer: 0 },
+              { q: 'Ben dùng mấy quả cà chua?', options: ['Hai', 'Ba', 'Một', 'Bốn'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 13 ─────────────────────────
+    {
+      id: 'u13', title: 'Đi quanh thành phố', titleEn: 'Around town', icon: '🏙️',
+      goal: 'Mô tả thành phố, dùng a/an/the, hỏi và chỉ đường.',
+      lessons: [
+        {
+          id: 'u13l1', title: 'Thành phố của tôi', titleEn: 'My city', icon: '🏙️',
+          goal: 'Gọi tên các địa điểm; phân biệt a/an và the.',
+          vocab: [
+            { en: 'city', vi: 'thành phố', ipa: '/ˈsɪti/', emoji: '🏙️' },
+            { en: 'street', vi: 'con phố', ipa: '/striːt/', emoji: '🛣️' },
+            { en: 'bank', vi: 'ngân hàng', ipa: '/bæŋk/', emoji: '🏦' },
+            { en: 'hospital', vi: 'bệnh viện', ipa: '/ˈhɑːspɪtl/', emoji: '🏥' },
+            { en: 'park', vi: 'công viên', ipa: '/pɑːrk/', emoji: '🌳' },
+            { en: 'supermarket', vi: 'siêu thị', ipa: '/ˈsuːpərmɑːrkɪt/', emoji: '🏬' },
+            { en: 'post office', vi: 'bưu điện', ipa: '/poʊst ˈɔːfɪs/', emoji: '🏤' },
+            { en: 'bus stop', vi: 'trạm xe buýt', ipa: '/bʌs stɑːp/', emoji: '🚏' },
+          ],
+          grammar: {
+            title: 'Mạo từ a/an và the',
+            points: [
+              'Dùng <b>a/an</b> khi nhắc đến lần đầu, người nghe chưa biết vật nào: There is <b>a</b> park near my house.',
+              'Dùng <b>the</b> khi người nghe đã biết vật nào: <b>The</b> park is very big.',
+              'Dùng <b>the</b> với vật duy nhất: <b>the</b> sun, <b>the</b> moon, <b>the</b> sea.',
+              'Không dùng <b>the</b> trước tên thành phố, tên nước một từ (<b>Hanoi</b>, <b>Vietnam</b>) và trong go to school / go home / go to bed.',
+            ],
+            examples: [
+              { en: 'There is a bank on my street. The bank is very big.', vi: 'Có một ngân hàng trên phố nhà tôi. Ngân hàng đó rất lớn.' },
+              { en: 'I live in Hanoi.', vi: 'Tôi sống ở Hà Nội.' },
+            ],
+          },
+          sentences: [
+            { en: 'I live in a big city.', vi: 'Tôi sống ở một thành phố lớn.' },
+            { en: 'There is a park near my house.', vi: 'Có một công viên gần nhà tôi.' },
+            { en: 'The park is very beautiful.', vi: 'Công viên đó rất đẹp.' },
+            { en: 'The bank is next to the post office.', vi: 'Ngân hàng ở cạnh bưu điện.' },
+            { en: 'Is there a hospital on this street?', vi: 'Trên phố này có bệnh viện không?' },
+            { en: 'I wait at the bus stop.', vi: 'Tôi đợi ở trạm xe buýt.' },
+          ],
+          reading: {
+            title: 'Phố nhà Hoa',
+            text: 'Hoa lives on Tran Phu Street. There is a supermarket and a bank on her street. The supermarket is big and cheap. There is also a small park. Hoa walks her dog in the park every evening. The bus stop is in front of her house.',
+            vi: 'Hoa sống trên phố Trần Phú. Trên phố nhà cô ấy có một siêu thị và một ngân hàng. Siêu thị lớn và rẻ. Còn có một công viên nhỏ. Hoa dắt chó đi dạo trong công viên mỗi tối. Trạm xe buýt ở trước nhà cô ấy.',
+            questions: [
+              { q: 'Trên phố nhà Hoa có gì?', options: ['Siêu thị và ngân hàng', 'Bệnh viện', 'Trường học', 'Bưu điện'], answer: 0 },
+              { q: 'Hoa dắt chó đi dạo ở đâu?', options: ['Công viên', 'Siêu thị', 'Bờ sông', 'Trạm xe buýt'], answer: 0 },
+              { q: 'Trạm xe buýt ở đâu?', options: ['Trước nhà Hoa', 'Sau nhà Hoa', 'Trong công viên', 'Cạnh ngân hàng'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u13l2', title: 'Hỏi đường', titleEn: 'Asking the way', icon: '🧭',
+          goal: 'Hỏi đường lịch sự; chỉ đường bằng câu mệnh lệnh.',
+          vocab: [
+            { en: 'turn left', vi: 'rẽ trái', ipa: '/tɜːrn left/', emoji: '⬅️' },
+            { en: 'turn right', vi: 'rẽ phải', ipa: '/tɜːrn raɪt/', emoji: '➡️' },
+            { en: 'go straight', vi: 'đi thẳng', ipa: '/ɡoʊ streɪt/', emoji: '⬆️' },
+            { en: 'corner', vi: 'góc phố', ipa: '/ˈkɔːrnər/', emoji: '📐' },
+            { en: 'near', vi: 'gần', ipa: '/nɪr/', emoji: '📍' },
+            { en: 'far', vi: 'xa', ipa: '/fɑːr/', emoji: '🗺️' },
+            { en: 'between', vi: 'ở giữa', ipa: '/bɪˈtwiːn/', emoji: '↔️' },
+            { en: 'opposite', vi: 'đối diện', ipa: '/ˈɑːpəzɪt/', emoji: '🔄' },
+          ],
+          grammar: {
+            title: 'Câu mệnh lệnh và chỉ đường',
+            points: [
+              'Câu mệnh lệnh dùng <b>động từ nguyên mẫu</b>, không có chủ ngữ: <b>Go</b> straight. <b>Turn</b> left.',
+              'Phủ định: <b>Don\'t</b> + động từ: <b>Don\'t</b> turn right.',
+              'Hỏi đường lịch sự: <b>Excuse me, where is</b> the bank? / <b>How can I get to</b> the hospital?',
+              'Vị trí: <b>on the corner</b> (ở góc phố), <b>between</b> A <b>and</b> B (giữa A và B), <b>opposite</b> (đối diện).',
+            ],
+            examples: [
+              { en: 'Excuse me, where is the post office? – Go straight and turn left.', vi: 'Xin lỗi, bưu điện ở đâu ạ? – Đi thẳng rồi rẽ trái.' },
+              { en: 'The bank is opposite the park.', vi: 'Ngân hàng ở đối diện công viên.' },
+            ],
+          },
+          sentences: [
+            { en: 'Excuse me, where is the bank?', vi: 'Xin lỗi, ngân hàng ở đâu ạ?' },
+            { en: 'Go straight and turn left.', vi: 'Đi thẳng rồi rẽ trái.' },
+            { en: 'Turn right at the corner.', vi: 'Rẽ phải ở góc phố.' },
+            { en: 'The school is near the park.', vi: 'Trường học ở gần công viên.' },
+            { en: 'The shop is between the bank and the hospital.', vi: 'Cửa hàng ở giữa ngân hàng và bệnh viện.' },
+            { en: "Don't turn right.", vi: 'Đừng rẽ phải.' },
+          ],
+          reading: {
+            title: 'Đường đến bưu điện',
+            text: 'Tourist: Excuse me, how can I get to the post office?\nNam: Go straight on this street. Then turn left at the corner.\nTourist: Is it far?\nNam: No, it is near. It is opposite the supermarket.\nTourist: Thank you very much!',
+            vi: 'Du khách: Xin lỗi, làm sao để tôi đến bưu điện?\nNam: Đi thẳng phố này. Sau đó rẽ trái ở góc phố.\nDu khách: Có xa không?\nNam: Không, gần thôi. Nó ở đối diện siêu thị.\nDu khách: Cảm ơn bạn nhiều!',
+            questions: [
+              { q: 'Người du khách muốn đi đâu?', options: ['Bưu điện', 'Siêu thị', 'Bệnh viện', 'Ngân hàng'], answer: 0 },
+              { q: 'Đến góc phố thì đi hướng nào?', options: ['Rẽ trái', 'Rẽ phải', 'Đi thẳng', 'Quay lại'], answer: 0 },
+              { q: 'Bưu điện ở đâu?', options: ['Đối diện siêu thị', 'Cạnh siêu thị', 'Sau ngân hàng', 'Rất xa'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 14 ─────────────────────────
+    {
+      id: 'u14', title: 'Khả năng & sở thích', titleEn: 'Abilities & hobbies', icon: '🎸',
+      goal: 'Nói mình làm được gì và thích làm gì.',
+      lessons: [
+        {
+          id: 'u14l1', title: 'Bạn làm được gì?', titleEn: 'What can you do?', icon: '💪',
+          goal: "Dùng can / can't để nói về khả năng và xin phép.",
+          vocab: [
+            { en: 'can', vi: 'có thể, biết (làm gì)', ipa: '/kæn/', emoji: '✅' },
+            { en: 'swim', vi: 'bơi', ipa: '/swɪm/', emoji: '🏊' },
+            { en: 'dance', vi: 'nhảy múa', ipa: '/dæns/', emoji: '💃' },
+            { en: 'ride a bike', vi: 'đi xe đạp', ipa: '/raɪd ə baɪk/', emoji: '🚲' },
+            { en: 'draw', vi: 'vẽ', ipa: '/drɔː/', emoji: '🖍️' },
+            { en: 'speak', vi: 'nói (một ngôn ngữ)', ipa: '/spiːk/', emoji: '🗣️' },
+            { en: 'run', vi: 'chạy', ipa: '/rʌn/', emoji: '🏃' },
+            { en: 'fast', vi: 'nhanh', ipa: '/fæst/', emoji: '⚡' },
+          ],
+          grammar: {
+            title: 'Động từ khuyết thiếu can',
+            points: [
+              '<b>can</b> + động từ nguyên mẫu diễn tả khả năng: I <b>can</b> swim. She <b>can</b> dance. (không thêm -s, không thêm to)',
+              'Phủ định: <b>can\'t</b> (= cannot): He <b>can\'t</b> draw.',
+              'Câu hỏi: <b>Can</b> you ride a bike? – Yes, I <b>can</b>. / No, I <b>can\'t</b>.',
+              '<b>can</b> còn dùng để xin phép: <b>Can</b> I open the window?',
+            ],
+            examples: [
+              { en: 'Can you speak English? – Yes, a little.', vi: 'Bạn nói được tiếng Anh không? – Có, một chút.' },
+              { en: 'My brother can run very fast.', vi: 'Anh trai tôi chạy rất nhanh.' },
+            ],
+          },
+          sentences: [
+            { en: 'I can swim.', vi: 'Tôi biết bơi.' },
+            { en: "She can't dance.", vi: 'Cô ấy không biết nhảy.' },
+            { en: 'Can you ride a bike?', vi: 'Bạn có biết đi xe đạp không?' },
+            { en: 'My brother can run very fast.', vi: 'Anh trai tôi có thể chạy rất nhanh.' },
+            { en: 'I can speak a little English.', vi: 'Tôi có thể nói một chút tiếng Anh.' },
+            { en: 'He can draw cats.', vi: 'Cậu ấy biết vẽ mèo.' },
+          ],
+          reading: {
+            title: 'Câu lạc bộ mùa hè',
+            text: "Welcome to our summer club! Here you can learn many things. Children can swim, dance and draw. Lucy is eight. She can swim, but she can't ride a bike. She wants to learn it this summer.",
+            vi: 'Chào mừng đến câu lạc bộ mùa hè! Ở đây bạn có thể học nhiều thứ. Trẻ em có thể bơi, nhảy và vẽ. Lucy tám tuổi. Cô bé biết bơi nhưng chưa biết đi xe đạp. Cô bé muốn học đi xe đạp vào hè này.',
+            questions: [
+              { q: 'Ở câu lạc bộ trẻ em có thể học gì?', options: ['Bơi, nhảy và vẽ', 'Nấu ăn', 'Lái ô tô', 'Chơi đàn'], answer: 0 },
+              { q: 'Lucy bao nhiêu tuổi?', options: ['8', '10', '6', '12'], answer: 0 },
+              { q: 'Lucy chưa biết làm gì?', options: ['Đi xe đạp', 'Bơi', 'Nhảy', 'Vẽ'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u14l2', title: 'Sở thích', titleEn: 'Hobbies', icon: '🎨',
+          goal: 'Nói sở thích với like / love / enjoy / hate + V-ing.',
+          vocab: [
+            { en: 'hobby', vi: 'sở thích', ipa: '/ˈhɑːbi/', emoji: '🎯' },
+            { en: 'love', vi: 'rất thích, yêu', ipa: '/lʌv/', emoji: '😍' },
+            { en: 'hate', vi: 'ghét', ipa: '/heɪt/', emoji: '😠' },
+            { en: 'enjoy', vi: 'thích thú, tận hưởng', ipa: '/ɪnˈdʒɔɪ/', emoji: '😊' },
+            { en: 'music', vi: 'âm nhạc', ipa: '/ˈmjuːzɪk/', emoji: '🎵' },
+            { en: 'game', vi: 'trò chơi', ipa: '/ɡeɪm/', emoji: '🎮' },
+            { en: 'photo', vi: 'bức ảnh', ipa: '/ˈfoʊtoʊ/', emoji: '📷' },
+            { en: 'free time', vi: 'thời gian rảnh', ipa: '/friː taɪm/', emoji: '🕰️' },
+          ],
+          grammar: {
+            title: 'like / love / enjoy / hate + V-ing',
+            points: [
+              'Sau <b>like, love, enjoy, hate</b> dùng động từ đuôi <b>-ing</b>: I love <b>reading</b>. She hates <b>cooking</b>.',
+              'Cách thêm -ing: read → read<b>ing</b>; dance → danc<b>ing</b> (bỏ e); swim → swim<b>ming</b> (gấp đôi phụ âm cuối).',
+              'Hỏi sở thích: <b>What do you do in your free time?</b> / <b>What\'s your hobby?</b>',
+              'Mức độ: love ❤️❤️ > like ❤️ > don\'t like > hate.',
+            ],
+            examples: [
+              { en: 'What do you do in your free time? – I enjoy taking photos.', vi: 'Bạn làm gì lúc rảnh? – Mình thích chụp ảnh.' },
+              { en: "He doesn't like playing games.", vi: 'Anh ấy không thích chơi trò chơi.' },
+            ],
+          },
+          sentences: [
+            { en: 'What do you do in your free time?', vi: 'Bạn làm gì vào thời gian rảnh?' },
+            { en: 'I love listening to music.', vi: 'Tôi rất thích nghe nhạc.' },
+            { en: 'She enjoys taking photos.', vi: 'Cô ấy thích chụp ảnh.' },
+            { en: 'He hates cooking.', vi: 'Anh ấy ghét nấu ăn.' },
+            { en: 'My hobby is drawing.', vi: 'Sở thích của tôi là vẽ.' },
+            { en: 'They like playing games.', vi: 'Họ thích chơi trò chơi.' },
+          ],
+          reading: {
+            title: 'Gia đình nhiều sở thích',
+            text: 'Everyone in my family has a hobby. My father loves playing football. My mother enjoys cooking. My sister likes taking photos of flowers. I love listening to music, but I hate dancing!',
+            vi: 'Ai trong gia đình tôi cũng có một sở thích. Bố tôi rất thích chơi bóng đá. Mẹ tôi thích nấu ăn. Chị tôi thích chụp ảnh hoa. Tôi rất thích nghe nhạc nhưng tôi ghét nhảy!',
+            questions: [
+              { q: 'Bố thích làm gì?', options: ['Chơi bóng đá', 'Nấu ăn', 'Chụp ảnh', 'Nghe nhạc'], answer: 0 },
+              { q: 'Ai thích chụp ảnh?', options: ['Chị gái', 'Mẹ', 'Bố', 'Người kể chuyện'], answer: 0 },
+              { q: 'Người kể chuyện ghét gì?', options: ['Nhảy múa', 'Nghe nhạc', 'Nấu ăn', 'Bóng đá'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 15 ─────────────────────────
+    {
+      id: 'u15', title: 'Lời khuyên & quy định', titleEn: 'Advice & rules', icon: '📋',
+      goal: 'Khuyên ai đó nên làm gì; nói về quy định phải / không được làm.',
+      lessons: [
+        {
+          id: 'u15l1', title: 'Bạn nên…', titleEn: 'You should…', icon: '🩺',
+          goal: "Nói về sức khoẻ và đưa lời khuyên với should / shouldn't.",
+          vocab: [
+            { en: 'should', vi: 'nên', ipa: '/ʃʊd/', emoji: '👍' },
+            { en: 'sick', vi: 'ốm', ipa: '/sɪk/', emoji: '🤒', alts: ['ill'] },
+            { en: 'headache', vi: 'đau đầu', ipa: '/ˈhedeɪk/', emoji: '🤕' },
+            { en: 'rest', vi: 'nghỉ ngơi', ipa: '/rest/', emoji: '🛌' },
+            { en: 'doctor', vi: 'bác sĩ', ipa: '/ˈdɑːktər/', emoji: '👨‍⚕️' },
+            { en: 'medicine', vi: 'thuốc', ipa: '/ˈmedɪsn/', emoji: '💊' },
+            { en: 'healthy', vi: 'khoẻ mạnh, lành mạnh', ipa: '/ˈhelθi/', emoji: '🥗' },
+            { en: 'exercise', vi: 'tập thể dục', ipa: '/ˈeksərsaɪz/', emoji: '🏋️' },
+          ],
+          grammar: {
+            title: "should / shouldn't – lời khuyên",
+            points: [
+              '<b>should</b> + động từ nguyên mẫu = nên: You <b>should</b> rest.',
+              '<b>shouldn\'t</b> (= should not) = không nên: You <b>shouldn\'t</b> eat too much candy.',
+              'Hỏi ý kiến: <b>Should I</b> see a doctor? – Yes, you <b>should</b>.',
+              'Nói về bệnh: I <b>have a</b> headache / a cold. I <b>feel</b> sick.',
+            ],
+            examples: [
+              { en: 'I have a headache. – You should take some medicine.', vi: 'Tôi bị đau đầu. – Bạn nên uống chút thuốc.' },
+              { en: "You shouldn't stay up late.", vi: 'Bạn không nên thức khuya.' },
+            ],
+          },
+          sentences: [
+            { en: 'I have a headache.', vi: 'Tôi bị đau đầu.' },
+            { en: 'You should see a doctor.', vi: 'Bạn nên đi khám bác sĩ.' },
+            { en: 'You should rest at home.', vi: 'Bạn nên nghỉ ngơi ở nhà.' },
+            { en: "You shouldn't eat too much cake.", vi: 'Bạn không nên ăn quá nhiều bánh ngọt.' },
+            { en: 'Should I take this medicine?', vi: 'Tôi có nên uống thuốc này không?' },
+            { en: 'We should exercise every day.', vi: 'Chúng ta nên tập thể dục mỗi ngày.' },
+          ],
+          reading: {
+            title: 'Lời khuyên của bác sĩ',
+            text: "Doctor: What's the matter?\nTom: I feel sick and I have a headache.\nDoctor: You have a cold. You should rest and drink a lot of water. Take this medicine three times a day.\nTom: Should I go to school tomorrow?\nDoctor: No, you shouldn't. Stay at home for two days.",
+            vi: 'Bác sĩ: Cháu bị làm sao?\nTom: Cháu thấy mệt và bị đau đầu.\nBác sĩ: Cháu bị cảm. Cháu nên nghỉ ngơi và uống nhiều nước. Uống thuốc này ba lần một ngày.\nTom: Mai cháu có nên đi học không ạ?\nBác sĩ: Không nên. Ở nhà hai ngày nhé.',
+            questions: [
+              { q: 'Tom bị làm sao?', options: ['Bị cảm, đau đầu', 'Đau chân', 'Đau răng', 'Không sao cả'], answer: 0 },
+              { q: 'Uống thuốc mấy lần một ngày?', options: ['Ba lần', 'Hai lần', 'Một lần', 'Bốn lần'], answer: 0 },
+              { q: 'Tom nên ở nhà mấy ngày?', options: ['Hai ngày', 'Một ngày', 'Ba ngày', 'Một tuần'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u15l2', title: 'Quy định', titleEn: 'Rules', icon: '🚦',
+          goal: "Dùng must / mustn't / have to / don't have to.",
+          vocab: [
+            { en: 'must', vi: 'phải (bắt buộc)', ipa: '/mʌst/', emoji: '❗' },
+            { en: 'have to', vi: 'phải (do hoàn cảnh)', ipa: '/hæv tə/', emoji: '📌' },
+            { en: 'rule', vi: 'quy định, nội quy', ipa: '/ruːl/', emoji: '📜' },
+            { en: 'wear', vi: 'mặc, đội, đeo', ipa: '/wer/', emoji: '🧥' },
+            { en: 'helmet', vi: 'mũ bảo hiểm', ipa: '/ˈhelmɪt/', emoji: '⛑️' },
+            { en: 'late', vi: 'muộn', ipa: '/leɪt/', emoji: '⌛' },
+            { en: 'quiet', vi: 'yên lặng', ipa: '/ˈkwaɪət/', emoji: '🤫' },
+            { en: 'uniform', vi: 'đồng phục', ipa: '/ˈjuːnɪfɔːrm/', emoji: '👕' },
+          ],
+          grammar: {
+            title: "must / have to / mustn't / don't have to",
+            points: [
+              '<b>must</b> + V: bắt buộc (theo người nói hoặc nội quy): You <b>must</b> wear a helmet.',
+              '<b>have to / has to</b> + V: phải làm do hoàn cảnh: I <b>have to</b> get up early. She <b>has to</b> work today.',
+              '<b>mustn\'t</b> = cấm, không được phép: You <b>mustn\'t</b> be late.',
+              '<b>don\'t have to</b> = không cần, không bắt buộc: You <b>don\'t have to</b> wear a uniform on Saturday.',
+            ],
+            examples: [
+              { en: 'Students must wear a uniform.', vi: 'Học sinh phải mặc đồng phục.' },
+              { en: "We don't have to go to school on Sunday.", vi: 'Chủ nhật chúng tôi không phải đi học.' },
+            ],
+          },
+          sentences: [
+            { en: 'You must wear a helmet.', vi: 'Bạn phải đội mũ bảo hiểm.' },
+            { en: 'Students must be quiet in the library.', vi: 'Học sinh phải giữ yên lặng trong thư viện.' },
+            { en: "You mustn't be late.", vi: 'Bạn không được đến muộn.' },
+            { en: 'I have to get up early.', vi: 'Tôi phải dậy sớm.' },
+            { en: 'She has to work on Saturday.', vi: 'Cô ấy phải làm việc vào thứ Bảy.' },
+            { en: "We don't have to wear a uniform.", vi: 'Chúng tôi không cần mặc đồng phục.' },
+          ],
+          reading: {
+            title: 'Nội quy lớp học',
+            text: "Here are our class rules. You must come to class on time. You mustn't use your phone in class. You must be quiet when the teacher is talking. You don't have to wear a uniform on Friday. You have to do your homework every day.",
+            vi: 'Đây là nội quy lớp mình. Các bạn phải đến lớp đúng giờ. Không được dùng điện thoại trong giờ học. Phải giữ trật tự khi cô giáo đang nói. Thứ Sáu không cần mặc đồng phục. Các bạn phải làm bài tập về nhà mỗi ngày.',
+            questions: [
+              { q: 'Có được dùng điện thoại trong giờ học không?', options: ['Không được', 'Được', 'Chỉ vào thứ Sáu', 'Không rõ'], answer: 0 },
+              { q: 'Ngày nào không cần mặc đồng phục?', options: ['Thứ Sáu', 'Thứ Hai', 'Thứ Tư', 'Ngày nào cũng phải mặc'], answer: 0 },
+              { q: 'Học sinh phải làm gì mỗi ngày?', options: ['Làm bài tập về nhà', 'Đọc một quyển sách', 'Đến sớm một tiếng', 'Tập thể dục'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 16 ─────────────────────────
+    {
+      id: 'u16', title: 'Hôm qua', titleEn: 'Yesterday', icon: '📆',
+      goal: 'Nói về quá khứ với was / were.',
+      lessons: [
+        {
+          id: 'u16l1', title: 'Hôm qua bạn ở đâu?', titleEn: 'Where were you?', icon: '📍',
+          goal: 'Dùng was / were để nói mình đã ở đâu, thế nào.',
+          vocab: [
+            { en: 'yesterday', vi: 'hôm qua', ipa: '/ˈjestərdeɪ/', emoji: '⏪' },
+            { en: 'was', vi: 'đã là, đã ở (I/he/she/it)', ipa: '/wʌz/', emoji: '🕰️' },
+            { en: 'were', vi: 'đã là, đã ở (you/we/they)', ipa: '/wɜːr/', emoji: '👥' },
+            { en: 'last night', vi: 'tối qua', ipa: '/læst naɪt/', emoji: '🌙' },
+            { en: 'last week', vi: 'tuần trước', ipa: '/læst wiːk/', emoji: '🗓️' },
+            { en: 'at home', vi: 'ở nhà', ipa: '/ət hoʊm/', emoji: '🏠' },
+            { en: 'busy', vi: 'bận', ipa: '/ˈbɪzi/', emoji: '📚' },
+            { en: 'bored', vi: 'chán', ipa: '/bɔːrd/', emoji: '😑' },
+          ],
+          grammar: {
+            title: 'Quá khứ của to be: was / were',
+            points: [
+              '<b>I / he / she / it + was</b>; <b>you / we / they + were</b>.',
+              'Phủ định: <b>wasn\'t</b> (was not), <b>weren\'t</b> (were not): I <b>wasn\'t</b> at home.',
+              'Câu hỏi: <b>Were</b> you at school yesterday? – Yes, I <b>was</b>. / No, I <b>wasn\'t</b>.',
+              'Từ chỉ quá khứ: <b>yesterday</b>, <b>last night</b>, <b>last week</b>, <b>last year</b>.',
+            ],
+            examples: [
+              { en: 'Where were you last night? – I was at home.', vi: 'Tối qua bạn ở đâu? – Tôi ở nhà.' },
+              { en: "The film wasn't good. It was boring.", vi: 'Bộ phim không hay. Nó chán lắm.' },
+            ],
+          },
+          sentences: [
+            { en: 'Where were you yesterday?', vi: 'Hôm qua bạn ở đâu?' },
+            { en: 'I was at home.', vi: 'Tôi đã ở nhà.' },
+            { en: 'We were very busy last week.', vi: 'Tuần trước chúng tôi rất bận.' },
+            { en: "She wasn't at school yesterday.", vi: 'Hôm qua cô ấy không ở trường.' },
+            { en: 'Were they happy?', vi: 'Lúc đó họ có vui không?' },
+            { en: 'It was cold last night.', vi: 'Tối qua trời lạnh.' },
+          ],
+          reading: {
+            title: 'Một ngày Chủ nhật',
+            text: "Last Sunday was a cold day. I was at home all day. My parents were at Grandma's house. I was bored, so I called my friend Ben. But he wasn't at home. He was at the cinema with his sister.",
+            vi: 'Chủ nhật tuần trước là một ngày lạnh. Tôi ở nhà cả ngày. Bố mẹ tôi ở nhà bà. Tôi thấy chán nên gọi cho bạn tôi là Ben. Nhưng cậu ấy không ở nhà. Cậu ấy đang ở rạp chiếu phim với chị gái.',
+            questions: [
+              { q: 'Chủ nhật tuần trước thời tiết thế nào?', options: ['Lạnh', 'Nóng', 'Mưa to', 'Nắng đẹp'], answer: 0 },
+              { q: 'Bố mẹ ở đâu?', options: ['Nhà bà', 'Ở nhà', 'Rạp chiếu phim', 'Siêu thị'], answer: 0 },
+              { q: 'Ben ở đâu?', options: ['Rạp chiếu phim', 'Nhà bà', 'Ở nhà', 'Trường học'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u16l2', title: 'Ngày xưa', titleEn: 'When I was a child', icon: '👶',
+          goal: 'Kể về tuổi thơ với was born, There was / There were.',
+          vocab: [
+            { en: 'child', vi: 'đứa trẻ', ipa: '/tʃaɪld/', emoji: '🧒' },
+            { en: 'children', vi: 'trẻ em (số nhiều)', ipa: '/ˈtʃɪldrən/', emoji: '🧑‍🤝‍🧑' },
+            { en: 'born', vi: 'được sinh ra', ipa: '/bɔːrn/', emoji: '👶' },
+            { en: 'village', vi: 'ngôi làng', ipa: '/ˈvɪlɪdʒ/', emoji: '🏘️' },
+            { en: 'teacher', vi: 'giáo viên', ipa: '/ˈtiːtʃər/', emoji: '👩‍🏫' },
+            { en: 'best friend', vi: 'bạn thân', ipa: '/best frend/', emoji: '👯' },
+            { en: 'shy', vi: 'nhút nhát', ipa: '/ʃaɪ/', emoji: '🙈' },
+            { en: 'naughty', vi: 'nghịch ngợm', ipa: '/ˈnɔːti/', emoji: '😜' },
+          ],
+          grammar: {
+            title: 'was / were khi kể về tuổi thơ',
+            points: [
+              'Nơi sinh: I <b>was born</b> in Hue (Tôi sinh ra ở Huế). Hỏi: Where <b>were</b> you born?',
+              'Kể chuyện ngày nhỏ: When I <b>was</b> a child, I <b>was</b> very shy.',
+              '<b>There was / There were</b> = đã có: There <b>was</b> a big tree in my village. There <b>were</b> many children.',
+              '<b>child</b> (số ít) → <b>children</b> (số nhiều, không thêm -s).',
+            ],
+            examples: [
+              { en: 'Where were you born? – I was born in a small village.', vi: 'Bạn sinh ra ở đâu? – Tôi sinh ra ở một ngôi làng nhỏ.' },
+              { en: 'There were twenty children in my class.', vi: 'Lớp tôi hồi đó có hai mươi bạn.' },
+            ],
+          },
+          sentences: [
+            { en: 'I was born in a small village.', vi: 'Tôi sinh ra ở một ngôi làng nhỏ.' },
+            { en: 'Where were you born?', vi: 'Bạn sinh ra ở đâu?' },
+            { en: 'When I was a child, I was very shy.', vi: 'Khi còn nhỏ, tôi rất nhút nhát.' },
+            { en: 'My brother was a naughty boy.', vi: 'Anh trai tôi từng là một cậu bé nghịch ngợm.' },
+            { en: 'There were many children in the village.', vi: 'Hồi đó trong làng có nhiều trẻ em.' },
+            { en: 'Lan was my best friend.', vi: 'Lan từng là bạn thân của tôi.' },
+          ],
+          reading: {
+            title: 'Tuổi thơ của bà',
+            text: 'My grandmother was born in a small village in 1955. Her house was near a river. There were no cars and there was no TV. She was a good student and her teacher was very kind. She was happy, but life was hard.',
+            vi: 'Bà tôi sinh năm 1955 ở một ngôi làng nhỏ. Nhà bà ở gần một con sông. Hồi đó không có ô tô và cũng không có TV. Bà là một học sinh giỏi và cô giáo của bà rất hiền. Bà sống vui vẻ nhưng cuộc sống vất vả.',
+            questions: [
+              { q: 'Bà sinh năm nào?', options: ['1955', '1965', '1950', '1975'], answer: 0 },
+              { q: 'Nhà bà ở gần đâu?', options: ['Một con sông', 'Trường học', 'Thành phố', 'Ngọn núi'], answer: 0 },
+              { q: 'Hồi đó trong làng không có gì?', options: ['Ô tô và TV', 'Trường học', 'Giáo viên', 'Dòng sông'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 17 ─────────────────────────
+    {
+      id: 'u17', title: 'Kỳ nghỉ đáng nhớ', titleEn: 'A great holiday', icon: '🏖️',
+      goal: 'Kể lại việc đã làm bằng thì quá khứ đơn.',
+      lessons: [
+        {
+          id: 'u17l1', title: 'Cuối tuần trước', titleEn: 'Last weekend', icon: '✅',
+          goal: 'Quá khứ đơn với động từ có quy tắc (-ed); did / didn\'t.',
+          vocab: [
+            { en: 'watched', vi: 'đã xem (watch)', ipa: '/wɑːtʃt/', emoji: '📺' },
+            { en: 'played', vi: 'đã chơi (play)', ipa: '/pleɪd/', emoji: '⚽' },
+            { en: 'visited', vi: 'đã thăm (visit)', ipa: '/ˈvɪzɪtɪd/', emoji: '🏡' },
+            { en: 'cooked', vi: 'đã nấu (cook)', ipa: '/kʊkt/', emoji: '🍳' },
+            { en: 'walked', vi: 'đã đi bộ (walk)', ipa: '/wɔːkt/', emoji: '🚶' },
+            { en: 'stayed', vi: 'đã ở lại (stay)', ipa: '/steɪd/', emoji: '🏨' },
+            { en: 'studied', vi: 'đã học (study)', ipa: '/ˈstʌdid/', emoji: '📚' },
+            { en: 'ago', vi: 'cách đây', ipa: '/əˈɡoʊ/', emoji: '⏳' },
+          ],
+          grammar: {
+            title: 'Thì quá khứ đơn – động từ có quy tắc',
+            points: [
+              'Dùng cho việc <b>đã xảy ra và đã kết thúc</b> trong quá khứ: I <b>watched</b> TV last night.',
+              'Thêm <b>-ed</b>: play → play<b>ed</b>, visit → visit<b>ed</b>; tận cùng -e chỉ thêm -d: live → live<b>d</b>; phụ âm + y → <b>-ied</b>: study → stud<b>ied</b>.',
+              'Phủ định: <b>didn\'t</b> + động từ nguyên mẫu: I <b>didn\'t watch</b> TV. Câu hỏi: <b>Did</b> you <b>play</b> football? – Yes, I <b>did</b>.',
+              '<b>ago</b> = cách đây: two days <b>ago</b> (hai ngày trước).',
+            ],
+            examples: [
+              { en: 'What did you do last weekend? – I visited my grandparents.', vi: 'Cuối tuần trước bạn làm gì? – Tôi đi thăm ông bà.' },
+              { en: "She didn't cook dinner yesterday.", vi: 'Hôm qua cô ấy không nấu bữa tối.' },
+            ],
+          },
+          sentences: [
+            { en: 'I watched a film last night.', vi: 'Tối qua tôi đã xem một bộ phim.' },
+            { en: 'We visited our grandparents last weekend.', vi: 'Cuối tuần trước chúng tôi đã đi thăm ông bà.' },
+            { en: 'She cooked dinner for us.', vi: 'Cô ấy đã nấu bữa tối cho chúng tôi.' },
+            { en: 'Did you play football yesterday?', vi: 'Hôm qua bạn có chơi bóng đá không?' },
+            { en: "I didn't study last night.", vi: 'Tối qua tôi không học bài.' },
+            { en: 'They walked to the park two days ago.', vi: 'Hai ngày trước họ đã đi bộ đến công viên.' },
+          ],
+          reading: {
+            title: 'Cuối tuần của Mai',
+            text: 'Last weekend Mai visited her aunt in Da Lat. On Saturday they walked around the lake and played badminton. In the evening Mai cooked dinner. On Sunday it rained, so they stayed at home and watched films.',
+            vi: 'Cuối tuần trước Mai đi thăm cô ở Đà Lạt. Thứ Bảy họ đi bộ quanh hồ và chơi cầu lông. Buổi tối Mai nấu bữa tối. Chủ nhật trời mưa nên họ ở nhà xem phim.',
+            questions: [
+              { q: 'Mai đi thăm ai?', options: ['Cô của Mai', 'Bà', 'Bạn thân', 'Thầy giáo'], answer: 0 },
+              { q: 'Thứ Bảy họ chơi môn gì?', options: ['Cầu lông', 'Bóng đá', 'Bơi', 'Bóng rổ'], answer: 0 },
+              { q: 'Vì sao Chủ nhật họ ở nhà?', options: ['Vì trời mưa', 'Vì mệt', 'Vì bị ốm', 'Vì bận'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u17l2', title: 'Kỳ nghỉ hè', titleEn: 'My summer holiday', icon: '🏖️',
+          goal: 'Quá khứ đơn với động từ bất quy tắc: went, saw, ate, bought…',
+          vocab: [
+            { en: 'went', vi: 'đã đi (go)', ipa: '/went/', emoji: '🚗' },
+            { en: 'saw', vi: 'đã nhìn thấy (see)', ipa: '/sɔː/', emoji: '👀' },
+            { en: 'ate', vi: 'đã ăn (eat)', ipa: '/eɪt/', emoji: '🍜' },
+            { en: 'had', vi: 'đã có (have)', ipa: '/hæd/', emoji: '🎉' },
+            { en: 'bought', vi: 'đã mua (buy)', ipa: '/bɔːt/', emoji: '🛍️' },
+            { en: 'took', vi: 'đã lấy, đã chụp (take)', ipa: '/tʊk/', emoji: '📸' },
+            { en: 'beach', vi: 'bãi biển', ipa: '/biːtʃ/', emoji: '🏝️' },
+            { en: 'holiday', vi: 'kỳ nghỉ', ipa: '/ˈhɑːlədeɪ/', emoji: '🧳', alts: ['vacation'] },
+          ],
+          grammar: {
+            title: 'Quá khứ đơn – động từ bất quy tắc',
+            points: [
+              'Nhiều động từ thông dụng <b>không thêm -ed</b> mà đổi dạng: go → <b>went</b>, see → <b>saw</b>, eat → <b>ate</b>, have → <b>had</b>, buy → <b>bought</b>, take → <b>took</b>.',
+              'Phủ định và câu hỏi vẫn dùng <b>did</b> + động từ <b>nguyên mẫu</b>: I <b>didn\'t go</b>. <b>Did</b> you <b>see</b> it? (không nói "didn\'t went")',
+              'Hỏi về kỳ nghỉ: <b>Where did you go?</b> <b>What did you do?</b> <b>How was it?</b>',
+              'Mẹo: mỗi ngày học thuộc 5 động từ bất quy tắc và đặt một câu với mỗi từ.',
+            ],
+            examples: [
+              { en: 'Where did you go last summer? – I went to Nha Trang.', vi: 'Hè năm ngoái bạn đi đâu? – Tôi đi Nha Trang.' },
+              { en: "We didn't buy anything.", vi: 'Chúng tôi không mua gì cả.' },
+            ],
+          },
+          sentences: [
+            { en: 'Where did you go last summer?', vi: 'Hè năm ngoái bạn đã đi đâu?' },
+            { en: 'I went to the beach with my family.', vi: 'Tôi đã đi biển cùng gia đình.' },
+            { en: 'We ate a lot of seafood.', vi: 'Chúng tôi đã ăn rất nhiều hải sản.' },
+            { en: 'She took many photos.', vi: 'Cô ấy đã chụp nhiều ảnh.' },
+            { en: 'I bought a hat for my mother.', vi: 'Tôi đã mua một cái mũ cho mẹ.' },
+            { en: 'We had a great holiday.', vi: 'Chúng tôi đã có một kỳ nghỉ tuyệt vời.', alts: ['We had a great vacation.'] },
+          ],
+          reading: {
+            title: 'Chuyến đi Nha Trang',
+            text: 'Last summer my family went to Nha Trang. We stayed there for five days. Every morning we swam in the sea. We ate fresh seafood and bought some gifts at the market. One night we saw fireworks on the beach. It was the best holiday!',
+            vi: 'Hè năm ngoái gia đình tôi đi Nha Trang. Chúng tôi ở đó năm ngày. Sáng nào chúng tôi cũng bơi ở biển. Chúng tôi ăn hải sản tươi và mua vài món quà ở chợ. Một tối chúng tôi xem pháo hoa trên bãi biển. Đó là kỳ nghỉ tuyệt nhất!',
+            questions: [
+              { q: 'Gia đình ở Nha Trang mấy ngày?', options: ['Năm ngày', 'Ba ngày', 'Một tuần', 'Hai ngày'], answer: 0 },
+              { q: 'Buổi sáng họ làm gì?', options: ['Bơi ở biển', 'Đi chợ', 'Ăn hải sản', 'Ngủ nướng'], answer: 0 },
+              { q: 'Một buổi tối họ đã thấy gì?', options: ['Pháo hoa', 'Cá heo', 'Tuyết rơi', 'Ông già Noel'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 18 ─────────────────────────
+    {
+      id: 'u18', title: 'Kế hoạch tương lai', titleEn: 'Future plans', icon: '🚀',
+      goal: 'Nói về dự định, dự đoán và lời hứa.',
+      lessons: [
+        {
+          id: 'u18l1', title: 'Mình định…', titleEn: 'Going to', icon: '🗓️',
+          goal: 'Dùng be going to để nói về dự định và điều sắp xảy ra.',
+          vocab: [
+            { en: 'tomorrow', vi: 'ngày mai', ipa: '/təˈmɑːroʊ/', emoji: '⏭️' },
+            { en: 'next week', vi: 'tuần sau', ipa: '/nekst wiːk/', emoji: '📆' },
+            { en: 'plan', vi: 'kế hoạch', ipa: '/plæn/', emoji: '📝' },
+            { en: 'travel', vi: 'đi du lịch', ipa: '/ˈtrævl/', emoji: '✈️' },
+            { en: 'learn', vi: 'học (một kỹ năng)', ipa: '/lɜːrn/', emoji: '🎓' },
+            { en: 'tonight', vi: 'tối nay', ipa: '/təˈnaɪt/', emoji: '🌃' },
+            { en: 'weekend', vi: 'cuối tuần', ipa: '/ˈwiːkend/', emoji: '🎈' },
+            { en: 'going to', vi: 'sẽ, định (dự định)', ipa: '/ˈɡoʊɪŋ tə/', emoji: '🎯' },
+          ],
+          grammar: {
+            title: 'be going to – dự định',
+            points: [
+              '<b>am / is / are + going to</b> + động từ nguyên mẫu: dự định đã có từ trước. I <b>am going to</b> visit Hue.',
+              'Phủ định: She <b>isn\'t going to</b> come. Câu hỏi: <b>Are</b> you <b>going to</b> travel?',
+              'Dùng khi thấy dấu hiệu sắp xảy ra: Look at the clouds! It\'s <b>going to</b> rain.',
+              'Từ chỉ tương lai: <b>tomorrow</b>, <b>tonight</b>, <b>next week</b>, <b>this weekend</b>.',
+            ],
+            examples: [
+              { en: "What are you going to do this weekend? – I'm going to see a film.", vi: 'Cuối tuần này bạn định làm gì? – Mình định đi xem phim.' },
+              { en: "Look at the clouds! It's going to rain.", vi: 'Nhìn mây kìa! Trời sắp mưa rồi.' },
+            ],
+          },
+          sentences: [
+            { en: 'What are you going to do this weekend?', vi: 'Cuối tuần này bạn định làm gì?' },
+            { en: 'I am going to visit my grandmother.', vi: 'Tôi định đi thăm bà.' },
+            { en: 'We are going to travel to Hue next week.', vi: 'Tuần sau chúng tôi định đi du lịch Huế.' },
+            { en: 'She is going to learn English.', vi: 'Cô ấy định học tiếng Anh.' },
+            { en: 'It is going to rain tonight.', vi: 'Tối nay trời sắp mưa.' },
+            { en: "I'm not going to watch TV tomorrow.", vi: 'Ngày mai tôi sẽ không xem TV.' },
+          ],
+          reading: {
+            title: 'Kế hoạch nghỉ Tết',
+            text: "Next week is Tet holiday. Nam has a lot of plans. He is going to clean the house with his parents. On the first day of Tet, they are going to visit his grandparents. He isn't going to play games all day. He is going to read two books.",
+            vi: 'Tuần sau là kỳ nghỉ Tết. Nam có rất nhiều kế hoạch. Cậu ấy định dọn nhà cùng bố mẹ. Mùng một Tết, cả nhà định đi thăm ông bà. Cậu ấy sẽ không chơi game cả ngày. Cậu ấy định đọc hai quyển sách.',
+            questions: [
+              { q: 'Nam định làm gì cùng bố mẹ?', options: ['Dọn nhà', 'Đi du lịch', 'Nấu ăn', 'Đi mua sắm'], answer: 0 },
+              { q: 'Mùng một Tết cả nhà đi đâu?', options: ['Thăm ông bà', 'Đi biển', 'Đi xem phim', 'Ở nhà'], answer: 0 },
+              { q: 'Nam định đọc mấy quyển sách?', options: ['Hai', 'Một', 'Ba', 'Không quyển nào'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u18l2', title: 'Dự đoán & lời hứa', titleEn: 'Will', icon: '🔮',
+          goal: "Dùng will / won't để dự đoán, quyết định nhanh và hứa hẹn.",
+          vocab: [
+            { en: 'will', vi: 'sẽ', ipa: '/wɪl/', emoji: '🔮' },
+            { en: 'probably', vi: 'có lẽ', ipa: '/ˈprɑːbəbli/', emoji: '🤔' },
+            { en: 'future', vi: 'tương lai', ipa: '/ˈfjuːtʃər/', emoji: '🚀' },
+            { en: 'promise', vi: 'hứa', ipa: '/ˈprɑːmɪs/', emoji: '🤞' },
+            { en: 'help', vi: 'giúp đỡ', ipa: '/help/', emoji: '🆘' },
+            { en: 'become', vi: 'trở thành', ipa: '/bɪˈkʌm/', emoji: '🦋' },
+            { en: 'famous', vi: 'nổi tiếng', ipa: '/ˈfeɪməs/', emoji: '🌟' },
+            { en: 'rich', vi: 'giàu', ipa: '/rɪtʃ/', emoji: '💰' },
+          ],
+          grammar: {
+            title: 'will – dự đoán, quyết định tức thì, lời hứa',
+            points: [
+              '<b>will</b> + động từ nguyên mẫu (mọi ngôi): I <b>will</b> help you. Viết tắt: I\'ll, you\'ll, she\'ll…',
+              'Phủ định: <b>won\'t</b> (= will not): It <b>won\'t</b> rain tomorrow.',
+              'Dùng để <b>dự đoán</b> (I think it will…), <b>quyết định ngay lúc nói</b> (I\'ll take it!), <b>hứa hẹn</b> (I promise I\'ll call you).',
+              'So sánh: <b>going to</b> = kế hoạch có sẵn; <b>will</b> = quyết định hoặc dự đoán tức thời.',
+            ],
+            examples: [
+              { en: 'I think you will be famous one day.', vi: 'Tôi nghĩ một ngày nào đó bạn sẽ nổi tiếng.' },
+              { en: "The phone is ringing. – I'll answer it.", vi: 'Điện thoại đang reo. – Để tôi nghe.' },
+            ],
+          },
+          sentences: [
+            { en: 'I will help you.', vi: 'Tôi sẽ giúp bạn.' },
+            { en: 'I think it will be sunny tomorrow.', vi: 'Tôi nghĩ ngày mai trời sẽ nắng.' },
+            { en: 'She will probably become a doctor.', vi: 'Có lẽ cô ấy sẽ trở thành bác sĩ.' },
+            { en: "I promise I won't be late.", vi: 'Tôi hứa sẽ không đến muộn.' },
+            { en: 'Will you come to my party?', vi: 'Bạn sẽ đến bữa tiệc của tôi chứ?' },
+            { en: 'In the future, robots will help us at home.', vi: 'Trong tương lai, rô-bốt sẽ giúp chúng ta việc nhà.' },
+          ],
+          reading: {
+            title: 'Thư gửi tương lai',
+            text: 'Dear me in 2040,\nI think you will be thirty years old. You will probably live in a big city. Maybe you will become a famous singer! I hope you will be healthy and happy. I promise I will study hard now.\nLove, Linh',
+            vi: 'Gửi mình của năm 2040,\nMình nghĩ khi đó cậu sẽ ba mươi tuổi. Có lẽ cậu sẽ sống ở một thành phố lớn. Biết đâu cậu sẽ thành ca sĩ nổi tiếng! Mình mong cậu sẽ khoẻ mạnh và hạnh phúc. Mình hứa bây giờ sẽ học hành chăm chỉ.\nThương, Linh',
+            questions: [
+              { q: 'Năm 2040 Linh bao nhiêu tuổi?', options: ['30', '40', '20', '25'], answer: 0 },
+              { q: 'Linh nghĩ mình có thể trở thành gì?', options: ['Ca sĩ nổi tiếng', 'Bác sĩ', 'Giáo viên', 'Cầu thủ'], answer: 0 },
+              { q: 'Linh hứa điều gì?', options: ['Học hành chăm chỉ', 'Đi du lịch', 'Kiếm nhiều tiền', 'Chuyển nhà'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 19 ─────────────────────────
+    {
+      id: 'u19', title: 'So sánh', titleEn: 'Comparisons', icon: '⚖️',
+      goal: 'So sánh người, vật, nơi chốn.',
+      lessons: [
+        {
+          id: 'u19l1', title: 'Hơn và kém', titleEn: 'Bigger and better', icon: '📏',
+          goal: 'So sánh hơn với -er / more … than; good → better.',
+          vocab: [
+            { en: 'bigger', vi: 'to hơn', ipa: '/ˈbɪɡər/', emoji: '🐘' },
+            { en: 'smaller', vi: 'nhỏ hơn', ipa: '/ˈsmɔːlər/', emoji: '🐭' },
+            { en: 'taller', vi: 'cao hơn', ipa: '/ˈtɔːlər/', emoji: '🦒' },
+            { en: 'older', vi: 'lớn tuổi hơn, cũ hơn', ipa: '/ˈoʊldər/', emoji: '👴' },
+            { en: 'better', vi: 'tốt hơn', ipa: '/ˈbetər/', emoji: '👍' },
+            { en: 'worse', vi: 'tệ hơn', ipa: '/wɜːrs/', emoji: '👎' },
+            { en: 'than', vi: 'hơn (dùng khi so sánh)', ipa: '/ðæn/', emoji: '⚖️' },
+            { en: 'more', vi: 'hơn, nhiều hơn', ipa: '/mɔːr/', emoji: '➕' },
+          ],
+          grammar: {
+            title: 'So sánh hơn',
+            points: [
+              'Tính từ ngắn: thêm <b>-er + than</b>: tall → tall<b>er than</b>; big → big<b>ger</b>; happy → happ<b>ier</b>.',
+              'Tính từ dài (2–3 âm tiết trở lên): <b>more</b> + tính từ + <b>than</b>: <b>more</b> beautiful <b>than</b>, <b>more</b> expensive <b>than</b>.',
+              'Bất quy tắc: good → <b>better</b>, bad → <b>worse</b>, far → <b>farther</b>.',
+              'Sau than: He is taller than <b>me</b> (nói) / than <b>I am</b> (trang trọng).',
+            ],
+            examples: [
+              { en: 'An elephant is bigger than a horse.', vi: 'Con voi to hơn con ngựa.' },
+              { en: 'This book is more interesting than that one.', vi: 'Quyển sách này hay hơn quyển kia.' },
+            ],
+          },
+          sentences: [
+            { en: 'My brother is taller than me.', vi: 'Anh trai tôi cao hơn tôi.', alts: ['My brother is taller than I am.'] },
+            { en: 'An elephant is bigger than a cat.', vi: 'Con voi to hơn con mèo.' },
+            { en: 'This phone is more expensive than that one.', vi: 'Chiếc điện thoại này đắt hơn chiếc kia.' },
+            { en: 'Today is better than yesterday.', vi: 'Hôm nay tốt hơn hôm qua.' },
+            { en: 'My grandfather is older than my grandmother.', vi: 'Ông tôi lớn tuổi hơn bà tôi.' },
+            { en: 'The weather is worse today.', vi: 'Hôm nay thời tiết tệ hơn.' },
+          ],
+          reading: {
+            title: 'Hai chú chó',
+            text: 'I have two dogs, Max and Bin. Max is bigger and older than Bin. Bin is smaller, but he is faster than Max. Max is quieter and more friendly with children. Bin is naughtier, but I love them both!',
+            vi: 'Tôi có hai chú chó là Max và Bin. Max to hơn và lớn tuổi hơn Bin. Bin nhỏ hơn nhưng chạy nhanh hơn Max. Max trầm tính hơn và thân thiện với trẻ con hơn. Bin nghịch hơn, nhưng tôi yêu cả hai!',
+            questions: [
+              { q: 'Chú chó nào to hơn?', options: ['Max', 'Bin', 'Bằng nhau', 'Không rõ'], answer: 0 },
+              { q: 'Chú chó nào chạy nhanh hơn?', options: ['Bin', 'Max', 'Bằng nhau', 'Không con nào'], answer: 0 },
+              { q: 'Chú chó nào thân thiện với trẻ con hơn?', options: ['Max', 'Bin', 'Như nhau', 'Không con nào'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u19l2', title: 'Nhất!', titleEn: 'The best', icon: '🏆',
+          goal: 'So sánh nhất với the -est / the most; so sánh bằng as … as.',
+          vocab: [
+            { en: 'the best', vi: 'tốt nhất, giỏi nhất', ipa: '/ðə best/', emoji: '🏆' },
+            { en: 'the biggest', vi: 'to nhất', ipa: '/ðə ˈbɪɡɪst/', emoji: '🐋' },
+            { en: 'the highest', vi: 'cao nhất (núi, toà nhà)', ipa: '/ðə ˈhaɪɪst/', emoji: '🗼' },
+            { en: 'the longest', vi: 'dài nhất', ipa: '/ðə ˈlɔːŋɡɪst/', emoji: '📏' },
+            { en: 'the most', vi: '… nhất (tính từ dài)', ipa: '/ðə moʊst/', emoji: '🥇' },
+            { en: 'mountain', vi: 'ngọn núi', ipa: '/ˈmaʊntn/', emoji: '⛰️' },
+            { en: 'river', vi: 'con sông', ipa: '/ˈrɪvər/', emoji: '🏞️' },
+            { en: 'world', vi: 'thế giới', ipa: '/wɜːrld/', emoji: '🌍' },
+          ],
+          grammar: {
+            title: 'So sánh nhất và so sánh bằng',
+            points: [
+              'Tính từ ngắn: <b>the + -est</b>: the tall<b>est</b>, the bigg<b>est</b>, the happ<b>iest</b>.',
+              'Tính từ dài: <b>the most</b> + tính từ: <b>the most</b> beautiful, <b>the most</b> expensive.',
+              'Bất quy tắc: good → <b>the best</b>, bad → <b>the worst</b>. Thường đi với <b>in</b> + nơi chốn: the best <b>in</b> my class.',
+              'So sánh bằng: <b>as</b> + tính từ + <b>as</b>: Lan is <b>as</b> tall <b>as</b> Mai. Phủ định: <b>not as</b> … <b>as</b>.',
+            ],
+            examples: [
+              { en: 'Everest is the highest mountain in the world.', vi: 'Everest là ngọn núi cao nhất thế giới.' },
+              { en: 'My bag is as heavy as yours.', vi: 'Cặp của tôi nặng bằng cặp của bạn.' },
+            ],
+          },
+          sentences: [
+            { en: 'Everest is the highest mountain in the world.', vi: 'Everest là ngọn núi cao nhất thế giới.' },
+            { en: 'The Nile is the longest river in the world.', vi: 'Sông Nile là con sông dài nhất thế giới.' },
+            { en: 'She is the best student in my class.', vi: 'Cô ấy là học sinh giỏi nhất lớp tôi.' },
+            { en: 'This is the most beautiful beach.', vi: 'Đây là bãi biển đẹp nhất.' },
+            { en: 'Lan is as tall as Mai.', vi: 'Lan cao bằng Mai.' },
+            { en: 'My bag is not as big as yours.', vi: 'Cặp của tôi không to bằng cặp của bạn.' },
+          ],
+          reading: {
+            title: 'Những kỷ lục của Việt Nam',
+            text: 'Vietnam has many amazing places. Fansipan is the highest mountain in Vietnam. The Mekong is the longest river. Son Doong is the biggest cave in the world! Many people think Ha Long Bay is the most beautiful place in Vietnam.',
+            vi: 'Việt Nam có nhiều nơi tuyệt đẹp. Fansipan là ngọn núi cao nhất Việt Nam. Mê Kông là con sông dài nhất. Sơn Đoòng là hang động lớn nhất thế giới! Nhiều người cho rằng vịnh Hạ Long là nơi đẹp nhất Việt Nam.',
+            questions: [
+              { q: 'Ngọn núi cao nhất Việt Nam là?', options: ['Fansipan', 'Sơn Đoòng', 'Hạ Long', 'Mê Kông'], answer: 0 },
+              { q: 'Hang động lớn nhất thế giới là?', options: ['Sơn Đoòng', 'Fansipan', 'Phong Nha', 'Hạ Long'], answer: 0 },
+              { q: 'Theo nhiều người, nơi đẹp nhất Việt Nam là?', options: ['Vịnh Hạ Long', 'Sông Mê Kông', 'Núi Fansipan', 'Hà Nội'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 20 ─────────────────────────
+    {
+      id: 'u20', title: 'Chào năm mới', titleEn: 'Happy New Year', icon: '🎆',
+      goal: 'Mời, nhận lời, từ chối lịch sự; nối câu bằng and / but / because / so.',
+      lessons: [
+        {
+          id: 'u20l1', title: 'Lời mời', titleEn: 'Would you like…?', icon: '💌',
+          goal: 'Mời và đề nghị lịch sự với would like.',
+          vocab: [
+            { en: 'would like', vi: 'muốn (lịch sự)', ipa: '/wʊd laɪk/', emoji: '🙏' },
+            { en: 'invite', vi: 'mời', ipa: '/ɪnˈvaɪt/', emoji: '💌' },
+            { en: 'sure', vi: 'chắc chắn rồi, được thôi', ipa: '/ʃʊr/', emoji: '👌' },
+            { en: 'free', vi: 'rảnh; miễn phí', ipa: '/friː/', emoji: '🆓' },
+            { en: 'join', vi: 'tham gia', ipa: '/dʒɔɪn/', emoji: '🙋' },
+            { en: 'fireworks', vi: 'pháo hoa', ipa: '/ˈfaɪərwɜːrks/', emoji: '🎆' },
+            { en: 'countdown', vi: 'đếm ngược', ipa: '/ˈkaʊntdaʊn/', emoji: '⏱️' },
+            { en: 'New Year', vi: 'năm mới', ipa: '/nuː jɪr/', emoji: '🎊' },
+          ],
+          grammar: {
+            title: 'would like – mời và đề nghị lịch sự',
+            points: [
+              '<b>would like</b> + danh từ / <b>to</b> + động từ: I\'<b>d like</b> a cup of tea. I\'<b>d like to</b> go home.',
+              'Mời: <b>Would you like to</b> come to my party? / <b>Would you like</b> some cake?',
+              'Nhận lời: <b>Yes, I\'d love to.</b> / <b>Sure!</b> Từ chối lịch sự: <b>Sorry, I can\'t. I\'m busy.</b>',
+              'Khác với like: <b>I like</b> tea (sở thích nói chung) ≠ <b>I\'d like</b> tea (muốn ngay bây giờ).',
+            ],
+            examples: [
+              { en: "Would you like to watch the fireworks with us? – Yes, I'd love to!", vi: 'Bạn có muốn xem pháo hoa cùng bọn mình không? – Có, mình rất muốn!' },
+              { en: "I'd like some water, please.", vi: 'Cho tôi xin một ít nước.' },
+            ],
+          },
+          sentences: [
+            { en: 'Would you like to come to my party?', vi: 'Bạn có muốn đến bữa tiệc của tôi không?' },
+            { en: "Yes, I'd love to.", vi: 'Có, tôi rất muốn.' },
+            { en: "Sorry, I can't. I'm busy.", vi: 'Xin lỗi, tôi không đi được. Tôi bận.' },
+            { en: 'I would like a cup of tea.', vi: 'Tôi muốn một tách trà.' },
+            { en: 'Would you like to watch the fireworks?', vi: 'Bạn có muốn xem pháo hoa không?' },
+            { en: 'Are you free on Saturday?', vi: 'Thứ Bảy bạn có rảnh không?' },
+          ],
+          reading: {
+            title: 'Tin nhắn mời',
+            text: 'Hi Mai! We are going to have a New Year party at my house on December 31st. Would you like to join us? We are going to eat, sing and watch the fireworks. The countdown starts at ten to midnight. Please bring some snacks if you can. – Lan',
+            vi: 'Chào Mai! Bọn mình sẽ tổ chức tiệc mừng năm mới ở nhà mình vào ngày 31 tháng 12. Cậu có muốn tham gia không? Bọn mình sẽ ăn uống, hát và xem pháo hoa. Màn đếm ngược bắt đầu lúc 11 giờ 50 đêm. Nếu được thì cậu mang ít đồ ăn vặt nhé. – Lan',
+            questions: [
+              { q: 'Bữa tiệc vào ngày nào?', options: ['31/12', '1/1', '25/12', '24/12'], answer: 0 },
+              { q: 'Ở bữa tiệc mọi người sẽ làm gì?', options: ['Ăn, hát và xem pháo hoa', 'Đi bơi', 'Học bài', 'Chơi bóng đá'], answer: 0 },
+              { q: 'Lan nhờ Mai mang gì?', options: ['Đồ ăn vặt', 'Pháo hoa', 'Quà', 'Hoa'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u20l2', title: 'Quyết tâm năm mới', titleEn: 'New Year resolutions', icon: '🎯',
+          goal: 'Nối câu bằng and / but / or / because / so; nói về mục tiêu.',
+          vocab: [
+            { en: 'and', vi: 'và', ipa: '/ænd/', emoji: '➕' },
+            { en: 'but', vi: 'nhưng', ipa: '/bʌt/', emoji: '🔀' },
+            { en: 'or', vi: 'hoặc, hay', ipa: '/ɔːr/', emoji: '❓' },
+            { en: 'because', vi: 'bởi vì', ipa: '/bɪˈkɔːz/', emoji: '💡' },
+            { en: 'so', vi: 'vì vậy, nên', ipa: '/soʊ/', emoji: '⏩' },
+            { en: 'goal', vi: 'mục tiêu', ipa: '/ɡoʊl/', emoji: '🏁' },
+            { en: 'hope', vi: 'hy vọng', ipa: '/hoʊp/', emoji: '🌈' },
+            { en: 'habit', vi: 'thói quen', ipa: '/ˈhæbɪt/', emoji: '🔁' },
+          ],
+          grammar: {
+            title: 'Liên từ: and / but / or / because / so',
+            points: [
+              '<b>and</b> (và) nối hai ý giống nhau: I like tea <b>and</b> coffee.',
+              '<b>but</b> (nhưng) nối hai ý trái ngược: It is cold, <b>but</b> I am happy.',
+              '<b>or</b> (hoặc, hay) đưa ra lựa chọn: Tea <b>or</b> coffee?',
+              '<b>because</b> (bởi vì) + nguyên nhân; <b>so</b> (vì vậy) + kết quả: I stayed home <b>because</b> I was sick. = I was sick, <b>so</b> I stayed home.',
+            ],
+            examples: [
+              { en: 'I want to learn English because I love travelling.', vi: 'Tôi muốn học tiếng Anh vì tôi thích đi du lịch.' },
+              { en: 'It was late, so we went home.', vi: 'Trời đã muộn nên chúng tôi về nhà.' },
+            ],
+          },
+          sentences: [
+            { en: 'I want to learn English because I love travelling.', vi: 'Tôi muốn học tiếng Anh vì tôi thích đi du lịch.', alts: ['I want to learn English because I love traveling.'] },
+            { en: 'It was late, so we went home.', vi: 'Trời đã muộn nên chúng tôi về nhà.' },
+            { en: "I like tea, but I don't like coffee.", vi: 'Tôi thích trà nhưng không thích cà phê.' },
+            { en: 'Do you want tea or coffee?', vi: 'Bạn muốn uống trà hay cà phê?' },
+            { en: 'My goal is to read more books.', vi: 'Mục tiêu của tôi là đọc nhiều sách hơn.' },
+            { en: 'I hope you have a happy New Year.', vi: 'Tôi hy vọng bạn có một năm mới hạnh phúc.' },
+          ],
+          reading: {
+            title: 'Quyết tâm năm mới',
+            text: "This year I have three New Year resolutions. First, I want to get up early because I am often late for school. Second, I will eat more vegetables, but I won't stop eating cake! Third, I want to speak English well, so I will practise every day with Lea.",
+            vi: 'Năm nay mình có ba quyết tâm năm mới. Thứ nhất, mình muốn dậy sớm vì mình hay đi học muộn. Thứ hai, mình sẽ ăn nhiều rau hơn, nhưng mình sẽ không bỏ bánh ngọt đâu! Thứ ba, mình muốn nói tiếng Anh giỏi, vì vậy mình sẽ luyện tập với Lea mỗi ngày.',
+            questions: [
+              { q: 'Vì sao bạn ấy muốn dậy sớm?', options: ['Vì hay đi học muộn', 'Vì muốn tập thể dục', 'Vì thích buổi sáng', 'Vì mẹ bảo'], answer: 0 },
+              { q: 'Bạn ấy có bỏ ăn bánh ngọt không?', options: ['Không', 'Có', 'Chỉ ăn cuối tuần', 'Không rõ'], answer: 0 },
+              { q: 'Để nói tiếng Anh giỏi, bạn ấy sẽ làm gì?', options: ['Luyện tập mỗi ngày', 'Đi du học', 'Xem phim', 'Thuê gia sư'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+  ],
+});

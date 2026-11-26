@@ -5,7 +5,7 @@
 
   function defaults() {
     return {
-      settings: { lang: 'en', rate: 0.85, voice: '', snow: true, unlockAll: false },
+      settings: { lang: 'en', rate: 0.85, voice: '', snow: true, unlockAll: false, pace: 'standard' },
       xp: 0,
       streak: { count: 0, last: '' },
       progress: {},
