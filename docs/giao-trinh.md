@@ -10,7 +10,7 @@ Dữ liệu giáo trình nằm ở `data/en.js` → `syllabus`. Trên web, xem t
 |---|---|---|---|---|
 | 1 · Nền tảng | A0 – A1 | 10 / 20 | Giao tiếp câu đơn: chào hỏi, bản thân, gia đình, đồ ăn, thói quen, thời gian, nhà cửa | Đã có trên web |
 | 2 · Sơ cấp | A2 | 10 / 20 | Kể chuyện quá khứ, nói kế hoạch, so sánh, mua sắm, lời khuyên | Đã có trên web (`data/en-a2.js`) |
-| 3 · Tiền trung cấp | B1 | 10 / 20 | Kể trải nghiệm, nguyên nhân – kết quả, giả thiết, mô tả chi tiết | Đề cương |
+| 3 · Tiền trung cấp | B1 | 10 / 20 | Kể trải nghiệm, nguyên nhân – kết quả, giả thiết, mô tả chi tiết | Đã có trên web (`data/en-b1.js`) |
 | 4 · Trung cấp | B2 | 10 / 20 | Đoạn văn mạch lạc, tường thuật, lập luận, câu phức (nền tảng IELTS) | Đề cương |
 
 Mỗi bài gồm: **Từ vựng** (8–10 từ, phiên âm, phát âm) → **Ngữ pháp** (giải thích bằng tiếng Việt) → **Câu mẫu** → luyện **Nghe – Nói – Đọc – Viết**. Đạt từ 60% mỗi kỹ năng thì mở khoá bài tiếp theo.
@@ -48,18 +48,18 @@ Mỗi bài gồm: **Từ vựng** (8–10 từ, phiên âm, phát âm) → **Ng�
 
 ## Cấp 3 · Tiền trung cấp (B1)
 
-| # | Chặng | Ngữ pháp trọng tâm | Tham khảo |
-|---|---|---|---|
-| 1 | Trải nghiệm | Hiện tại hoàn thành; ever/never; already/yet | §3.1.3, §3.1.3.2 |
-| 2 | Bao lâu rồi? | for / since; hiện tại hoàn thành vs quá khứ đơn | §3.1.3.1, §3.2.1 |
-| 3 | Khi đang… thì… | Quá khứ tiếp diễn; when / while | §3.2.2 |
-| 4 | Nếu… | Điều kiện loại 0 và 1; unless | §13.1, §23.4.5 |
-| 5 | Ngày xưa | used to; be/get used to | §13.7 |
-| 6 | Muốn làm & thích làm | Động từ + to V / V-ing; stop/remember/forget/try | §6.1, §35 |
-| 7 | Được làm bởi… | Bị động hiện tại & quá khứ | §24 |
-| 8 | Người mà… vật mà… | Mệnh đề quan hệ who/which/that/whose | §26 |
-| 9 | Hỏi cho lịch sự | Câu hỏi đuôi; câu hỏi gián tiếp; so / neither | §8.3, §8.4, §9 |
-| 10 | Cảm xúc & mức độ | Tính từ -ing / -ed; trạng từ -ly; too / enough | §41, §17.2, §21 |
+| # | Chặng | Bài 1 / Bài 2 | Ngữ pháp trọng tâm | Tham khảo |
+|---|---|---|---|---|
+| 21 | Trải nghiệm | Bạn đã bao giờ…? / Xong chưa? | Hiện tại hoàn thành; ever/never; already/yet/just | §3.1.3, §3.1.3.2 |
+| 22 | Bao lâu rồi? | For và since / Đã từng hay hôm qua? | for / since; hiện tại hoàn thành vs quá khứ đơn | §3.1.3.1, §3.2.1 |
+| 23 | Khi đang… thì… | Lúc đó bạn đang làm gì? / Bỗng nhiên… | Quá khứ tiếp diễn; when / while | §3.2.2 |
+| 24 | Nếu… | Luôn luôn đúng / Nếu ngày mai… | Điều kiện loại 0 và 1; unless | §13.1, §23.4.5 |
+| 25 | Thói quen xưa và nay | Tôi từng… / Dần quen | used to; be/get used to | §13.7 |
+| 26 | Muốn làm & thích làm | to V hay V-ing? / Nhớ, quên, dừng, thử | Động từ + to V / V-ing; remember/forget/stop/try | §6.1, §35 |
+| 27 | Được làm bởi… | Được làm ra thế nào? / Đã được… | Bị động hiện tại & quá khứ | §24 |
+| 28 | Người mà… vật mà… | Who, which, that / Whose và where | Mệnh đề quan hệ who/which/that/whose/where | §26 |
+| 29 | Hỏi cho lịch sự | …phải không? / Cho tôi hỏi… | Câu hỏi đuôi; câu hỏi gián tiếp; So do I / Neither can I | §8.3, §8.4, §9 |
+| 30 | Cảm xúc & mức độ | Chán hay thấy chán? / Quá… và đủ… | Tính từ -ing / -ed; trạng từ -ly; too / enough | §41, §17.2, §21 |
 
 ## Cấp 4 · Trung cấp (B2)
 

@@ -29,7 +29,7 @@ Nên dùng **Chrome** hoặc **Edge**: nhận diện giọng nói (Web Speech AP
 | 9 | Nhà của tôi | Các phòng trong nhà | Ở đâu? | There is/are, giới từ vị trí |
 | 10 | Giáng sinh vui vẻ | Mùa Giáng sinh | Tiệc Giáng sinh | Số nhiều bất quy tắc, hiện tại tiếp diễn, Let's |
 
-Đây là Cấp 1 của giáo trình 4 cấp A0 → B2. Cấp 2 (A2, chặng 11–20: mua sắm, quá khứ đơn, tương lai, so sánh…) nằm ở `data/en-a2.js`. Đề cương Cấp 3–4 và kế hoạch học tập (3 nhịp độ) nằm ở [docs/giao-trinh.md](docs/giao-trinh.md) và trang **Giáo trình** trên web.
+Đây là Cấp 1 của giáo trình 4 cấp A0 → B2. Cấp 2 (A2, chặng 11–20: mua sắm, quá khứ đơn, tương lai, so sánh…) nằm ở `data/en-a2.js`; Cấp 3 (B1, chặng 21–30: hiện tại hoàn thành, câu điều kiện, bị động, mệnh đề quan hệ…) ở `data/en-b1.js`. Đề cương Cấp 4 và kế hoạch học tập (3 nhịp độ) nằm ở [docs/giao-trinh.md](docs/giao-trinh.md) và trang **Giáo trình** trên web.
 
 Trước bài 1 có trang **Bảng chữ cái** (26 chữ cái + từ ví dụ, bấm để nghe).
 

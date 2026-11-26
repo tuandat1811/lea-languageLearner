@@ -14,10 +14,10 @@ LEA.registerLanguage({
   nativeName: 'English',
   flag: '🇬🇧',
   speechLang: 'en-US',
-  level: 'A0 → A2',
-  tagline: 'Từ con số 0 đến giao tiếp hằng ngày',
+  level: 'A0 → B1',
+  tagline: 'Từ con số 0 đến giao tiếp tự tin',
   description:
-    'Lộ trình 20 chặng, 40 bài học (Cấp 1 – 2) dành cho người chưa biết gì về tiếng Anh. Mỗi bài có từ vựng, ngữ pháp và luyện đủ 4 kỹ năng Nghe – Nói – Đọc – Viết.',
+    'Lộ trình 30 chặng, 60 bài học (Cấp 1 – 3) dành cho người chưa biết gì về tiếng Anh. Mỗi bài có từ vựng, ngữ pháp và luyện đủ 4 kỹ năng Nghe – Nói – Đọc – Viết.',
 
   // Viết tắt được mở rộng trước khi so sánh đáp án (I'm = I am ...).
   contractions: {
@@ -107,19 +107,19 @@ LEA.registerLanguage({
       ],
     },
     {
-      id: 'L3', name: 'Cấp 3 · Tiền trung cấp', cefr: 'B1', status: 'planned', icon: '🌳',
+      id: 'L3', name: 'Cấp 3 · Tiền trung cấp', cefr: 'B1', status: 'available', icon: '🌳',
       outcome: 'Kể lại trải nghiệm, giải thích nguyên nhân – kết quả, đặt giả thiết, mô tả người và vật chi tiết.',
       units: [
-        { title: 'Trải nghiệm', grammar: 'Hiện tại hoàn thành; ever / never; already / yet / just' },
-        { title: 'Bao lâu rồi?', grammar: 'for / since; hiện tại hoàn thành vs quá khứ đơn' },
-        { title: 'Khi đang… thì…', grammar: 'Quá khứ tiếp diễn; when / while' },
-        { title: 'Nếu…', grammar: 'Câu điều kiện loại 0 và loại 1; unless' },
-        { title: 'Ngày xưa', grammar: 'used to + V; be / get used to + V-ing' },
-        { title: 'Muốn làm & thích làm', grammar: 'Động từ + to V / V-ing; stop / remember / forget / try' },
-        { title: 'Được làm bởi…', grammar: 'Câu bị động thì hiện tại và quá khứ; by / with' },
-        { title: 'Người mà… vật mà…', grammar: 'Mệnh đề quan hệ who / which / that / whose' },
-        { title: 'Hỏi cho lịch sự', grammar: 'Câu hỏi đuôi; câu hỏi gián tiếp Do you know where…?; so / neither' },
-        { title: 'Cảm xúc & mức độ', grammar: 'Tính từ -ing / -ed; trạng từ cách thức -ly; too / enough' },
+        { unit: 'u21', grammar: 'Hiện tại hoàn thành; ever / never; already / yet / just' },
+        { unit: 'u22', grammar: 'How long…? for / since; hiện tại hoàn thành vs quá khứ đơn' },
+        { unit: 'u23', grammar: 'Quá khứ tiếp diễn; when / while' },
+        { unit: 'u24', grammar: 'Câu điều kiện loại 0 và loại 1; unless' },
+        { unit: 'u25', grammar: 'used to + V; be / get used to + V-ing' },
+        { unit: 'u26', grammar: 'Động từ + to V / V-ing; remember / forget / stop / try' },
+        { unit: 'u27', grammar: 'Câu bị động thì hiện tại và quá khứ; by' },
+        { unit: 'u28', grammar: 'Mệnh đề quan hệ who / which / that / whose / where' },
+        { unit: 'u29', grammar: 'Câu hỏi đuôi; câu hỏi gián tiếp; So do I / Neither can I' },
+        { unit: 'u30', grammar: 'Tính từ -ing / -ed; trạng từ cách thức -ly; too / enough' },
       ],
     },
     {

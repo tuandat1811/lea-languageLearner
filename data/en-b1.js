@@ -1,0 +1,994 @@
+/*
+ * Khoá Tiếng Anh – Cấp 3 · Tiền trung cấp (B1): 10 chặng, 20 bài.
+ * Nạp sau data/en.js và data/en-a2.js trong index.html.
+ */
+LEA.extendLanguage('en', {
+  contractions: {
+    "i've": 'i have', "you've": 'you have', "we've": 'we have', "they've": 'they have',
+    "haven't": 'have not', "hasn't": 'has not', "couldn't": 'could not',
+  },
+  equivalents: { neighbor: 'neighbour', practice: 'practise' },
+
+  units: [
+    // ───────────────────────── CHẶNG 21 ─────────────────────────
+    {
+      id: 'u21', title: 'Trải nghiệm', titleEn: 'Experiences', icon: '🌍',
+      goal: 'Kể về những điều đã từng làm bằng thì hiện tại hoàn thành.',
+      lessons: [
+        {
+          id: 'u21l1', title: 'Bạn đã bao giờ…?', titleEn: 'Have you ever…?', icon: '✈️',
+          goal: 'Dùng have / has + V3 và ever / never để nói về trải nghiệm.',
+          vocab: [
+            { en: 'ever', vi: 'đã từng (trong câu hỏi)', ipa: '/ˈevər/', emoji: '❓' },
+            { en: 'been', vi: 'đã từng đến, đã từng là (be)', ipa: '/bɪn/', emoji: '🧳' },
+            { en: 'seen', vi: 'đã nhìn thấy, đã xem (see)', ipa: '/siːn/', emoji: '👀' },
+            { en: 'eaten', vi: 'đã ăn (eat)', ipa: '/ˈiːtn/', emoji: '🍣' },
+            { en: 'tried', vi: 'đã thử (try)', ipa: '/traɪd/', emoji: '🧪' },
+            { en: 'met', vi: 'đã gặp (meet)', ipa: '/met/', emoji: '🤝' },
+            { en: 'flown', vi: 'đã bay (fly)', ipa: '/floʊn/', emoji: '✈️' },
+            { en: 'abroad', vi: 'ở nước ngoài', ipa: '/əˈbrɔːd/', emoji: '🌏' },
+            { en: 'experience', vi: 'trải nghiệm', ipa: '/ɪkˈspɪriəns/', emoji: '🎒' },
+          ],
+          grammar: {
+            title: 'Thì hiện tại hoàn thành – nói về trải nghiệm',
+            points: [
+              'Cấu trúc: <b>have / has + V3</b> (quá khứ phân từ): I <b>have seen</b> snow. She <b>has eaten</b> sushi.',
+              'Dùng để nói về <b>trải nghiệm trong đời</b> mà không nói thời điểm cụ thể: I <b>have been</b> to Japan.',
+              'Hỏi: <b>Have you ever</b> + V3…? (Bạn đã bao giờ…?) – Yes, I <b>have</b>. / No, I <b>haven\'t</b>. / No, <b>never</b>.',
+              'V3 có quy tắc thêm -ed (tried, visited); bất quy tắc phải học thuộc: be → <b>been</b>, see → <b>seen</b>, eat → <b>eaten</b>, meet → <b>met</b>, fly → <b>flown</b>.',
+            ],
+            examples: [
+              { en: "Have you ever been abroad? – Yes, I've been to Thailand.", vi: 'Bạn đã bao giờ ra nước ngoài chưa? – Rồi, tôi từng đến Thái Lan.' },
+              { en: 'She has never seen snow.', vi: 'Cô ấy chưa bao giờ nhìn thấy tuyết.' },
+            ],
+          },
+          sentences: [
+            { en: 'Have you ever been abroad?', vi: 'Bạn đã bao giờ ra nước ngoài chưa?' },
+            { en: 'I have been to Thailand.', vi: 'Tôi đã từng đến Thái Lan.' },
+            { en: 'She has never seen snow.', vi: 'Cô ấy chưa bao giờ nhìn thấy tuyết.' },
+            { en: 'Have you ever eaten sushi?', vi: 'Bạn đã bao giờ ăn sushi chưa?' },
+            { en: 'We have met a famous singer.', vi: 'Chúng tôi đã từng gặp một ca sĩ nổi tiếng.' },
+            { en: 'My father has flown in a helicopter.', vi: 'Bố tôi đã từng bay trên trực thăng.' },
+          ],
+          reading: {
+            title: 'Danh sách trải nghiệm',
+            text: 'Minh is twenty and he loves new experiences. He has been to five countries. He has eaten snake in Hanoi and he has tried durian in Thailand. He has flown in a hot-air balloon. But he has never seen snow, so he wants to visit Japan in winter.',
+            vi: 'Minh hai mươi tuổi và rất thích những trải nghiệm mới. Cậu ấy đã đến năm quốc gia. Cậu ấy đã ăn thịt rắn ở Hà Nội và đã thử sầu riêng ở Thái Lan. Cậu ấy đã từng bay khinh khí cầu. Nhưng cậu ấy chưa bao giờ thấy tuyết, nên cậu muốn đến Nhật vào mùa đông.',
+            questions: [
+              { q: 'Minh đã đến bao nhiêu nước?', options: ['Năm', 'Hai', 'Mười', 'Ba'], answer: 0 },
+              { q: 'Minh đã thử sầu riêng ở đâu?', options: ['Thái Lan', 'Hà Nội', 'Nhật Bản', 'Hàn Quốc'], answer: 0 },
+              { q: 'Vì sao Minh muốn đến Nhật vào mùa đông?', options: ['Vì chưa bao giờ thấy tuyết', 'Vì thích sushi', 'Vì có bạn ở đó', 'Vì vé rẻ'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u21l2', title: 'Xong chưa?', titleEn: 'Already, yet, just', icon: '✔️',
+          goal: 'Dùng already / yet / just với thì hiện tại hoàn thành.',
+          vocab: [
+            { en: 'already', vi: 'đã … rồi', ipa: '/ɔːlˈredi/', emoji: '✅' },
+            { en: 'yet', vi: 'chưa (câu hỏi, phủ định)', ipa: '/jet/', emoji: '🕓' },
+            { en: 'just', vi: 'vừa mới', ipa: '/dʒʌst/', emoji: '⚡' },
+            { en: 'finish', vi: 'hoàn thành, làm xong', ipa: '/ˈfɪnɪʃ/', emoji: '🏁' },
+            { en: 'homework', vi: 'bài tập về nhà', ipa: '/ˈhoʊmwɜːrk/', emoji: '📓' },
+            { en: 'clean', vi: 'dọn dẹp, lau chùi', ipa: '/kliːn/', emoji: '🧹' },
+            { en: 'email', vi: 'thư điện tử', ipa: '/ˈiːmeɪl/', emoji: '📧' },
+            { en: 'arrive', vi: 'đến nơi', ipa: '/əˈraɪv/', emoji: '🛬' },
+          ],
+          grammar: {
+            title: 'already / yet / just',
+            points: [
+              '<b>already</b> (đã… rồi) dùng trong câu khẳng định, đứng giữa have và V3: I have <b>already</b> finished.',
+              '<b>yet</b> (chưa) đứng cuối câu phủ định và câu hỏi: I haven\'t finished <b>yet</b>. Have you finished <b>yet</b>?',
+              '<b>just</b> (vừa mới) cho việc vừa xảy ra: She has <b>just</b> arrived.',
+              'Viết tắt: I have = <b>I\'ve</b>, have not = <b>haven\'t</b>, has not = <b>hasn\'t</b>.',
+            ],
+            examples: [
+              { en: "Have you done your homework yet? – Yes, I've already done it.", vi: 'Bạn làm bài tập chưa? – Rồi, mình làm xong rồi.' },
+              { en: 'The bus has just left.', vi: 'Xe buýt vừa mới đi.' },
+            ],
+          },
+          sentences: [
+            { en: 'I have already finished my homework.', vi: 'Tôi đã làm xong bài tập về nhà rồi.' },
+            { en: 'Have you cleaned your room yet?', vi: 'Bạn đã dọn phòng chưa?' },
+            { en: "She hasn't answered my email yet.", vi: 'Cô ấy vẫn chưa trả lời email của tôi.' },
+            { en: 'The train has just arrived.', vi: 'Tàu vừa mới đến.' },
+            { en: 'We have already eaten.', vi: 'Chúng tôi đã ăn rồi.' },
+            { en: "I've just seen your message.", vi: 'Tôi vừa mới xem tin nhắn của bạn.' },
+          ],
+          reading: {
+            title: 'Chuẩn bị đi dã ngoại',
+            text: "Mom: Are you ready for the picnic?\nAn: Almost! I've already packed the food and I've just cleaned the car.\nMom: Have you called Grandpa yet?\nAn: No, not yet. I'll call him now.\nMom: Good. Dad hasn't come home yet, so we'll leave at ten.",
+            vi: 'Mẹ: Con chuẩn bị đi dã ngoại xong chưa?\nAn: Gần xong rồi ạ! Con đã xếp đồ ăn và vừa rửa xe xong.\nMẹ: Con đã gọi cho ông chưa?\nAn: Chưa ạ. Con sẽ gọi ngay bây giờ.\nMẹ: Tốt. Bố vẫn chưa về nên chúng ta sẽ đi lúc mười giờ.',
+            questions: [
+              { q: 'An đã làm xong việc gì?', options: ['Xếp đồ ăn và rửa xe', 'Gọi cho ông', 'Đón bố', 'Mua đồ ăn'], answer: 0 },
+              { q: 'An đã gọi cho ông chưa?', options: ['Chưa', 'Rồi', 'Không rõ', 'Ông gọi cho An'], answer: 0 },
+              { q: 'Vì sao họ đi lúc 10 giờ?', options: ['Vì bố chưa về', 'Vì trời mưa', 'Vì xe hỏng', 'Vì ông đến muộn'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 22 ─────────────────────────
+    {
+      id: 'u22', title: 'Bao lâu rồi?', titleEn: 'How long?', icon: '⏱️',
+      goal: 'Nói một việc đã kéo dài bao lâu; phân biệt hiện tại hoàn thành và quá khứ đơn.',
+      lessons: [
+        {
+          id: 'u22l1', title: 'For và since', titleEn: 'For and since', icon: '📅',
+          goal: 'Hỏi How long…? và trả lời với for / since.',
+          vocab: [
+            { en: 'for', vi: 'trong (một khoảng thời gian)', ipa: '/fɔːr/', emoji: '⌛' },
+            { en: 'since', vi: 'từ khi, kể từ', ipa: '/sɪns/', emoji: '🚩' },
+            { en: 'how long', vi: 'bao lâu', ipa: '/haʊ lɔːŋ/', emoji: '⏱️' },
+            { en: 'lived', vi: 'đã sống (live)', ipa: '/lɪvd/', emoji: '🏡' },
+            { en: 'known', vi: 'đã biết, đã quen (know)', ipa: '/noʊn/', emoji: '🧠' },
+            { en: 'worked', vi: 'đã làm việc (work)', ipa: '/wɜːrkt/', emoji: '💼' },
+            { en: 'month', vi: 'tháng', ipa: '/mʌnθ/', emoji: '🗓️' },
+            { en: 'neighbour', vi: 'hàng xóm', ipa: '/ˈneɪbər/', emoji: '🏘️', alts: ['neighbor'] },
+          ],
+          grammar: {
+            title: 'How long…? – for / since',
+            points: [
+              'Hiện tại hoàn thành dùng cho việc <b>bắt đầu trong quá khứ và vẫn tiếp diễn</b> đến nay: I <b>have lived</b> here for ten years.',
+              '<b>for</b> + khoảng thời gian: <b>for</b> three days, <b>for</b> two years, <b>for</b> a long time.',
+              '<b>since</b> + mốc thời gian: <b>since</b> 2020, <b>since</b> Monday, <b>since</b> I was a child.',
+              'Hỏi: <b>How long have you</b> + V3…? (Bạn đã… được bao lâu rồi?)',
+            ],
+            examples: [
+              { en: "How long have you known Lan? – I've known her since 2019.", vi: 'Bạn quen Lan bao lâu rồi? – Mình quen cô ấy từ năm 2019.' },
+              { en: 'He has worked here for six months.', vi: 'Anh ấy làm việc ở đây được sáu tháng rồi.' },
+            ],
+          },
+          sentences: [
+            { en: 'How long have you lived here?', vi: 'Bạn đã sống ở đây bao lâu rồi?' },
+            { en: 'I have lived here for ten years.', vi: 'Tôi đã sống ở đây mười năm rồi.' },
+            { en: 'She has worked at the bank since 2020.', vi: 'Cô ấy làm ở ngân hàng từ năm 2020.' },
+            { en: 'We have known each other since we were children.', vi: 'Chúng tôi quen nhau từ khi còn nhỏ.' },
+            { en: 'He has been sick for three days.', vi: 'Anh ấy bị ốm ba ngày rồi.' },
+            { en: "I haven't seen my neighbour for a month.", vi: 'Đã một tháng nay tôi không gặp hàng xóm.', alts: ["I haven't seen my neighbor for a month."] },
+          ],
+          reading: {
+            title: 'Cô giáo của chúng tôi',
+            text: 'Ms Hoa is our English teacher. She has taught at this school for fifteen years. She has lived in Da Nang since 2005. She has known my mother since they were students. She has had a cat called Mochi for six years.',
+            vi: 'Cô Hoa là giáo viên tiếng Anh của chúng tôi. Cô đã dạy ở trường này mười lăm năm. Cô sống ở Đà Nẵng từ năm 2005. Cô quen mẹ tôi từ khi họ còn là sinh viên. Cô nuôi một con mèo tên Mochi đã sáu năm.',
+            questions: [
+              { q: 'Cô Hoa đã dạy ở trường bao lâu?', options: ['15 năm', '6 năm', '5 năm', '20 năm'], answer: 0 },
+              { q: 'Cô sống ở Đà Nẵng từ năm nào?', options: ['2005', '2015', '2000', '1995'], answer: 0 },
+              { q: 'Cô nuôi mèo Mochi bao lâu rồi?', options: ['6 năm', '15 năm', '1 năm', '3 năm'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u22l2', title: 'Đã từng hay hôm qua?', titleEn: 'Present perfect or past?', icon: '🔀',
+          goal: 'Chọn đúng hiện tại hoàn thành hay quá khứ đơn.',
+          vocab: [
+            { en: 'when', vi: 'khi nào', ipa: '/wen/', emoji: '🕰️' },
+            { en: 'last year', vi: 'năm ngoái', ipa: '/læst jɪr/', emoji: '📆' },
+            { en: 'recently', vi: 'gần đây', ipa: '/ˈriːsntli/', emoji: '🆕' },
+            { en: 'moved', vi: 'đã chuyển (nhà) (move)', ipa: '/muːvd/', emoji: '🚚' },
+            { en: 'started', vi: 'đã bắt đầu (start)', ipa: '/ˈstɑːrtɪd/', emoji: '▶️' },
+            { en: 'lost', vi: 'đã làm mất (lose)', ipa: '/lɔːst/', emoji: '🔍' },
+            { en: 'found', vi: 'đã tìm thấy (find)', ipa: '/faʊnd/', emoji: '🔦' },
+            { en: 'key', vi: 'chìa khoá', ipa: '/kiː/', emoji: '🔑' },
+          ],
+          grammar: {
+            title: 'Hiện tại hoàn thành hay quá khứ đơn?',
+            points: [
+              '<b>Quá khứ đơn</b>: có <b>thời điểm cụ thể</b> (yesterday, last year, in 2019, ago): I <b>lost</b> my key yesterday.',
+              '<b>Hiện tại hoàn thành</b>: không nói thời điểm, hoặc kết quả còn ảnh hưởng đến bây giờ: I <b>have lost</b> my key (bây giờ vẫn chưa có chìa).',
+              'Câu hỏi với <b>When…?</b> luôn dùng quá khứ đơn: <b>When did</b> you move here? (không nói "When have you moved")',
+              'Thường hỏi bằng hiện tại hoàn thành rồi kể chi tiết bằng quá khứ đơn: Have you been to Hue? – Yes, I <b>went</b> there last year.',
+            ],
+            examples: [
+              { en: 'I have lost my key. – Where did you lose it?', vi: 'Tôi làm mất chìa khoá rồi. – Bạn làm mất ở đâu?' },
+              { en: 'We moved here in 2018.', vi: 'Chúng tôi chuyển đến đây năm 2018.' },
+            ],
+          },
+          sentences: [
+            { en: 'I have lost my key.', vi: 'Tôi bị mất chìa khoá rồi.' },
+            { en: 'I lost my key yesterday.', vi: 'Hôm qua tôi bị mất chìa khoá.' },
+            { en: 'When did you move to Hanoi?', vi: 'Bạn chuyển đến Hà Nội khi nào?' },
+            { en: 'We moved here last year.', vi: 'Chúng tôi chuyển đến đây năm ngoái.' },
+            { en: 'Have you seen any good films recently?', vi: 'Gần đây bạn có xem phim nào hay không?' },
+            { en: 'She started learning English three years ago.', vi: 'Cô ấy bắt đầu học tiếng Anh cách đây ba năm.' },
+          ],
+          reading: {
+            title: 'Chiếc chìa khoá',
+            text: "Tom: Oh no! I have lost my key.\nLisa: When did you last see it?\nTom: I used it this morning. Then I went to the coffee shop.\nLisa: Did you call the coffee shop?\nTom: Yes, I called them ten minutes ago. Good news – they have found it!",
+            vi: 'Tom: Ôi không! Tớ làm mất chìa khoá rồi.\nLisa: Lần cuối cậu thấy nó là khi nào?\nTom: Sáng nay tớ còn dùng. Sau đó tớ đến quán cà phê.\nLisa: Cậu gọi cho quán chưa?\nTom: Rồi, tớ gọi mười phút trước. Tin vui – họ đã tìm thấy nó!',
+            questions: [
+              { q: 'Tom bị mất gì?', options: ['Chìa khoá', 'Ví', 'Điện thoại', 'Cặp'], answer: 0 },
+              { q: 'Tom gọi cho quán cà phê khi nào?', options: ['Mười phút trước', 'Sáng nay', 'Hôm qua', 'Một tiếng trước'], answer: 0 },
+              { q: 'Kết quả thế nào?', options: ['Quán đã tìm thấy chìa khoá', 'Không tìm thấy', 'Lisa tìm thấy', 'Chìa khoá ở nhà'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 23 ─────────────────────────
+    {
+      id: 'u23', title: 'Khi đang… thì…', titleEn: 'Past continuous', icon: '🌧️',
+      goal: 'Kể chuyện quá khứ với việc đang diễn ra và việc xen vào.',
+      lessons: [
+        {
+          id: 'u23l1', title: 'Lúc đó bạn đang làm gì?', titleEn: 'What were you doing?', icon: '⏸️',
+          goal: 'Dùng was / were + V-ing; while.',
+          vocab: [
+            { en: 'while', vi: 'trong khi', ipa: '/waɪl/', emoji: '⏯️' },
+            { en: 'at that time', vi: 'vào lúc đó', ipa: '/æt ðæt taɪm/', emoji: '🕗' },
+            { en: 'shower', vi: 'tắm vòi sen', ipa: '/ˈʃaʊər/', emoji: '🚿' },
+            { en: 'sleeping', vi: 'đang ngủ', ipa: '/ˈsliːpɪŋ/', emoji: '💤' },
+            { en: 'raining', vi: 'đang mưa', ipa: '/ˈreɪnɪŋ/', emoji: '🌧️' },
+            { en: 'waiting', vi: 'đang đợi', ipa: '/ˈweɪtɪŋ/', emoji: '🧍' },
+            { en: 'driving', vi: 'đang lái xe', ipa: '/ˈdraɪvɪŋ/', emoji: '🚙' },
+            { en: 'phone call', vi: 'cuộc gọi điện thoại', ipa: '/foʊn kɔːl/', emoji: '📞' },
+          ],
+          grammar: {
+            title: 'Thì quá khứ tiếp diễn',
+            points: [
+              'Cấu trúc: <b>was / were + V-ing</b>: I <b>was sleeping</b>. They <b>were waiting</b>.',
+              'Diễn tả việc <b>đang diễn ra tại một thời điểm</b> trong quá khứ: At 8 p.m. last night I <b>was having</b> dinner.',
+              'Hai việc diễn ra song song dùng <b>while</b>: I was cooking <b>while</b> he was watching TV.',
+              'Phủ định: <b>wasn\'t / weren\'t + V-ing</b>. Hỏi: What <b>were</b> you <b>doing</b> at ten o\'clock?',
+            ],
+            examples: [
+              { en: 'What were you doing at nine last night? – I was watching a film.', vi: 'Chín giờ tối qua bạn đang làm gì? – Mình đang xem phim.' },
+              { en: 'It was raining all morning.', vi: 'Trời mưa suốt buổi sáng.' },
+            ],
+          },
+          sentences: [
+            { en: "What were you doing at nine o'clock?", vi: 'Lúc chín giờ bạn đang làm gì?' },
+            { en: 'I was having a shower.', vi: 'Lúc đó tôi đang tắm.' },
+            { en: 'It was raining all morning.', vi: 'Trời mưa suốt buổi sáng.' },
+            { en: 'They were waiting for the bus.', vi: 'Họ đang đợi xe buýt.' },
+            { en: 'My mother was cooking while my father was reading.', vi: 'Mẹ tôi nấu ăn trong khi bố tôi đọc sách.' },
+            { en: "We weren't sleeping at that time.", vi: 'Lúc đó chúng tôi không ngủ.' },
+          ],
+          reading: {
+            title: 'Mất điện',
+            text: "Last night there was a power cut at eight o'clock. What was everyone doing? My father was watching football on TV. My mother was talking on the phone. My sister was having a shower, and I was doing my homework on the computer. Nobody was happy!",
+            vi: 'Tối qua mất điện lúc tám giờ. Lúc đó mọi người đang làm gì? Bố tôi đang xem bóng đá trên TV. Mẹ tôi đang nói chuyện điện thoại. Chị tôi đang tắm, còn tôi đang làm bài tập trên máy tính. Chẳng ai vui cả!',
+            questions: [
+              { q: 'Mất điện lúc mấy giờ?', options: ['8 giờ', '9 giờ', '7 giờ', '10 giờ'], answer: 0 },
+              { q: 'Bố đang làm gì?', options: ['Xem bóng đá', 'Nói chuyện điện thoại', 'Tắm', 'Làm bài tập'], answer: 0 },
+              { q: 'Người kể chuyện đang làm gì?', options: ['Làm bài tập trên máy tính', 'Tắm', 'Xem TV', 'Ngủ'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u23l2', title: 'Bỗng nhiên…', titleEn: 'Suddenly…', icon: '⚡',
+          goal: 'Kết hợp quá khứ tiếp diễn và quá khứ đơn với when / while.',
+          vocab: [
+            { en: 'suddenly', vi: 'bỗng nhiên', ipa: '/ˈsʌdənli/', emoji: '⚡' },
+            { en: 'happen', vi: 'xảy ra', ipa: '/ˈhæpən/', emoji: '❗' },
+            { en: 'accident', vi: 'tai nạn', ipa: '/ˈæksɪdənt/', emoji: '🚑' },
+            { en: 'fell', vi: 'đã ngã (fall)', ipa: '/fel/', emoji: '🍂' },
+            { en: 'broke', vi: 'đã làm vỡ, bị gãy (break)', ipa: '/broʊk/', emoji: '💔' },
+            { en: 'rang', vi: 'đã reo (ring)', ipa: '/ræŋ/', emoji: '🔔' },
+            { en: 'cross', vi: 'băng qua (đường)', ipa: '/krɔːs/', emoji: '🚸' },
+            { en: 'noise', vi: 'tiếng ồn', ipa: '/nɔɪz/', emoji: '🔊' },
+          ],
+          grammar: {
+            title: 'Quá khứ tiếp diễn + quá khứ đơn',
+            points: [
+              'Một việc <b>đang diễn ra</b> (quá khứ tiếp diễn) thì một việc khác <b>xen vào</b> (quá khứ đơn).',
+              '<b>when</b> + quá khứ đơn: I was sleeping <b>when</b> the phone <b>rang</b>.',
+              '<b>while</b> + quá khứ tiếp diễn: <b>While</b> I <b>was walking</b> home, it started to rain.',
+              'Khi kể chuyện: quá khứ tiếp diễn tả <b>bối cảnh</b>, quá khứ đơn kể <b>các sự việc chính</b>.',
+            ],
+            examples: [
+              { en: 'I was reading when I heard a noise.', vi: 'Tôi đang đọc sách thì nghe thấy tiếng động.' },
+              { en: 'While she was crossing the road, she saw an accident.', vi: 'Trong lúc đang sang đường, cô ấy nhìn thấy một vụ tai nạn.' },
+            ],
+          },
+          sentences: [
+            { en: 'I was sleeping when the phone rang.', vi: 'Tôi đang ngủ thì điện thoại reo.' },
+            { en: 'She fell while she was running.', vi: 'Cô ấy bị ngã khi đang chạy.' },
+            { en: 'We were having dinner when the lights went out.', vi: 'Chúng tôi đang ăn tối thì mất điện.' },
+            { en: 'While I was walking home, it started to rain.', vi: 'Trong lúc tôi đang đi bộ về nhà thì trời bắt đầu mưa.' },
+            { en: 'He broke his leg when he was playing football.', vi: 'Anh ấy bị gãy chân khi đang chơi bóng đá.' },
+            { en: 'What happened?', vi: 'Chuyện gì đã xảy ra vậy?' },
+          ],
+          reading: {
+            title: 'Một buổi sáng đáng nhớ',
+            text: "Last Monday I was riding my bike to school. Suddenly, a cat ran into the road. I stopped quickly and fell off my bike. While I was sitting on the ground, a kind woman came and helped me. I wasn't badly hurt, but I was late for school.",
+            vi: 'Thứ Hai tuần trước tôi đang đạp xe đến trường. Bỗng nhiên một con mèo chạy ra đường. Tôi phanh gấp và ngã khỏi xe. Trong lúc tôi đang ngồi dưới đất, một người phụ nữ tốt bụng đến giúp tôi. Tôi không bị thương nặng nhưng bị muộn học.',
+            questions: [
+              { q: 'Người kể đang làm gì thì có chuyện?', options: ['Đạp xe đến trường', 'Đi bộ về nhà', 'Chơi bóng đá', 'Chờ xe buýt'], answer: 0 },
+              { q: 'Vì sao bạn ấy bị ngã?', options: ['Một con mèo chạy ra đường', 'Đường trơn', 'Xe bị hỏng', 'Bị ô tô đâm'], answer: 0 },
+              { q: 'Ai đã giúp bạn ấy?', options: ['Một người phụ nữ tốt bụng', 'Thầy giáo', 'Mẹ', 'Cảnh sát'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 24 ─────────────────────────
+    {
+      id: 'u24', title: 'Nếu…', titleEn: 'Conditionals', icon: '🤔',
+      goal: 'Nói về sự thật và khả năng có thể xảy ra với câu điều kiện loại 0, loại 1.',
+      lessons: [
+        {
+          id: 'u24l1', title: 'Luôn luôn đúng', titleEn: 'Zero conditional', icon: '🧪',
+          goal: 'Câu điều kiện loại 0: If + hiện tại đơn, hiện tại đơn.',
+          vocab: [
+            { en: 'if', vi: 'nếu', ipa: '/ɪf/', emoji: '🔀' },
+            { en: 'heat', vi: 'đun nóng', ipa: '/hiːt/', emoji: '🔥' },
+            { en: 'boil', vi: 'sôi', ipa: '/bɔɪl/', emoji: '🫖' },
+            { en: 'melt', vi: 'tan chảy', ipa: '/melt/', emoji: '🫠' },
+            { en: 'ice', vi: 'băng, nước đá', ipa: '/aɪs/', emoji: '🧊' },
+            { en: 'plant', vi: 'cây trồng', ipa: '/plænt/', emoji: '🪴' },
+            { en: 'die', vi: 'chết', ipa: '/daɪ/', emoji: '🥀' },
+            { en: 'temperature', vi: 'nhiệt độ', ipa: '/ˈtemprətʃər/', emoji: '🌡️' },
+          ],
+          grammar: {
+            title: 'Câu điều kiện loại 0 – sự thật hiển nhiên',
+            points: [
+              'Cấu trúc: <b>If + hiện tại đơn, hiện tại đơn</b>.',
+              'Dùng cho <b>sự thật khoa học</b> hoặc điều <b>luôn luôn đúng</b>: If you heat ice, it <b>melts</b>.',
+              '<b>if</b> có thể thay bằng <b>when</b> mà nghĩa gần như không đổi: <b>When</b> it rains, the streets get wet.',
+              'Mệnh đề if đứng đầu thì có dấu phẩy; đứng sau thì không: Plants die <b>if</b> they don\'t get water.',
+            ],
+            examples: [
+              { en: 'If you heat water to 100 degrees, it boils.', vi: 'Nếu đun nước đến 100 độ, nước sẽ sôi.' },
+              { en: "If I drink coffee at night, I can't sleep.", vi: 'Nếu uống cà phê buổi tối, tôi không ngủ được.' },
+            ],
+          },
+          sentences: [
+            { en: 'If you heat ice, it melts.', vi: 'Nếu đun nóng băng, nó sẽ tan chảy.' },
+            { en: 'Water boils if the temperature is 100 degrees.', vi: 'Nước sôi nếu nhiệt độ là 100 độ.' },
+            { en: "If plants don't get water, they die.", vi: 'Nếu cây không có nước, chúng sẽ chết.' },
+            { en: "If I drink coffee at night, I can't sleep.", vi: 'Nếu uống cà phê buổi tối, tôi không ngủ được.' },
+            { en: 'If you mix red and white, you get pink.', vi: 'Nếu trộn màu đỏ với màu trắng, bạn sẽ được màu hồng.' },
+            { en: 'When it rains, the streets get wet.', vi: 'Khi trời mưa, đường phố bị ướt.' },
+          ],
+          reading: {
+            title: 'Khoa học trong bếp',
+            text: 'Cooking is like science. If you heat water to 100 degrees, it boils. If you put butter in a hot pan, it melts. If you leave milk outside the fridge for a long time, it goes bad. And if you add too much salt, nobody wants to eat your food!',
+            vi: 'Nấu ăn cũng giống như khoa học. Nếu đun nước đến 100 độ, nước sôi. Nếu cho bơ vào chảo nóng, bơ tan chảy. Nếu để sữa ngoài tủ lạnh lâu, sữa bị hỏng. Và nếu cho quá nhiều muối, chẳng ai muốn ăn món của bạn!',
+            questions: [
+              { q: 'Nước sôi ở bao nhiêu độ?', options: ['100 độ', '50 độ', '80 độ', '200 độ'], answer: 0 },
+              { q: 'Bơ trong chảo nóng sẽ thế nào?', options: ['Tan chảy', 'Đông cứng', 'Biến mất', 'Không thay đổi'], answer: 0 },
+              { q: 'Sữa để ngoài tủ lạnh lâu sẽ thế nào?', options: ['Bị hỏng', 'Ngon hơn', 'Đông lại', 'Sôi lên'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u24l2', title: 'Nếu ngày mai…', titleEn: 'First conditional', icon: '🌦️',
+          goal: 'Câu điều kiện loại 1: If + hiện tại đơn, will + V; unless.',
+          vocab: [
+            { en: 'unless', vi: 'trừ khi, nếu không', ipa: '/ənˈles/', emoji: '🚫' },
+            { en: 'miss', vi: 'lỡ, nhỡ (xe, chuyến bay)', ipa: '/mɪs/', emoji: '🚌' },
+            { en: 'hurry', vi: 'nhanh lên, vội', ipa: '/ˈhɜːri/', emoji: '🏃‍♂️' },
+            { en: 'pass', vi: 'đỗ, vượt qua (kỳ thi)', ipa: '/pæs/', emoji: '📝' },
+            { en: 'exam', vi: 'kỳ thi', ipa: '/ɪɡˈzæm/', emoji: '🧾' },
+            { en: 'umbrella', vi: 'cái ô', ipa: '/ʌmˈbrelə/', emoji: '☂️' },
+            { en: 'wet', vi: 'ướt', ipa: '/wet/', emoji: '💦' },
+            { en: 'angry', vi: 'tức giận', ipa: '/ˈæŋɡri/', emoji: '😡' },
+          ],
+          grammar: {
+            title: 'Câu điều kiện loại 1 – có thể xảy ra',
+            points: [
+              'Cấu trúc: <b>If + hiện tại đơn, will + V</b>: If it rains tomorrow, I <b>will</b> stay at home.',
+              'Dùng cho điều <b>có thể xảy ra</b> ở hiện tại hoặc tương lai.',
+              'Không dùng will trong mệnh đề if: <b>If it rains</b> (không nói "If it will rain").',
+              '<b>unless</b> = <b>if … not</b>: <b>Unless</b> you hurry, you will miss the bus. = <b>If</b> you <b>don\'t</b> hurry, …',
+            ],
+            examples: [
+              { en: 'If you study hard, you will pass the exam.', vi: 'Nếu học chăm, bạn sẽ đỗ kỳ thi.' },
+              { en: "Take an umbrella, or you'll get wet if it rains.", vi: 'Mang ô theo, không thì trời mưa bạn sẽ bị ướt.' },
+            ],
+          },
+          sentences: [
+            { en: 'If it rains tomorrow, I will stay at home.', vi: 'Nếu mai trời mưa, tôi sẽ ở nhà.' },
+            { en: 'If you study hard, you will pass the exam.', vi: 'Nếu bạn học chăm, bạn sẽ đỗ kỳ thi.' },
+            { en: "You will miss the bus if you don't hurry.", vi: 'Bạn sẽ lỡ xe buýt nếu không nhanh lên.' },
+            { en: 'Unless you take an umbrella, you will get wet.', vi: 'Nếu không mang ô, bạn sẽ bị ướt.' },
+            { en: "If I see Lan, I'll tell her.", vi: 'Nếu gặp Lan, tôi sẽ nói với cô ấy.' },
+            { en: 'Mom will be angry if we are late.', vi: 'Mẹ sẽ giận nếu chúng ta về muộn.' },
+          ],
+          reading: {
+            title: 'Đi chơi cuối tuần',
+            text: "Ben: What will we do this Saturday?\nAnna: If the weather is nice, we will go to the beach.\nBen: And if it rains?\nAnna: If it rains, we'll watch a film at the cinema. But unless we finish our homework on Friday, Mom won't let us go anywhere!",
+            vi: 'Ben: Thứ Bảy này mình làm gì nhỉ?\nAnna: Nếu trời đẹp, mình sẽ đi biển.\nBen: Còn nếu trời mưa?\nAnna: Nếu mưa, mình sẽ xem phim ở rạp. Nhưng nếu không làm xong bài tập vào thứ Sáu thì mẹ sẽ không cho mình đi đâu cả!',
+            questions: [
+              { q: 'Nếu trời đẹp họ sẽ đi đâu?', options: ['Bãi biển', 'Rạp chiếu phim', 'Công viên', 'Nhà bà'], answer: 0 },
+              { q: 'Nếu trời mưa họ sẽ làm gì?', options: ['Xem phim ở rạp', 'Ở nhà ngủ', 'Vẫn đi biển', 'Làm bài tập'], answer: 0 },
+              { q: 'Điều kiện của mẹ là gì?', options: ['Làm xong bài tập vào thứ Sáu', 'Dọn nhà', 'Về trước 6 giờ', 'Mang ô theo'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 25 ─────────────────────────
+    {
+      id: 'u25', title: 'Thói quen xưa và nay', titleEn: 'Then and now', icon: '🕰️',
+      goal: 'So sánh thói quen ngày xưa với bây giờ; nói về việc dần quen với điều mới.',
+      lessons: [
+        {
+          id: 'u25l1', title: 'Tôi từng…', titleEn: 'Used to', icon: '📻',
+          goal: 'Dùng used to + V cho thói quen trong quá khứ.',
+          vocab: [
+            { en: 'used to', vi: 'đã từng (thói quen trong quá khứ)', ipa: '/ˈjuːst tə/', emoji: '🕰️' },
+            { en: 'anymore', vi: 'không … nữa', ipa: '/ˌeniˈmɔːr/', emoji: '🛑' },
+            { en: 'radio', vi: 'đài, radio', ipa: '/ˈreɪdioʊ/', emoji: '📻' },
+            { en: 'letter', vi: 'bức thư', ipa: '/ˈletər/', emoji: '✉️' },
+            { en: 'candy', vi: 'kẹo', ipa: '/ˈkændi/', emoji: '🍭', alts: ['sweets'] },
+            { en: 'hair', vi: 'tóc', ipa: '/her/', emoji: '💇' },
+            { en: 'guitar', vi: 'đàn ghi-ta', ipa: '/ɡɪˈtɑːr/', emoji: '🎸' },
+            { en: 'glasses', vi: 'kính mắt', ipa: '/ˈɡlæsɪz/', emoji: '👓' },
+          ],
+          grammar: {
+            title: 'used to + V',
+            points: [
+              '<b>used to</b> + động từ nguyên mẫu: thói quen hoặc trạng thái <b>trong quá khứ</b>, nay <b>không còn</b>: I <b>used to</b> have long hair.',
+              'Phủ định: <b>didn\'t use to</b> + V: She <b>didn\'t use to</b> wear glasses.',
+              'Câu hỏi: <b>Did</b> you <b>use to</b> + V…? – Yes, I did.',
+              'Hay đi với <b>not … anymore</b> (không … nữa): I used to eat a lot of candy, but I don\'t <b>anymore</b>.',
+            ],
+            examples: [
+              { en: 'I used to listen to the radio every night.', vi: 'Ngày xưa tối nào tôi cũng nghe đài.' },
+              { en: 'Did you use to write letters?', vi: 'Ngày trước bạn có hay viết thư không?' },
+            ],
+          },
+          sentences: [
+            { en: 'I used to have long hair.', vi: 'Tôi từng để tóc dài.' },
+            { en: 'My grandfather used to listen to the radio.', vi: 'Ông tôi từng hay nghe đài.' },
+            { en: "She didn't use to wear glasses.", vi: 'Trước đây cô ấy không đeo kính.' },
+            { en: 'Did you use to write letters?', vi: 'Ngày trước bạn có hay viết thư không?' },
+            { en: "I used to eat a lot of candy, but I don't anymore.", vi: 'Tôi từng ăn rất nhiều kẹo, nhưng giờ thì không nữa.' },
+            { en: 'We used to live in a village.', vi: 'Chúng tôi từng sống ở một ngôi làng.' },
+          ],
+          reading: {
+            title: 'Bố ngày xưa',
+            text: 'My dad has changed a lot. He used to have long hair and he used to play the guitar in a band. He didn\'t use to wear glasses. He used to write letters to my mom every week. Now he has short hair, wears glasses and sends her text messages!',
+            vi: 'Bố tôi đã thay đổi rất nhiều. Ngày xưa bố để tóc dài và chơi ghi-ta trong một ban nhạc. Hồi đó bố không đeo kính. Tuần nào bố cũng viết thư cho mẹ tôi. Giờ bố để tóc ngắn, đeo kính và nhắn tin cho mẹ!',
+            questions: [
+              { q: 'Ngày xưa bố chơi nhạc cụ gì?', options: ['Đàn ghi-ta', 'Đàn piano', 'Trống', 'Vi-ô-lông'], answer: 0 },
+              { q: 'Ngày xưa bố có đeo kính không?', options: ['Không', 'Có', 'Thỉnh thoảng', 'Không rõ'], answer: 0 },
+              { q: 'Bây giờ bố liên lạc với mẹ bằng gì?', options: ['Tin nhắn', 'Thư tay', 'Đài', 'Bồ câu đưa thư'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u25l2', title: 'Dần quen', titleEn: 'Getting used to it', icon: '🏙️',
+          goal: 'Dùng be used to / get used to + V-ing; phân biệt với used to.',
+          vocab: [
+            { en: 'be used to', vi: 'đã quen với', ipa: '/bi ˈjuːst tə/', emoji: '😌' },
+            { en: 'get used to', vi: 'dần quen với', ipa: '/ɡet ˈjuːst tə/', emoji: '🌱' },
+            { en: 'traffic', vi: 'giao thông, xe cộ', ipa: '/ˈtræfɪk/', emoji: '🚥' },
+            { en: 'noisy', vi: 'ồn ào', ipa: '/ˈnɔɪzi/', emoji: '📢' },
+            { en: 'spicy', vi: 'cay', ipa: '/ˈspaɪsi/', emoji: '🌶️' },
+            { en: 'weather', vi: 'thời tiết', ipa: '/ˈweðər/', emoji: '⛅' },
+            { en: 'strange', vi: 'lạ lẫm', ipa: '/streɪndʒ/', emoji: '🤨' },
+            { en: 'culture', vi: 'văn hoá', ipa: '/ˈkʌltʃər/', emoji: '🎎' },
+          ],
+          grammar: {
+            title: 'be used to / get used to + V-ing',
+            points: [
+              '<b>be used to</b> + danh từ / V-ing = <b>đã quen với</b>: I <b>am used to</b> getting up early.',
+              '<b>get used to</b> + danh từ / V-ing = <b>dần quen với</b>: She is <b>getting used to</b> the cold weather.',
+              'Phân biệt: I <b>used to</b> live in Hue (ngày xưa sống ở đó, nay không) ≠ I <b>am used to</b> living in Hue (đã quen sống ở Huế).',
+              'Sau "to" trong hai cấu trúc này dùng <b>V-ing</b>, không dùng động từ nguyên mẫu.',
+            ],
+            examples: [
+              { en: "I'm not used to spicy food.", vi: 'Tôi chưa quen ăn cay.' },
+              { en: 'You will get used to the traffic soon.', vi: 'Bạn sẽ sớm quen với giao thông thôi.' },
+            ],
+          },
+          sentences: [
+            { en: 'I am used to getting up early.', vi: 'Tôi đã quen dậy sớm.' },
+            { en: "She isn't used to spicy food.", vi: 'Cô ấy chưa quen đồ ăn cay.' },
+            { en: 'You will get used to the noisy traffic.', vi: 'Bạn sẽ dần quen với xe cộ ồn ào.' },
+            { en: 'He is getting used to the cold weather.', vi: 'Anh ấy đang dần quen với thời tiết lạnh.' },
+            { en: 'Everything was strange at first.', vi: 'Lúc đầu mọi thứ đều lạ lẫm.' },
+            { en: 'We are used to living in a big city.', vi: 'Chúng tôi đã quen sống ở thành phố lớn.' },
+          ],
+          reading: {
+            title: 'Sarah ở Hà Nội',
+            text: "Sarah is from London. She moved to Hanoi six months ago. At first, everything was strange. She wasn't used to the noisy traffic and the hot weather. She couldn't eat spicy food. Now she has got used to life here. She rides a motorbike and she loves bun cha!",
+            vi: 'Sarah đến từ London. Cô ấy chuyển đến Hà Nội sáu tháng trước. Lúc đầu mọi thứ đều lạ lẫm. Cô chưa quen giao thông ồn ào và thời tiết nóng. Cô không ăn được đồ cay. Giờ cô đã quen với cuộc sống ở đây. Cô đi xe máy và rất mê bún chả!',
+            questions: [
+              { q: 'Sarah đến Hà Nội bao lâu rồi?', options: ['Sáu tháng', 'Một năm', 'Hai tháng', 'Sáu năm'], answer: 0 },
+              { q: 'Lúc đầu Sarah chưa quen điều gì?', options: ['Giao thông ồn ào và trời nóng', 'Tiếng Việt', 'Đồ ăn ngọt', 'Trời lạnh'], answer: 0 },
+              { q: 'Bây giờ Sarah thế nào?', options: ['Đã quen và thích cuộc sống ở đây', 'Muốn về London', 'Vẫn chưa quen', 'Không thích bún chả'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 26 ─────────────────────────
+    {
+      id: 'u26', title: 'Muốn làm & thích làm', titleEn: 'Verb patterns', icon: '🧩',
+      goal: 'Biết động từ nào đi với to V, động từ nào đi với V-ing.',
+      lessons: [
+        {
+          id: 'u26l1', title: 'to V hay V-ing?', titleEn: 'To or -ing?', icon: '🧩',
+          goal: 'Động từ + to V (decide, agree, refuse) và + V-ing (avoid, mind, keep).',
+          vocab: [
+            { en: 'decide', vi: 'quyết định', ipa: '/dɪˈsaɪd/', emoji: '🧭' },
+            { en: 'agree', vi: 'đồng ý', ipa: '/əˈɡriː/', emoji: '🤝' },
+            { en: 'refuse', vi: 'từ chối', ipa: '/rɪˈfjuːz/', emoji: '🙅' },
+            { en: 'avoid', vi: 'tránh', ipa: '/əˈvɔɪd/', emoji: '🚧' },
+            { en: 'mind', vi: 'phiền, ngại', ipa: '/maɪnd/', emoji: '😕' },
+            { en: 'keep', vi: 'cứ tiếp tục', ipa: '/kiːp/', emoji: '🔁' },
+            { en: 'practise', vi: 'luyện tập', ipa: '/ˈpræktɪs/', emoji: '🎹', alts: ['practice'] },
+            { en: 'suggest', vi: 'gợi ý, đề nghị', ipa: '/səˈdʒest/', emoji: '💡' },
+          ],
+          grammar: {
+            title: 'Động từ + to V / V-ing',
+            points: [
+              'Sau <b>want, decide, agree, refuse, hope, plan, learn</b> dùng <b>to + V</b>: I decided <b>to stay</b>.',
+              'Sau <b>enjoy, avoid, mind, keep, finish, practise, suggest</b> dùng <b>V-ing</b>: She avoids <b>eating</b> sugar.',
+              'Sau <b>giới từ</b> luôn dùng V-ing: interested <b>in learning</b>, good <b>at swimming</b>.',
+              'Phủ định đặt <b>not</b> phía trước: He decided <b>not to go</b>.',
+            ],
+            examples: [
+              { en: 'Would you mind opening the window?', vi: 'Bạn có phiền mở cửa sổ giúp không?' },
+              { en: 'They agreed to help us.', vi: 'Họ đồng ý giúp chúng tôi.' },
+            ],
+          },
+          sentences: [
+            { en: 'I decided to learn English.', vi: 'Tôi đã quyết định học tiếng Anh.' },
+            { en: 'She refused to answer the question.', vi: 'Cô ấy từ chối trả lời câu hỏi.' },
+            { en: 'They agreed to help us.', vi: 'Họ đồng ý giúp chúng tôi.' },
+            { en: 'You should avoid eating too much sugar.', vi: 'Bạn nên tránh ăn quá nhiều đường.' },
+            { en: 'Would you mind closing the door?', vi: 'Bạn có phiền đóng cửa giúp không?' },
+            { en: 'He kept talking during the film.', vi: 'Anh ấy cứ nói chuyện suốt bộ phim.' },
+          ],
+          reading: {
+            title: 'Kế hoạch của bố',
+            text: 'My dad decided to lose weight this year. He agreed to stop drinking soda and he avoids eating fast food. He practises running every morning. At first he hated getting up early, but he kept trying. Now he enjoys running and he has lost five kilos!',
+            vi: 'Năm nay bố tôi quyết định giảm cân. Bố đồng ý bỏ nước ngọt và tránh ăn đồ ăn nhanh. Sáng nào bố cũng tập chạy. Lúc đầu bố ghét dậy sớm, nhưng bố vẫn cố gắng. Giờ bố rất thích chạy bộ và đã giảm được năm cân!',
+            questions: [
+              { q: 'Bố quyết định làm gì?', options: ['Giảm cân', 'Học tiếng Anh', 'Đổi việc', 'Mua xe'], answer: 0 },
+              { q: 'Bố tránh ăn gì?', options: ['Đồ ăn nhanh', 'Rau', 'Cơm', 'Trái cây'], answer: 0 },
+              { q: 'Bố đã giảm được bao nhiêu cân?', options: ['5 kg', '3 kg', '10 kg', '1 kg'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u26l2', title: 'Nhớ, quên, dừng, thử', titleEn: 'Remember, forget, stop, try', icon: '🧠',
+          goal: 'Động từ đổi nghĩa khi đi với to V hoặc V-ing.',
+          vocab: [
+            { en: 'remember', vi: 'nhớ', ipa: '/rɪˈmembər/', emoji: '🧠' },
+            { en: 'forget', vi: 'quên', ipa: '/fərˈɡet/', emoji: '🫥' },
+            { en: 'stop', vi: 'dừng lại, thôi', ipa: '/stɑːp/', emoji: '🛑' },
+            { en: 'try', vi: 'cố gắng; thử', ipa: '/traɪ/', emoji: '💪' },
+            { en: 'lock', vi: 'khoá (cửa)', ipa: '/lɑːk/', emoji: '🔒' },
+            { en: 'turn off', vi: 'tắt (thiết bị)', ipa: '/tɜːrn ɔːf/', emoji: '🔌' },
+            { en: 'smoke', vi: 'hút thuốc', ipa: '/smoʊk/', emoji: '🚬' },
+            { en: 'feed', vi: 'cho ăn', ipa: '/fiːd/', emoji: '🐱' },
+          ],
+          grammar: {
+            title: 'Động từ đổi nghĩa với to V / V-ing',
+            points: [
+              '<b>remember / forget + to V</b>: nhớ / quên <b>phải làm</b> (việc chưa làm): Remember <b>to lock</b> the door!',
+              '<b>remember / forget + V-ing</b>: nhớ / quên <b>là đã làm</b> (việc đã xảy ra): I remember <b>meeting</b> her.',
+              '<b>stop + V-ing</b> = thôi, bỏ hẳn: He stopped <b>smoking</b>. <b>stop + to V</b> = dừng lại <b>để</b> làm gì: He stopped <b>to buy</b> water.',
+              '<b>try + to V</b> = cố gắng; <b>try + V-ing</b> = thử làm xem sao: Try <b>drinking</b> warm milk.',
+            ],
+            examples: [
+              { en: "Don't forget to turn off the lights.", vi: 'Đừng quên tắt đèn nhé.' },
+              { en: "I'll never forget visiting Ha Long Bay.", vi: 'Tôi sẽ không bao giờ quên chuyến thăm vịnh Hạ Long.' },
+            ],
+          },
+          sentences: [
+            { en: 'Remember to lock the door.', vi: 'Nhớ khoá cửa nhé.' },
+            { en: 'I remember meeting her at the party.', vi: 'Tôi nhớ là đã gặp cô ấy ở bữa tiệc.' },
+            { en: "Don't forget to turn off the lights.", vi: 'Đừng quên tắt đèn.' },
+            { en: 'My uncle stopped smoking last year.', vi: 'Chú tôi đã bỏ thuốc lá từ năm ngoái.' },
+            { en: 'We stopped to buy some water.', vi: 'Chúng tôi dừng lại để mua nước.' },
+            { en: 'Try to sleep early tonight.', vi: 'Tối nay cố gắng ngủ sớm nhé.' },
+          ],
+          reading: {
+            title: 'Tờ giấy nhắn của mẹ',
+            text: "Dear Nam,\nI'm going to work early today. Please remember to feed the cat and don't forget to lock the door. If you feel tired, try drinking some warm milk. And please stop playing games at ten o'clock!\nLove, Mom",
+            vi: 'Nam thân mến,\nHôm nay mẹ đi làm sớm. Con nhớ cho mèo ăn và đừng quên khoá cửa nhé. Nếu thấy mệt, con thử uống chút sữa ấm. Và mười giờ thì thôi chơi game nhé!\nThương con, Mẹ',
+            questions: [
+              { q: 'Mẹ nhắc Nam nhớ làm gì?', options: ['Cho mèo ăn', 'Nấu cơm', 'Đi chợ', 'Gọi điện cho bố'], answer: 0 },
+              { q: 'Nếu mệt, Nam nên thử làm gì?', options: ['Uống sữa ấm', 'Đi ngủ ngay', 'Chơi game', 'Ăn kẹo'], answer: 0 },
+              { q: 'Mẹ muốn Nam thôi chơi game lúc mấy giờ?', options: ['10 giờ', '9 giờ', '11 giờ', '8 giờ'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 27 ─────────────────────────
+    {
+      id: 'u27', title: 'Được làm bởi…', titleEn: 'The passive', icon: '🏭',
+      goal: 'Dùng câu bị động để nói về sản phẩm, công trình, phát minh.',
+      lessons: [
+        {
+          id: 'u27l1', title: 'Được làm ra thế nào?', titleEn: 'Present passive', icon: '🏭',
+          goal: 'Câu bị động hiện tại đơn: am / is / are + V3.',
+          vocab: [
+            { en: 'made', vi: 'được làm (make)', ipa: '/meɪd/', emoji: '🛠️' },
+            { en: 'grown', vi: 'được trồng (grow)', ipa: '/ɡroʊn/', emoji: '🌾' },
+            { en: 'spoken', vi: 'được nói (speak)', ipa: '/ˈspoʊkən/', emoji: '💬' },
+            { en: 'sold', vi: 'được bán (sell)', ipa: '/soʊld/', emoji: '💲' },
+            { en: 'produce', vi: 'sản xuất', ipa: '/prəˈduːs/', emoji: '🏭' },
+            { en: 'factory', vi: 'nhà máy', ipa: '/ˈfæktəri/', emoji: '🏗️' },
+            { en: 'silk', vi: 'lụa', ipa: '/sɪlk/', emoji: '🧣' },
+            { en: 'export', vi: 'xuất khẩu', ipa: '/ɪkˈspɔːrt/', emoji: '🚢' },
+          ],
+          grammar: {
+            title: 'Câu bị động thì hiện tại đơn',
+            points: [
+              'Cấu trúc: <b>am / is / are + V3</b>: Rice <b>is grown</b> in Vietnam.',
+              'Dùng khi <b>người làm không quan trọng</b> hoặc không biết, và muốn nhấn mạnh vào <b>sự vật, sự việc</b>.',
+              'Muốn nói ai làm thì thêm <b>by</b>: This cake <b>is made by</b> my mother.',
+              'Chủ động → bị động: People <b>speak</b> English here. → English <b>is spoken</b> here.',
+            ],
+            examples: [
+              { en: 'Coffee is grown in Dak Lak.', vi: 'Cà phê được trồng ở Đắk Lắk.' },
+              { en: 'These shoes are made in Vietnam.', vi: 'Đôi giày này được sản xuất tại Việt Nam.' },
+            ],
+          },
+          sentences: [
+            { en: 'Rice is grown in the Mekong Delta.', vi: 'Lúa được trồng ở đồng bằng sông Cửu Long.' },
+            { en: 'English is spoken all over the world.', vi: 'Tiếng Anh được nói trên khắp thế giới.' },
+            { en: 'These shoes are made in Vietnam.', vi: 'Đôi giày này được sản xuất tại Việt Nam.' },
+            { en: 'The cake is made by my mother.', vi: 'Chiếc bánh do mẹ tôi làm.' },
+            { en: 'Silk is produced in Bao Loc.', vi: 'Lụa được sản xuất ở Bảo Lộc.' },
+            { en: 'Vietnamese coffee is exported to many countries.', vi: 'Cà phê Việt Nam được xuất khẩu sang nhiều nước.' },
+          ],
+          reading: {
+            title: 'Hành trình của hạt cà phê',
+            text: "Coffee is one of Vietnam's most important products. Most coffee is grown in the Central Highlands. The beans are picked by hand and then they are dried in the sun. After that, the coffee is roasted in factories. It is sold in Vietnam and exported to more than eighty countries.",
+            vi: 'Cà phê là một trong những sản phẩm quan trọng nhất của Việt Nam. Phần lớn cà phê được trồng ở Tây Nguyên. Hạt cà phê được hái bằng tay rồi phơi dưới nắng. Sau đó cà phê được rang trong nhà máy. Cà phê được bán trong nước và xuất khẩu tới hơn tám mươi quốc gia.',
+            questions: [
+              { q: 'Phần lớn cà phê được trồng ở đâu?', options: ['Tây Nguyên', 'Đồng bằng sông Cửu Long', 'Hà Nội', 'Ven biển'], answer: 0 },
+              { q: 'Hạt cà phê được hái bằng gì?', options: ['Bằng tay', 'Bằng máy', 'Bằng rô-bốt', 'Không rõ'], answer: 0 },
+              { q: 'Cà phê được xuất khẩu tới bao nhiêu nước?', options: ['Hơn 80', 'Hơn 8', 'Hơn 18', 'Hơn 800'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u27l2', title: 'Đã được…', titleEn: 'Past passive', icon: '🏛️',
+          goal: 'Câu bị động quá khứ đơn: was / were + V3.',
+          vocab: [
+            { en: 'built', vi: 'được xây (build)', ipa: '/bɪlt/', emoji: '🏛️' },
+            { en: 'invented', vi: 'được phát minh (invent)', ipa: '/ɪnˈventɪd/', emoji: '🔬' },
+            { en: 'written', vi: 'được viết (write)', ipa: '/ˈrɪtn/', emoji: '✍️' },
+            { en: 'painted', vi: 'được vẽ, được sơn (paint)', ipa: '/ˈpeɪntɪd/', emoji: '🎨' },
+            { en: 'discovered', vi: 'được phát hiện (discover)', ipa: '/dɪˈskʌvərd/', emoji: '🔭' },
+            { en: 'stolen', vi: 'bị lấy cắp (steal)', ipa: '/ˈstoʊlən/', emoji: '🦹' },
+            { en: 'cave', vi: 'hang động', ipa: '/keɪv/', emoji: '🕳️' },
+            { en: 'temple', vi: 'đền, chùa', ipa: '/ˈtempl/', emoji: '🛕' },
+          ],
+          grammar: {
+            title: 'Câu bị động thì quá khứ đơn',
+            points: [
+              'Cấu trúc: <b>was / were + V3</b>: The temple <b>was built</b> in 1070.',
+              'Hỏi: <b>When was</b> it <b>built</b>? <b>Who was</b> it <b>written by</b>?',
+              'Phủ định: <b>wasn\'t / weren\'t + V3</b>: The thief <b>wasn\'t caught</b>.',
+              'Nhiều V3 bất quy tắc: build → <b>built</b>, write → <b>written</b>, steal → <b>stolen</b>, make → <b>made</b>.',
+            ],
+            examples: [
+              { en: 'The Temple of Literature was built in 1070.', vi: 'Văn Miếu được xây dựng năm 1070.' },
+              { en: 'My bike was stolen last night.', vi: 'Xe đạp của tôi bị lấy cắp tối qua.' },
+            ],
+          },
+          sentences: [
+            { en: 'The Temple of Literature was built in 1070.', vi: 'Văn Miếu được xây dựng năm 1070.' },
+            { en: 'The telephone was invented by Bell.', vi: 'Điện thoại được phát minh bởi Bell.' },
+            { en: 'This song was written by Trinh Cong Son.', vi: 'Bài hát này do Trịnh Công Sơn sáng tác.' },
+            { en: 'My bike was stolen last night.', vi: 'Xe đạp của tôi bị lấy cắp tối qua.' },
+            { en: 'The cave was discovered in 1991.', vi: 'Hang động được phát hiện năm 1991.' },
+            { en: 'These pictures were painted by children.', vi: 'Những bức tranh này do trẻ em vẽ.' },
+          ],
+          reading: {
+            title: 'Hang Sơn Đoòng',
+            text: 'Son Doong cave is in Quang Binh. It was discovered by a local man, Ho Khanh, in 1991. But it was not explored until 2009. It was studied by a team of British scientists. Today it is visited by only a few hundred tourists every year.',
+            vi: 'Hang Sơn Đoòng nằm ở Quảng Bình. Hang được một người dân địa phương là anh Hồ Khanh phát hiện năm 1991. Nhưng mãi đến năm 2009 hang mới được khám phá. Hang được một nhóm nhà khoa học Anh nghiên cứu. Ngày nay mỗi năm chỉ có vài trăm du khách đến thăm.',
+            questions: [
+              { q: 'Hang được ai phát hiện?', options: ['Anh Hồ Khanh', 'Các nhà khoa học Anh', 'Một du khách', 'Một giáo viên'], answer: 0 },
+              { q: 'Hang được khám phá năm nào?', options: ['2009', '1991', '2019', '2001'], answer: 0 },
+              { q: 'Mỗi năm có bao nhiêu khách đến thăm?', options: ['Vài trăm', 'Vài nghìn', 'Vài chục', 'Một triệu'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 28 ─────────────────────────
+    {
+      id: 'u28', title: 'Người mà… vật mà…', titleEn: 'Relative clauses', icon: '🔗',
+      goal: 'Nối câu và mô tả người, vật, nơi chốn bằng mệnh đề quan hệ.',
+      lessons: [
+        {
+          id: 'u28l1', title: 'Who, which, that', titleEn: 'Who, which, that', icon: '🧑‍🍳',
+          goal: 'Định nghĩa người và vật với who / which / that.',
+          vocab: [
+            { en: 'who', vi: 'người mà', ipa: '/huː/', emoji: '🧑' },
+            { en: 'which', vi: 'cái mà, con mà', ipa: '/wɪtʃ/', emoji: '📦' },
+            { en: 'that', vi: 'người / vật mà (thay who, which)', ipa: '/ðæt/', emoji: '🔗' },
+            { en: 'chef', vi: 'đầu bếp', ipa: '/ʃef/', emoji: '🧑‍🍳' },
+            { en: 'nurse', vi: 'y tá', ipa: '/nɜːrs/', emoji: '👩‍⚕️' },
+            { en: 'pilot', vi: 'phi công', ipa: '/ˈpaɪlət/', emoji: '👨‍✈️' },
+            { en: 'machine', vi: 'máy móc', ipa: '/məˈʃiːn/', emoji: '⚙️' },
+            { en: 'job', vi: 'công việc', ipa: '/dʒɑːb/', emoji: '💼' },
+          ],
+          grammar: {
+            title: 'Mệnh đề quan hệ: who / which / that',
+            points: [
+              '<b>who</b> thay cho <b>người</b>: A chef is a person <b>who</b> cooks in a restaurant.',
+              '<b>which</b> thay cho <b>vật, con vật</b>: A fridge is a machine <b>which</b> keeps food cold.',
+              '<b>that</b> thay được cho cả who và which (khi mệnh đề không có dấu phẩy): The man <b>that</b> lives next door is a pilot.',
+              'Mệnh đề quan hệ đứng <b>ngay sau danh từ</b> mà nó bổ nghĩa.',
+            ],
+            examples: [
+              { en: 'A nurse is someone who looks after sick people.', vi: 'Y tá là người chăm sóc người bệnh.' },
+              { en: 'This is the book which I told you about.', vi: 'Đây là cuốn sách mà tôi đã kể với bạn.' },
+            ],
+          },
+          sentences: [
+            { en: 'A chef is a person who cooks in a restaurant.', vi: 'Đầu bếp là người nấu ăn trong nhà hàng.', alts: ['A chef is a person that cooks in a restaurant.'] },
+            { en: 'A nurse is someone who looks after sick people.', vi: 'Y tá là người chăm sóc người bệnh.', alts: ['A nurse is a person who looks after sick people.'] },
+            { en: 'A fridge is a machine which keeps food cold.', vi: 'Tủ lạnh là chiếc máy giữ cho đồ ăn lạnh.', alts: ['A fridge is a machine that keeps food cold.'] },
+            { en: 'The man who lives next door is a pilot.', vi: 'Người đàn ông sống cạnh nhà tôi là phi công.', alts: ['The man that lives next door is a pilot.'] },
+            { en: 'This is the phone that I bought yesterday.', vi: 'Đây là chiếc điện thoại tôi mua hôm qua.', alts: ['This is the phone which I bought yesterday.', 'This is the phone I bought yesterday.'] },
+            { en: 'I like jobs that help people.', vi: 'Tôi thích những công việc giúp đỡ người khác.', alts: ['I like jobs which help people.'] },
+          ],
+          reading: {
+            title: 'Đoán nghề nghiệp',
+            text: 'Can you guess these jobs?\n1. I am a person who flies planes.\n2. I work in a hospital and I help doctors who look after patients.\n3. I use a machine which cuts hair.\n4. I am someone that cooks delicious food in a restaurant.\nAnswers: pilot, nurse, hairdresser, chef.',
+            vi: 'Bạn có đoán được những nghề này không?\n1. Tôi là người lái máy bay.\n2. Tôi làm việc ở bệnh viện và giúp các bác sĩ chăm sóc bệnh nhân.\n3. Tôi dùng một chiếc máy để cắt tóc.\n4. Tôi là người nấu những món ngon trong nhà hàng.\nĐáp án: phi công, y tá, thợ cắt tóc, đầu bếp.',
+            questions: [
+              { q: 'Người lái máy bay làm nghề gì?', options: ['Phi công', 'Y tá', 'Đầu bếp', 'Thợ cắt tóc'], answer: 0 },
+              { q: 'Y tá làm việc ở đâu?', options: ['Bệnh viện', 'Nhà hàng', 'Sân bay', 'Tiệm tóc'], answer: 0 },
+              { q: 'Ai dùng máy để cắt tóc?', options: ['Thợ cắt tóc', 'Đầu bếp', 'Phi công', 'Bác sĩ'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u28l2', title: 'Whose và where', titleEn: 'Whose, where', icon: '🏡',
+          goal: 'Dùng whose / where; mệnh đề quan hệ có dấu phẩy.',
+          vocab: [
+            { en: 'hometown', vi: 'quê hương', ipa: '/ˈhoʊmtaʊn/', emoji: '🏡' },
+            { en: 'owner', vi: 'chủ sở hữu', ipa: '/ˈoʊnər/', emoji: '🧑‍💼' },
+            { en: 'author', vi: 'tác giả', ipa: '/ˈɔːθər/', emoji: '✒️' },
+            { en: 'hotel', vi: 'khách sạn', ipa: '/hoʊˈtel/', emoji: '🏨' },
+            { en: 'restaurant', vi: 'nhà hàng', ipa: '/ˈrestərɑːnt/', emoji: '🍽️' },
+            { en: 'novel', vi: 'tiểu thuyết', ipa: '/ˈnɑːvl/', emoji: '📕' },
+            { en: 'building', vi: 'toà nhà', ipa: '/ˈbɪldɪŋ/', emoji: '🏢' },
+            { en: 'grew up', vi: 'đã lớn lên (grow up)', ipa: '/ɡruː ʌp/', emoji: '🌱' },
+          ],
+          grammar: {
+            title: 'Mệnh đề quan hệ: whose / where',
+            points: [
+              '<b>whose</b> + danh từ = "mà … của người/vật đó": I have a friend <b>whose</b> father is a pilot.',
+              '<b>where</b> thay cho <b>nơi chốn</b>: This is the hotel <b>where</b> we stayed.',
+              'Khi who / which / that là <b>tân ngữ</b> có thể lược bỏ: The book (<b>that</b>) I read was great.',
+              'Mệnh đề có dấu phẩy chỉ bổ sung thông tin và không dùng that: Hue, <b>which</b> is my hometown, is very beautiful.',
+            ],
+            examples: [
+              { en: "That's the restaurant where we had dinner.", vi: 'Đó là nhà hàng nơi chúng tôi đã ăn tối.' },
+              { en: 'She is the author whose novel won the prize.', vi: 'Bà ấy là tác giả có cuốn tiểu thuyết đoạt giải.' },
+            ],
+          },
+          sentences: [
+            { en: 'This is the hotel where we stayed.', vi: 'Đây là khách sạn nơi chúng tôi đã ở.' },
+            { en: 'I have a friend whose father is a pilot.', vi: 'Tôi có một người bạn có bố là phi công.' },
+            { en: 'Hue, which is my hometown, is very beautiful.', vi: 'Huế, quê hương tôi, rất đẹp.' },
+            { en: 'She is the author whose novel I love.', vi: 'Bà ấy là tác giả của cuốn tiểu thuyết mà tôi rất thích.' },
+            { en: 'That is the building where my mother works.', vi: 'Đó là toà nhà nơi mẹ tôi làm việc.' },
+            { en: 'The village where I grew up is very small.', vi: 'Ngôi làng nơi tôi lớn lên rất nhỏ.' },
+          ],
+          reading: {
+            title: 'Nhà hàng của chú tôi',
+            text: 'My uncle is a chef whose food is famous in our town. He is the owner of a small restaurant where people can eat traditional dishes. The restaurant, which opened in 2010, is next to the river. The waiters, who are all students, are very friendly. The dish that I like best is his fish soup.',
+            vi: 'Chú tôi là một đầu bếp có món ăn nổi tiếng trong thị trấn. Chú là chủ một nhà hàng nhỏ, nơi mọi người có thể ăn các món truyền thống. Nhà hàng mở năm 2010 và nằm cạnh bờ sông. Những người phục vụ đều là sinh viên và rất thân thiện. Món tôi thích nhất là canh cá của chú.',
+            questions: [
+              { q: 'Chú là người thế nào?', options: ['Đầu bếp có món ăn nổi tiếng', 'Người phục vụ', 'Sinh viên', 'Ngư dân'], answer: 0 },
+              { q: 'Nhà hàng mở năm nào?', options: ['2010', '2001', '2020', '2015'], answer: 0 },
+              { q: 'Món người kể thích nhất là gì?', options: ['Canh cá', 'Phở', 'Bánh mì', 'Cơm gà'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 29 ─────────────────────────
+    {
+      id: 'u29', title: 'Hỏi cho lịch sự', titleEn: 'Polite questions', icon: '💬',
+      goal: 'Xác nhận thông tin, hỏi lịch sự và đồng tình trong hội thoại.',
+      lessons: [
+        {
+          id: 'u29l1', title: '…phải không?', titleEn: 'Tag questions', icon: '❔',
+          goal: 'Dùng câu hỏi đuôi để xác nhận thông tin.',
+          vocab: [
+            { en: 'polite', vi: 'lịch sự', ipa: '/pəˈlaɪt/', emoji: '🎩' },
+            { en: 'lovely', vi: 'dễ thương, tuyệt', ipa: '/ˈlʌvli/', emoji: '🌸' },
+            { en: 'right', vi: 'đúng', ipa: '/raɪt/', emoji: '✔️' },
+            { en: 'quite', vi: 'khá', ipa: '/kwaɪt/', emoji: '🙂' },
+            { en: 'actually', vi: 'thật ra', ipa: '/ˈæktʃuəli/', emoji: '💬' },
+            { en: 'of course', vi: 'tất nhiên', ipa: '/əv kɔːrs/', emoji: '👍' },
+            { en: 'guess', vi: 'đoán', ipa: '/ɡes/', emoji: '🤔' },
+            { en: 'sunny', vi: 'có nắng', ipa: '/ˈsʌni/', emoji: '🌞' },
+          ],
+          grammar: {
+            title: 'Câu hỏi đuôi',
+            points: [
+              'Dùng để <b>xác nhận</b> điều mình nghĩ là đúng: It\'s hot today, <b>isn\'t it</b>?',
+              'Câu khẳng định → đuôi <b>phủ định</b>; câu phủ định → đuôi <b>khẳng định</b>: You aren\'t tired, <b>are you</b>?',
+              'Dùng lại trợ động từ của câu (is, are, can, will, have…); nếu không có thì dùng <b>do / does / did</b>: She likes tea, <b>doesn\'t she</b>?',
+              'Đặc biệt: I am …, <b>aren\'t I</b>? / Let\'s …, <b>shall we</b>?',
+            ],
+            examples: [
+              { en: "You're from Hue, aren't you?", vi: 'Bạn là người Huế, phải không?' },
+              { en: "They didn't come, did they?", vi: 'Họ đã không đến, phải không?' },
+            ],
+          },
+          sentences: [
+            { en: "It's a lovely day, isn't it?", vi: 'Hôm nay trời đẹp quá, phải không?' },
+            { en: "You are a student, aren't you?", vi: 'Bạn là sinh viên, phải không?' },
+            { en: "She can speak French, can't she?", vi: 'Cô ấy nói được tiếng Pháp, đúng không?' },
+            { en: "They didn't come, did they?", vi: 'Họ đã không đến, phải không?' },
+            { en: "You like coffee, don't you?", vi: 'Bạn thích cà phê, đúng không?' },
+            { en: "Let's go, shall we?", vi: 'Mình đi nhé?' },
+          ],
+          reading: {
+            title: 'Gặp lại bạn cũ',
+            text: "Linh: Excuse me, you're Nam, aren't you?\nNam: Yes! And you're Linh from my old class, aren't you?\nLinh: That's right. We haven't met for ten years, have we?\nNam: No, we haven't. You haven't changed at all!\nLinh: Thanks! You live in Saigon now, don't you?\nNam: Actually, I moved to Da Nang last year.",
+            vi: 'Linh: Xin lỗi, bạn là Nam, phải không?\nNam: Đúng rồi! Còn bạn là Linh học lớp cũ của mình, phải không?\nLinh: Đúng vậy. Mình chưa gặp nhau mười năm rồi nhỉ?\nNam: Ừ, đúng thế. Bạn chẳng thay đổi gì cả!\nLinh: Cảm ơn! Giờ bạn sống ở Sài Gòn, phải không?\nNam: Thật ra năm ngoái mình chuyển ra Đà Nẵng rồi.',
+            questions: [
+              { q: 'Linh và Nam quen nhau từ đâu?', options: ['Học cùng lớp cũ', 'Cùng công ty', 'Là hàng xóm', 'Quen trên mạng'], answer: 0 },
+              { q: 'Họ không gặp nhau bao lâu rồi?', options: ['Mười năm', 'Một năm', 'Năm năm', 'Hai mươi năm'], answer: 0 },
+              { q: 'Bây giờ Nam sống ở đâu?', options: ['Đà Nẵng', 'Sài Gòn', 'Hà Nội', 'Huế'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u29l2', title: 'Cho tôi hỏi…', titleEn: 'Indirect questions', icon: '🙋',
+          goal: 'Hỏi gián tiếp lịch sự; đồng tình với So do I / Neither can I.',
+          vocab: [
+            { en: 'wonder', vi: 'tự hỏi', ipa: '/ˈwʌndər/', emoji: '💭' },
+            { en: 'tell', vi: 'nói, cho biết', ipa: '/tel/', emoji: '🗨️' },
+            { en: 'could', vi: 'có thể (lịch sự)', ipa: '/kʊd/', emoji: '🙏' },
+            { en: 'information', vi: 'thông tin', ipa: '/ˌɪnfərˈmeɪʃn/', emoji: 'ℹ️' },
+            { en: 'station', vi: 'nhà ga', ipa: '/ˈsteɪʃn/', emoji: '🚉' },
+            { en: 'museum', vi: 'bảo tàng', ipa: '/mjuˈziːəm/', emoji: '🖼️' },
+            { en: 'open', vi: 'mở cửa', ipa: '/ˈoʊpən/', emoji: '🔓' },
+            { en: 'neither', vi: 'cũng không', ipa: '/ˈniːðər/', emoji: '🙅‍♀️' },
+          ],
+          grammar: {
+            title: 'Câu hỏi gián tiếp; So do I / Neither can I',
+            points: [
+              'Câu hỏi gián tiếp lịch sự hơn: <b>Could you tell me</b> / <b>Do you know</b> + từ để hỏi + <b>chủ ngữ + động từ</b>.',
+              'Không đảo ngữ: Where <b>is the station</b>? → Do you know where <b>the station is</b>?',
+              'Câu hỏi Yes/No dùng <b>if</b>: Is it open? → Do you know <b>if it is</b> open?',
+              'Đồng tình: <b>So</b> + trợ động từ + chủ ngữ (cũng vậy): I like tea. – <b>So do I</b>. <b>Neither</b> + trợ động từ + chủ ngữ (cũng không): I can\'t swim. – <b>Neither can I</b>.',
+            ],
+            examples: [
+              { en: 'Could you tell me what time it is?', vi: 'Bạn có thể cho tôi biết mấy giờ rồi không?' },
+              { en: "I'm tired. – So am I.", vi: 'Tôi mệt quá. – Tôi cũng vậy.' },
+            ],
+          },
+          sentences: [
+            { en: 'Could you tell me where the station is?', vi: 'Bạn có thể cho tôi biết nhà ga ở đâu không?' },
+            { en: 'Do you know what time the museum opens?', vi: 'Bạn có biết mấy giờ bảo tàng mở cửa không?' },
+            { en: 'I wonder if it will rain tomorrow.', vi: 'Tôi tự hỏi liệu mai trời có mưa không.' },
+            { en: 'Do you know if the shop is open?', vi: 'Bạn có biết cửa hàng có mở cửa không?' },
+            { en: 'I love chocolate. So do I.', vi: 'Tôi rất thích sô-cô-la. – Tôi cũng vậy.' },
+            { en: "I can't swim. Neither can I.", vi: 'Tôi không biết bơi. – Tôi cũng không.' },
+          ],
+          reading: {
+            title: 'Ở quầy thông tin',
+            text: "Tourist: Excuse me, could you tell me where the National Museum is?\nStaff: Sure. It's on Trang Tien Street, near the Opera House.\nTourist: Do you know what time it opens?\nStaff: It opens at eight and closes at five.\nTourist: And do you know if it's open on Mondays?\nStaff: I'm afraid it isn't. It's closed every Monday.",
+            vi: 'Du khách: Xin lỗi, bạn có thể cho tôi biết Bảo tàng Quốc gia ở đâu không?\nNhân viên: Vâng. Bảo tàng ở phố Tràng Tiền, gần Nhà hát Lớn.\nDu khách: Bạn có biết mấy giờ bảo tàng mở cửa không?\nNhân viên: Mở cửa lúc tám giờ và đóng cửa lúc năm giờ.\nDu khách: Bạn có biết thứ Hai bảo tàng có mở không?\nNhân viên: Rất tiếc là không. Thứ Hai nào cũng đóng cửa.',
+            questions: [
+              { q: 'Bảo tàng ở phố nào?', options: ['Tràng Tiền', 'Trần Phú', 'Hàng Bông', 'Lê Lợi'], answer: 0 },
+              { q: 'Bảo tàng mở cửa lúc mấy giờ?', options: ['8 giờ', '9 giờ', '7 giờ', '5 giờ'], answer: 0 },
+              { q: 'Ngày nào bảo tàng đóng cửa?', options: ['Thứ Hai', 'Chủ nhật', 'Thứ Bảy', 'Không ngày nào'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+
+    // ───────────────────────── CHẶNG 30 ─────────────────────────
+    {
+      id: 'u30', title: 'Cảm xúc & mức độ', titleEn: 'Feelings & degrees', icon: '🎭',
+      goal: 'Mô tả cảm xúc chính xác; nói về cách thức và mức độ.',
+      lessons: [
+        {
+          id: 'u30l1', title: 'Chán hay thấy chán?', titleEn: '-ing or -ed?', icon: '😮',
+          goal: 'Phân biệt tính từ đuôi -ing và -ed.',
+          vocab: [
+            { en: 'boring', vi: 'nhàm chán (gây chán)', ipa: '/ˈbɔːrɪŋ/', emoji: '🥱' },
+            { en: 'interesting', vi: 'thú vị', ipa: '/ˈɪntrəstɪŋ/', emoji: '🤩' },
+            { en: 'interested', vi: 'quan tâm, thấy hứng thú', ipa: '/ˈɪntrəstɪd/', emoji: '🧐' },
+            { en: 'exciting', vi: 'sôi động, hấp dẫn', ipa: '/ɪkˈsaɪtɪŋ/', emoji: '🎢' },
+            { en: 'excited', vi: 'háo hức, phấn khích', ipa: '/ɪkˈsaɪtɪd/', emoji: '🥳' },
+            { en: 'tiring', vi: 'gây mệt mỏi', ipa: '/ˈtaɪərɪŋ/', emoji: '🏋️' },
+            { en: 'surprised', vi: 'ngạc nhiên', ipa: '/sərˈpraɪzd/', emoji: '😲' },
+            { en: 'frightening', vi: 'đáng sợ', ipa: '/ˈfraɪtnɪŋ/', emoji: '👻' },
+          ],
+          grammar: {
+            title: 'Tính từ đuôi -ing và -ed',
+            points: [
+              '<b>-ing</b> mô tả <b>tính chất</b> của sự vật, sự việc (gây ra cảm xúc): The film was <b>boring</b>.',
+              '<b>-ed</b> mô tả <b>cảm xúc của người</b>: I was <b>bored</b> (tôi thấy chán).',
+              'Các cặp hay gặp: interesting / interested, exciting / excited, surprising / surprised, tiring / tired, frightening / frightened.',
+              'Sau interested dùng <b>in</b>: I\'m interested <b>in</b> music.',
+            ],
+            examples: [
+              { en: 'The game was exciting, and all the fans were excited.', vi: 'Trận đấu rất hấp dẫn và tất cả cổ động viên đều phấn khích.' },
+              { en: "I'm interested in history.", vi: 'Tôi quan tâm đến lịch sử.' },
+            ],
+          },
+          sentences: [
+            { en: 'The film was boring.', vi: 'Bộ phim thật nhàm chán.' },
+            { en: 'I was bored during the film.', vi: 'Tôi thấy chán trong lúc xem phim.' },
+            { en: 'This book is very interesting.', vi: 'Cuốn sách này rất thú vị.' },
+            { en: 'She is interested in music.', vi: 'Cô ấy quan tâm đến âm nhạc.' },
+            { en: 'The children are excited about Christmas.', vi: 'Bọn trẻ háo hức chờ Giáng sinh.' },
+            { en: 'We were surprised by the news.', vi: 'Chúng tôi ngạc nhiên trước tin đó.' },
+          ],
+          reading: {
+            title: 'Công viên giải trí',
+            text: 'Last Sunday we went to an amusement park. The roller coaster was really exciting, but my little brother was frightened. The ghost house was frightening too! The long queues were tiring and boring, but in the end we were all happy. I was surprised that the tickets were so cheap.',
+            vi: 'Chủ nhật tuần trước chúng tôi đi công viên giải trí. Tàu lượn siêu tốc rất hấp dẫn nhưng em trai tôi thì sợ hãi. Nhà ma cũng đáng sợ lắm! Xếp hàng dài vừa mệt vừa chán, nhưng cuối cùng cả nhà đều vui. Tôi ngạc nhiên vì vé rẻ đến vậy.',
+            questions: [
+              { q: 'Tàu lượn siêu tốc thế nào?', options: ['Rất hấp dẫn', 'Nhàm chán', 'Rất đắt', 'Bị hỏng'], answer: 0 },
+              { q: 'Em trai cảm thấy thế nào?', options: ['Sợ hãi', 'Háo hức', 'Chán', 'Buồn ngủ'], answer: 0 },
+              { q: 'Người kể ngạc nhiên vì điều gì?', options: ['Vé rẻ', 'Hàng dài', 'Nhà ma', 'Trời mưa'], answer: 0 },
+            ],
+          },
+        },
+        {
+          id: 'u30l2', title: 'Quá… và đủ…', titleEn: 'Too, enough, adverbs', icon: '📏',
+          goal: 'Trạng từ cách thức -ly; too / enough.',
+          vocab: [
+            { en: 'too', vi: 'quá (mức)', ipa: '/tuː/', emoji: '🔥' },
+            { en: 'enough', vi: 'đủ', ipa: '/ɪˈnʌf/', emoji: '🆗' },
+            { en: 'carefully', vi: 'một cách cẩn thận', ipa: '/ˈkerfəli/', emoji: '🔍' },
+            { en: 'quickly', vi: 'một cách nhanh chóng', ipa: '/ˈkwɪkli/', emoji: '💨' },
+            { en: 'slowly', vi: 'một cách chậm rãi', ipa: '/ˈsloʊli/', emoji: '🐢' },
+            { en: 'loudly', vi: 'to tiếng, ầm ĩ', ipa: '/ˈlaʊdli/', emoji: '📢' },
+            { en: 'well', vi: 'tốt, giỏi (trạng từ)', ipa: '/wel/', emoji: '👏' },
+            { en: 'heavy', vi: 'nặng', ipa: '/ˈhevi/', emoji: '🏋️‍♀️' },
+          ],
+          grammar: {
+            title: 'Trạng từ cách thức; too / enough',
+            points: [
+              'Trạng từ cách thức = tính từ + <b>-ly</b>, thường đứng sau động từ: She drives <b>carefully</b>. He speaks <b>slowly</b>.',
+              'Bất quy tắc: good → <b>well</b>, fast → <b>fast</b>, hard → <b>hard</b>.',
+              '<b>too</b> + tính từ (+ to V) = quá… (đến mức không thể): This box is <b>too heavy</b> to carry.',
+              'Tính từ + <b>enough</b> (+ to V) = đủ…; <b>enough</b> + danh từ: He is old <b>enough</b> to drive. We have <b>enough</b> time.',
+            ],
+            examples: [
+              { en: 'Please speak more slowly.', vi: 'Làm ơn nói chậm hơn.' },
+              { en: 'This coffee is too hot to drink.', vi: 'Cà phê này nóng quá, không uống được.' },
+            ],
+          },
+          sentences: [
+            { en: 'Please drive carefully.', vi: 'Làm ơn lái xe cẩn thận.' },
+            { en: 'She speaks English very well.', vi: 'Cô ấy nói tiếng Anh rất giỏi.' },
+            { en: 'This box is too heavy to carry.', vi: 'Cái hộp này nặng quá, không mang nổi.' },
+            { en: "He isn't old enough to drive.", vi: 'Cậu ấy chưa đủ tuổi lái xe.' },
+            { en: "We don't have enough time.", vi: 'Chúng tôi không có đủ thời gian.' },
+            { en: 'The children ate their dinner quickly.', vi: 'Bọn trẻ ăn tối thật nhanh.' },
+          ],
+          reading: {
+            title: 'Lời khuyên cho người mới học lái xe',
+            text: "Learning to drive is not easy. First, you must be old enough – in Vietnam you have to be eighteen. Drive slowly and carefully, especially in the rain. Don't drive too fast and never use your phone. If you are too tired, stop and rest. Practise a lot and soon you will drive well!",
+            vi: 'Học lái xe không dễ. Trước hết, bạn phải đủ tuổi – ở Việt Nam là mười tám tuổi. Hãy lái chậm và cẩn thận, nhất là khi trời mưa. Đừng lái quá nhanh và không bao giờ dùng điện thoại. Nếu quá mệt, hãy dừng lại nghỉ. Luyện tập nhiều và bạn sẽ sớm lái giỏi!',
+            questions: [
+              { q: 'Ở Việt Nam phải bao nhiêu tuổi mới được lái xe?', options: ['18', '16', '20', '21'], answer: 0 },
+              { q: 'Khi trời mưa nên lái thế nào?', options: ['Chậm và cẩn thận', 'Thật nhanh', 'Bật nhạc to', 'Vừa lái vừa gọi điện'], answer: 0 },
+              { q: 'Nếu quá mệt thì nên làm gì?', options: ['Dừng lại nghỉ ngơi', 'Lái nhanh hơn', 'Uống cà phê rồi đi tiếp', 'Gọi điện thoại'], answer: 0 },
+            ],
+          },
+        },
+      ],
+    },
+  ],
+});

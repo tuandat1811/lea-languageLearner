@@ -86,6 +86,9 @@ const cases = [
   ['I promise I will not be late', ["I promise I won't be late."], true],
   ['I feel ill', ['I feel I will'], false], // "ill" must stay a word
   ['We were busy', ["We're busy"], false],
+  ['I have just seen your message', ["I've just seen your message."], true],
+  ['she hasnt answered my email yet', ["She hasn't answered my email yet."], true],
+  ["I haven't seen my neighbor for a month", ["I haven't seen my neighbour for a month."], true],
 ];
 for (const [input, answers, want] of cases) {
   const got = L.exercises.checkText(input, answers, en).ok;
