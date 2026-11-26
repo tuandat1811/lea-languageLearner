@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lea – Học ngoại ngữ mùa Giáng sinh</title>
+  <meta name="description" content="Học tiếng Anh từ con số 0 với đủ 4 kỹ năng Nghe – Nói – Đọc – Viết." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎄</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lobster&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="snow" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <div class="garland" aria-hidden="true"></div>
+    <div class="header-inner">
+      <a href="#/" class="logo"><span class="logo-icon">🎄</span><span class="logo-text">Lea</span></a>
+      <nav class="nav" id="nav">
+        <a href="#/" data-nav="home">Trang chủ</a>
+        <a href="#/course" data-nav="course">Lộ trình</a>
+        <a href="#/review" data-nav="review">Ôn tập</a>
+        <a href="#/alphabet" data-nav="alphabet">Bảng chữ cái</a>
+        <a href="#/settings" data-nav="settings">Cài đặt</a>
+      </nav>
+      <div class="stats" id="stats"></div>
+    </div>
+  </header>
+
+  <main id="app" class="container" tabindex="-1"></main>
+
+  <footer class="site-footer">
+    <svg class="hills" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,80 C240,20 420,110 720,60 C1000,15 1200,100 1440,50 L1440,120 L0,120 Z" fill="#eef4fb" />
+      <path d="M0,100 C300,60 520,120 820,90 C1100,60 1260,110 1440,85 L1440,120 L0,120 Z" fill="#ffffff" />
+    </svg>
+    <div class="footer-inner">
+      <p>Lea · Học ngoại ngữ mỗi ngày một chút ❄️ Giáng sinh an lành!</p>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Core -->
+  <script src="js/core/registry.js"></script>
+  <script src="js/core/storage.js"></script>
+  <script src="js/core/speech.js"></script>
+  <script src="js/core/exercises.js"></script>
+  <!-- Courses: add new languages here (data/<code>.js) -->
+  <script src="data/en.js"></script>
+  <!-- UI -->
+  <script src="js/ui/snow.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

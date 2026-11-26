@@ -1,0 +1,68 @@
+# 🎄 Lea – Học ngoại ngữ mùa Giáng sinh
+
+Website học ngoại ngữ cho người Việt, giao diện tiếng Việt, theme Giáng sinh.
+Khoá đầu tiên: **Tiếng Anh từ con số 0 (A0 → A1)** – 10 chặng, 20 bài, đủ 4 kỹ năng **Nghe – Nói – Đọc – Viết**.
+
+Web tĩnh thuần HTML/CSS/JS, không cần build, không cần cài thư viện.
+
+## Chạy
+
+```powershell
+node tools/serve.js
+```
+
+Mở http://localhost:5173. (Có thể mở thẳng `index.html`, nhưng phần **Nói** cần `localhost`/`https` để dùng micro.)
+Nên dùng **Chrome** hoặc **Edge**: nhận diện giọng nói (Web Speech API) chỉ có trên các trình duyệt này. Trình duyệt khác vẫn học được — phần Nói chuyển sang ghi âm và tự đánh giá.
+
+## Lộ trình tiếng Anh
+
+| Chặng | Chủ đề | Bài 1 | Bài 2 | Ngữ pháp chính |
+|---|---|---|---|---|
+| 1 | Chào hỏi | Xin chào! | Lời nói lịch sự | Chào theo buổi, thank you / sorry / please |
+| 2 | Giới thiệu bản thân | Tôi là… | Bạn khoẻ không? | to be (am/is/are), My name is…, How are you? |
+| 3 | Số đếm | Số 1–10 | Số 11–20 & tuổi | Số nhiều -s, have/has, How old…? |
+| 4 | Màu sắc & đồ vật | Màu sắc | Đồ vật quanh ta | Tính từ trước danh từ, a/an, this/that |
+| 5 | Gia đình | Thành viên gia đình | Mô tả người thân | 's sở hữu, be + tính từ, phủ định not |
+| 6 | Đồ ăn & thức uống | Món ăn yêu thích | Gọi món | like/don't like, Can I have…? |
+| 7 | Một ngày của tôi | Hoạt động hằng ngày | Thường xuyên thế nào? | Hiện tại đơn, do/does, trạng từ tần suất |
+| 8 | Thời gian | Các ngày trong tuần | Mấy giờ rồi? | on + ngày, at + giờ, o'clock / half past |
+| 9 | Nhà của tôi | Các phòng trong nhà | Ở đâu? | There is/are, giới từ vị trí |
+| 10 | Giáng sinh vui vẻ | Mùa Giáng sinh | Tiệc Giáng sinh | Số nhiều bất quy tắc, hiện tại tiếp diễn, Let's |
+
+Trước bài 1 có trang **Bảng chữ cái** (26 chữ cái + từ ví dụ, bấm để nghe).
+
+Mỗi bài gồm: **Từ vựng** (8–10 từ, IPA, phát âm) → **Ngữ pháp** → **Câu mẫu** → **Luyện 4 kỹ năng**:
+
+- 🎧 **Nghe**: nghe chọn nghĩa, nghe chọn câu, nghe – chép chính tả
+- 🎤 **Nói**: đọc to từ/câu (chấm bằng nhận diện giọng nói), nói câu từ nghĩa tiếng Việt
+- 📖 **Đọc**: nối từ, đọc câu chọn nghĩa, đọc hiểu đoạn văn/hội thoại
+- ✍️ **Viết**: dịch từ, sắp xếp câu, điền từ, dịch câu
+
+Đạt ≥ 60% mỗi kỹ năng để mở khoá bài tiếp theo (1–3 sao). Có **Ôn tập** từ vựng theo phương pháp lặp lại ngắt quãng, chuỗi ngày học 🔥 và điểm sao ⭐. Tiến độ lưu trong `localStorage`.
+
+## Thêm ngôn ngữ mới
+
+1. Tạo `data/<mã>.js` (ví dụ `data/ja.js`) theo cấu trúc của `data/en.js` và gọi `LEA.registerLanguage({...})`:
+   - `code`, `name`, `flag`, `speechLang` (ví dụ `ja-JP`), `level`, `description`
+   - `units[].lessons[]` với `vocab`, `grammar`, `sentences` (≥ 5 câu), `reading`
+   - tuỳ chọn: `alphabet`, `contractions`, `equivalents` (quy tắc so sánh đáp án riêng của ngôn ngữ)
+2. Thêm `<script src="data/<mã>.js"></script>` vào `index.html`.
+3. Chạy `node tools/validate.js` để kiểm tra dữ liệu.
+
+Bài tập được sinh tự động từ dữ liệu bài học (`js/core/exercises.js`), nên không cần viết thêm code. Ngôn ngữ đã đăng ký sẽ tự biến mất khỏi danh sách "Sắp ra mắt" (`js/core/registry.js`).
+
+## Cấu trúc
+
+```
+index.html
+css/style.css            Theme Giáng sinh
+js/core/registry.js      Đăng ký ngôn ngữ, danh sách 4 kỹ năng
+js/core/storage.js       Tiến độ, sao, chuỗi ngày, ôn tập (localStorage)
+js/core/speech.js        Đọc (speechSynthesis) & nhận diện giọng nói
+js/core/exercises.js     Sinh bài tập & chấm đáp án
+js/ui/snow.js            Tuyết rơi
+js/app.js                Router + các trang
+data/en.js               Khoá tiếng Anh
+tools/serve.js           Server tĩnh
+tools/validate.js        Kiểm tra dữ liệu khoá học
+```
