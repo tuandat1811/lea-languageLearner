@@ -49,7 +49,10 @@
   // ---------- normalisation & comparison ----------
   function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
+  function isJa(course) { return course && course.script === 'ja'; }
+
   function normalize(text, course) {
+    if (isJa(course)) return L.ja.normalize(text);
     var s = String(text || '').toLowerCase().replace(/[’‘`]/g, "'").trim();
     var c = course.contractions || {};
     var skipLoose = course.noLooseContractions || [];
@@ -94,6 +97,7 @@
    * equivalents (e.g. colour = color) are normalized before comparing.
    */
   function checkText(input, answers, course) {
+    if (isJa(course)) return L.ja.check(input, answers, course.readings);
     var got = normalize(input, course);
     for (var i = 0; i < answers.length; i++) {
       if (got === normalize(answers[i], course)) return { ok: true, exact: true };
@@ -106,8 +110,13 @@
     var best = 0, heard = alternatives[0] || '';
     alternatives.forEach(function (alt) {
       answers.forEach(function (ans) {
-        var sim = similarity(normalize(alt, course), normalize(ans, course));
-        if (sim > best) { best = sim; heard = alt; }
+        var forms = [ans];
+        // Japanese recognition may return kana where the course writes kanji (or the reverse).
+        if (isJa(course) && course.readings && course.readings[ans]) forms.push(course.readings[ans]);
+        forms.forEach(function (f) {
+          var sim = similarity(normalize(alt, course), normalize(f, course));
+          if (sim > best) { best = sim; heard = alt; }
+        });
       });
     });
     return { ok: best >= 0.75, score: best, heard: heard };
@@ -115,15 +124,19 @@
 
   // ---------- exercise builders ----------
   function wordsOf(sentence) {
-    return sentence.replace(/[.!?]+$/, '').split(/\s+/).filter(Boolean);
+    // Japanese sentences are written with spaces between phrases (私は 学生です。).
+    // A Japanese line may hold two short sentences (はじめまして。ランです。): split after 。 and 、 too.
+    return sentence.replace(/[.!?。！？]+$/, '').split(/\s+|(?<=[。、])/).filter(Boolean);
   }
 
-  function makeFill(sentence, lesson) {
-    // Blank out a lesson word that appears in the sentence.
+  /** Blank out a lesson word in the sentence. Japanese: returns null when no lesson word appears. */
+  function makeFill(sentence, lesson, course) {
+    var ja = isJa(course);
     var vocab = lesson.vocab.slice().sort(function (a, b) { return b.en.length - a.en.length; });
     for (var i = 0; i < vocab.length; i++) {
       var w = vocab[i].en;
-      var re = new RegExp('(^|[^\\p{L}])(' + escapeRe(w) + ')(?=$|[^\\p{L}])', 'iu');
+      // Japanese has no spaces between words, so a word is found anywhere in its phrase.
+      var re = ja ? new RegExp('()(' + escapeRe(w) + ')') : new RegExp('(^|[^\\p{L}])(' + escapeRe(w) + ')(?=$|[^\\p{L}])', 'iu');
       var m = sentence.en.match(re);
       if (m) {
         var start = m.index + m[1].length;
@@ -134,6 +147,8 @@
         };
       }
     }
+    // Japanese answers must come from the vocabulary (so their kana reading is known).
+    if (ja) return null;
     // Fallback: blank the longest word.
     var words = wordsOf(sentence.en);
     var longest = words.slice().sort(function (a, b) { return b.length - a.length; })[0].replace(/[,]/g, '');
@@ -150,7 +165,11 @@
     var lower = words.map(function (w) { return w.toLowerCase().replace(/[^\p{L}']/gu, ''); });
     var extra = lesson.vocab
       .map(function (v) { return v.en; })
-      .filter(function (w) { return w.indexOf(' ') === -1 && lower.indexOf(w.toLowerCase()) === -1; });
+      .filter(function (w) {
+        // Japanese words sit inside phrases (試験は), so the distractor must not appear anywhere.
+        if (/[぀-ヿ㐀-鿿]/.test(w)) return sentence.en.indexOf(w) === -1;
+        return w.indexOf(' ') === -1 && lower.indexOf(w.toLowerCase()) === -1;
+      });
     var tiles = words.slice();
     if (words.length >= 3 && extra.length) tiles.push(sample(extra, 1)[0]);
     return { type: 'order', vi: sentence.vi, tiles: shuffle(tiles), answer: sentence.en, alts: sentence.alts || [] };
@@ -182,7 +201,7 @@
       });
       var sents = sample(lesson.sentences, 3);
       sents.slice(0, 2).forEach(function (s) {
-        ex.push({ type: 'speak', text: s.en, vi: s.vi, answers: [s.en].concat(s.alts || []) });
+        ex.push({ type: 'speak', text: s.en, ipa: s.ipa, vi: s.vi, answers: [s.en].concat(s.alts || []) });
       });
       ex.push({ type: 'speak_translate', vi: sents[2].vi, text: sents[2].en, answers: [sents[2].en].concat(sents[2].alts || []) });
       return ex;
@@ -194,7 +213,7 @@
       sample(lesson.sentences, 2).forEach(function (s) {
         var pool = lesson.sentences.map(function (x) { return x.vi; });
         var o = options(s.vi, pool);
-        ex.push({ type: 'read_choose', text: s.en, options: o.options, answer: o.answer });
+        ex.push({ type: 'read_choose', text: s.en, ipa: s.ipa, options: o.options, answer: o.answer });
       });
       lesson.reading.questions.forEach(function (q) {
         var opts = q.options.map(function (text, i) { return { text: text, correct: i === q.answer }; });
@@ -215,7 +234,13 @@
       });
       var sents = shuffle(lesson.sentences);
       sents.slice(0, 2).forEach(function (s) { ex.push(makeOrder(s, lesson)); });
-      sents.slice(2, 4).forEach(function (s) { ex.push(makeFill(s, lesson)); });
+      // Two fill-in-the-blank sentences (Japanese: only sentences that contain a lesson word).
+      var fills = [];
+      sents.slice(2).forEach(function (s) {
+        var f = fills.length < 2 && makeFill(s, lesson, course);
+        if (f) fills.push(f);
+      });
+      ex = ex.concat(fills);
       var last = sents[4] || sents[0];
       ex.push({ type: 'translate', vi: last.vi, answers: [last.en].concat(last.alts || []), sentence: true });
       return ex;
@@ -378,7 +403,42 @@
     return pool;
   }
 
+  /**
+   * Grammar test from questions written in the lessons (lesson.quiz), used by courses
+   * where generated blanks would be ambiguous (Japanese particles: は/が, に/へ …).
+   *   quiz.mcq:   { q: '私___ 学生です。', options, answer, vi } or { pick: true, options, answer, vi }
+   *   quiz.write: { type: 'form', before, after, answer, reading?, hint, vi } or { type: 'correct', wrong, answer, kana, vi }
+   */
+  function authoredTest(course, lessons) {
+    var mcq = [], forms = [], fixes = [];
+    lessons.forEach(function (l) {
+      if (!l.quiz) return;
+      (l.quiz.mcq || []).forEach(function (m) { mcq.push(m); });
+      (l.quiz.write || []).forEach(function (w) { (w.type === 'correct' ? fixes : forms).push(w); });
+    });
+    var part1 = shuffle(mcq).slice(0, 6).map(function (m) {
+      var opts = shuffle(m.options), right = m.options[m.answer];
+      if (m.pick) {
+        return { type: 'pick_sentence', prompt: 'Trắc nghiệm · Chọn câu đúng ngữ pháp', vi: m.vi, options: opts, answer: opts.indexOf(right), reveal: right };
+      }
+      var parts = m.q.split('___');
+      return {
+        type: 'fill_choice', prompt: 'Trắc nghiệm · Chọn từ đúng điền vào chỗ trống',
+        before: parts[0], after: parts[1] || '', vi: m.vi, options: opts, answer: opts.indexOf(right), reveal: parts[0] + right + (parts[1] || ''),
+      };
+    });
+    var pickForms = shuffle(forms).slice(0, 2), pickFixes = shuffle(fixes).slice(0, 4 - pickForms.length);
+    if (pickForms.length + pickFixes.length < 4) pickForms = shuffle(forms).slice(0, 4 - pickFixes.length);
+    var part2 = pickForms.map(function (w) {
+      return { type: 'fill', prompt: 'Tự luận · Viết dạng đúng của từ trong ngoặc', strict: true, blankOnly: true, before: w.before, after: w.after, answer: w.answer, vi: w.vi, hint: w.hint };
+    }).concat(pickFixes.map(function (w) {
+      return { type: 'correct', prompt: 'Tự luận · Tìm lỗi sai và viết lại câu đúng', strict: true, wrong: w.wrong, vi: w.vi, answers: [w.answer] };
+    }));
+    return part1.concat(part2);
+  }
+
   builders.test = function (course, lessons) {
+    if (lessons.some(function (l) { return l.quiz; })) return authoredTest(course, lessons);
     var pool = testPool(course, lessons);
     var used = {};
     // Prefer grammar examples, then sentences with the most grammar words.
@@ -471,6 +531,7 @@
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
   function checkStrict(input, answers, course) {
+    if (isJa(course)) return L.ja.check(input, answers, course.readings);
     var got = canonExact(input, course);
     for (var i = 0; i < answers.length; i++) {
       if (got === canonExact(answers[i], course)) return { ok: true, exact: true };

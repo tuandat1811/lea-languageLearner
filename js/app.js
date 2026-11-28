@@ -18,6 +18,11 @@
     return '<button class="speak-btn' + (opts.big ? ' big' : '') + '" data-speak="' + esc(text) + '" title="Nghe" aria-label="Nghe: ' + esc(text) + '">🔊</button>' +
       (opts.slow ? '<button class="speak-btn slow' + (opts.big ? ' big' : '') + '" data-speak="' + esc(text) + '" data-slow="1" title="Nghe chậm" aria-label="Nghe chậm">🐢</button>' : '');
   }
+  /** "tiếng Anh", "tiếng Nhật"… for use inside a sentence. */
+  function langLower(c) { var n = (c || course()).name; return n.charAt(0).toLowerCase() + n.slice(1); }
+  /** Reading (kana · romaji) under a Japanese word or sentence; nothing for English. */
+  function rd(item) { return item && item.ja !== undefined && item.ipa ? '<div class="ex-reading">' + esc(item.ipa) + '</div>' : ''; }
+
   function starsHtml(n, max) {
     max = max || 3;
     var s = '';
@@ -138,8 +143,11 @@
 
     var skills = L.SKILLS.map(function (s) {
       return '<div class="skill-intro"><span class="skill-icon">' + s.icon + '</span><h3>' + s.name + '</h3><p>' + esc(s.desc) + '</p></div>';
-    }).join('') + '<a class="skill-intro" href="#/pronunciation"><span class="skill-icon">👄</span><h3>Phát âm</h3><p>' +
-      (c.pronunciation || []).length + ' bài luyện âm khó, đuôi -s/-ed, trọng âm, ngữ điệu</p></a>';
+    }).join('') + (c.kana
+      // Japanese: the kana charts are the extra card (there are no pronunciation lessons yet).
+      ? '<a class="skill-intro" href="#/alphabet"><span class="skill-icon">あ</span><h3>Bảng chữ kana</h3><p>Hiragana và Katakana – học trước Bài 1, có bài luyện nhận mặt chữ</p></a>'
+      : '<a class="skill-intro" href="#/pronunciation"><span class="skill-icon">👄</span><h3>Phát âm</h3><p>' +
+        (c.pronunciation || []).length + ' bài luyện âm khó, đuôi -s/-ed, trọng âm, ngữ điệu</p></a>');
 
     var roadmap = c.units.map(function (u, i) {
       var p = unitProgress(c, u);
@@ -175,7 +183,7 @@
       '<section class="panel"><h2>🌍 Chọn ngôn ngữ</h2><div class="lang-grid">' + langs + '</div></section>' +
 
       '<section class="panel"><h2>🎯 Học đủ 4 kỹ năng trong mỗi bài</h2>' +
-        '<p class="muted">Mỗi bài học bắt đầu bằng <b>từ vựng</b> và <b>ngữ pháp</b>. Mỗi kỹ năng có <b>bài giảng</b> riêng (bài nghe, nói theo mẫu, bài đọc, viết đoạn văn) và <b>bài tập</b> chấm điểm. Đạt từ 60% mỗi kỹ năng để mở khoá bài tiếp theo. Phần <b>Phát âm</b> luyện riêng các âm khó.</p>' +
+        '<p class="muted">Mỗi bài học bắt đầu bằng <b>từ vựng</b> và <b>ngữ pháp</b>. Mỗi kỹ năng có <b>bài giảng</b> riêng (bài nghe, nói theo mẫu, bài đọc, viết đoạn văn) và <b>bài tập</b> chấm điểm. Đạt từ 60% mỗi kỹ năng để mở khoá bài tiếp theo. ' + (c.kana ? 'Hãy học <b>bảng chữ kana</b> trước khi vào Bài 1.' : 'Phần <b>Phát âm</b> luyện riêng các âm khó.') + '</p>' +
         '<div class="skill-grid">' + skills + '</div></section>' +
 
       '<section class="panel"><h2>🗺️ Lộ trình ' + esc(c.level) + '</h2><ol class="roadmap">' + roadmap + '</ol>' +
@@ -437,7 +445,7 @@
       '<div class="page-head"><h1>💬 Giao tiếp</h1><p class="muted">Mỗi chặng có một tình huống thực tế. Học mẫu câu, nghe hội thoại mẫu, rồi tự nhập vai nói chuyện với nhân vật.</p></div>' +
       '<div class="panel"><div class="tips"><b>Cách học một tình huống</b><ol>' +
         '<li><b>Mẫu câu</b>: học các cách nói theo chức năng (gọi món, hỏi đường, từ chối…) và cách đáp lại.</li>' +
-        '<li><b>Lưu ý văn hoá</b>: điều người nói tiếng Anh coi là lịch sự hay bất lịch sự.</li>' +
+        '<li><b>Lưu ý văn hoá</b>: điều người bản xứ coi là lịch sự hay bất lịch sự.</li>' +
         '<li><b>Hội thoại mẫu</b>: nghe từng câu, nói theo.</li>' +
         '<li><b>Nhập vai</b>: máy đóng vai nhân vật, bạn nói phần của mình (hoặc chọn câu nếu không dùng micro).</li>' +
         '<li><b>Bài tập</b>: chọn câu đáp phù hợp, sắp xếp hội thoại, nói câu đáp.</li>' +
@@ -482,7 +490,7 @@
             '<span class="line-text">' + esc(d.en) + '</span><div class="ex-vi line-vi" hidden>' + esc(d.vi) + '</div></div></div>';
         }).join('') + '</div></section>' +
       '<section class="panel"><h2>4️⃣ Nhập vai</h2>' +
-        '<p class="muted">Bạn đóng vai <b>Bạn</b>, máy đóng vai <b>' + esc(t.partner) + '</b>. Đến lượt mình, hãy nói câu tiếng Anh theo ý gợi ý bằng tiếng Việt. ' +
+        '<p class="muted">Bạn đóng vai <b>Bạn</b>, máy đóng vai <b>' + esc(t.partner) + '</b>. Đến lượt mình, hãy nói câu ' + langLower() + ' theo ý gợi ý bằng tiếng Việt. ' +
           (L.speech.sttSupported ? 'Bấm 🎤 để nói, hoặc bấm "Chọn câu" nếu không tiện dùng micro.' : 'Trình duyệt này chưa nhận diện được giọng nói (hãy dùng Chrome hoặc Edge) – bạn sẽ chọn câu đáp đúng.') + '</p>' +
         '<div class="chat" aria-live="polite"></div>' +
         '<p class="center"><button class="btn btn-red btn-lg" data-roleplay>🎭 Bắt đầu nhập vai</button></p></section>' +
@@ -542,7 +550,7 @@
       var box = document.createElement('div');
       box.className = 'your-turn';
       box.innerHTML =
-        '<div class="turn-label">Lượt của bạn · nói ý này bằng tiếng Anh:</div>' +
+        '<div class="turn-label">Lượt của bạn · nói ý này bằng ' + langLower() + ':</div>' +
         '<div class="turn-vi">' + esc(d.vi) + '</div>' +
         '<div class="turn-actions">' +
           (L.speech.sttSupported ? '<button class="mic-btn small-mic" aria-label="Bấm để nói">🎤</button>' : '') +
@@ -740,11 +748,11 @@
     var g = lesson.grammar;
     var grammar = '<ul class="grammar-points">' + g.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') + '</ul>' +
       '<div class="examples">' + g.examples.map(function (ex) {
-        return '<div class="example">' + speakBtn(ex.en) + '<div><div class="ex-en">' + esc(ex.en) + '</div><div class="ex-vi">' + esc(ex.vi) + '</div></div></div>';
+        return '<div class="example">' + speakBtn(ex.en) + '<div><div class="ex-en">' + esc(ex.en) + '</div>' + rd(ex) + '<div class="ex-vi">' + esc(ex.vi) + '</div></div></div>';
       }).join('') + '</div>';
 
     var sentences = lesson.sentences.map(function (s) {
-      return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div></div>';
+      return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div><div class="ex-en">' + esc(s.en) + '</div>' + rd(s) + '<div class="ex-vi">' + esc(s.vi) + '</div></div></div>';
     }).join('');
 
     var skills = L.SKILLS.map(function (s, i) {
@@ -835,15 +843,16 @@
 
   /** Split a reading text into lines (dialogue by \n, prose by sentence). */
   function linesOf(text) {
-    var parts = text.indexOf('\n') >= 0 ? text.split('\n') : (text.match(/[^.!?]+[.!?]+["”']?|[^.!?]+$/g) || [text]);
+    var parts = text.indexOf('\n') >= 0 ? text.split('\n') : (text.match(/[^.!?。！？]+[.!?。！？]+["”'」]?|[^.!?。！？]+$/g) || [text]);
     return parts.map(function (s) { return s.trim(); }).filter(Boolean).map(function (line) {
-      var m = line.match(/^([A-Z][A-Za-z .]{0,20}):\s(.+)$/);
+      var m = line.match(/^(\p{Lu}[\p{L} .]{0,20}|[\u3040-\u30ff\u3400-\u9fff]{1,8}(?:さん)?)[:：]\s*(.+)$/u);
       return m ? { speaker: m[1], text: m[2] } : { speaker: '', text: line };
     });
   }
 
   function vocabRegex(vocab) {
     var words = vocab.map(function (v) { return v.en; }).sort(function (a, b) { return b.length - a.length; });
+    if (course().script === 'ja') return new RegExp('()(' + words.map(escRe).join('|') + ')()', 'g');
     return new RegExp('(^|[^\\p{L}])(' + words.map(escRe).join('|') + ')(s|es|ed|d|ing)?(?=$|[^\\p{L}])', 'giu');
   }
 
@@ -859,6 +868,11 @@
   }
 
   function usedVocab(text, vocab) {
+    if (course().script === 'ja') {
+      // Japanese: the word in kanji or in kana (learners often write kana).
+      var plain = L.ja.kataToHira(text);
+      return vocab.filter(function (v) { return text.indexOf(v.en) >= 0 || (v.kana && plain.indexOf(L.ja.kataToHira(v.kana)) >= 0); });
+    }
     return vocab.filter(function (v) {
       return new RegExp('(^|[^\\p{L}])' + escRe(v.en) + '(s|es|ed|d|ing)?(?=$|[^\\p{L}])', 'iu').test(text);
     });
@@ -924,14 +938,20 @@
    * not shown to the learner; only the used-vocab chips are rendered.
    */
   function freeCheck(text, lesson, minSentences, minWords, minVocab, written) {
-    var sentences = text.split(/[.!?]+/).map(function (s) { return s.trim(); }).filter(Boolean);
-    var words = (text.match(/[\p{L}']+/gu) || []).length;
+    var ja = course().script === 'ja';
+    var sentences = text.split(ja ? /[。！？!?]+/ : /[.!?]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+    // Japanese is written without spaces: count characters (about 3 per English word).
+    var words = ja ? text.replace(/[\s。、！？!?.,]/g, '').length : (text.match(/[\p{L}']+/gu) || []).length;
+    if (ja) minWords *= 3;
     var used = usedVocab(text, lesson.vocab);
     var items = [
-      { ok: words >= minWords, label: 'Ít nhất ' + minWords + ' từ (hiện có ' + words + ')' },
+      { ok: words >= minWords, label: 'Ít nhất ' + minWords + (ja ? ' ký tự' : ' từ') + ' (hiện có ' + words + ')' },
       { ok: used.length >= minVocab, label: 'Dùng ít nhất ' + minVocab + ' từ mới của bài (đã dùng ' + used.length + ')' },
     ];
-    if (written) {
+    if (written && ja) {
+      items.unshift({ ok: sentences.length >= minSentences, label: 'Ít nhất ' + minSentences + ' câu' });
+      items.push({ ok: /[。！？!?]\s*$/.test(text.trim()), label: 'Kết thúc câu bằng 。' });
+    } else if (written) {
       items.unshift({ ok: sentences.length >= minSentences, label: 'Ít nhất ' + minSentences + ' câu (hiện có ' + sentences.length + ')' });
       items.push({ ok: sentences.length > 0 && sentences.every(function (s) { return /^[^\p{L}]*\p{Lu}/u.test(s); }), label: 'Viết hoa chữ cái đầu mỗi câu' });
       items.push({ ok: /[.!?]["”']?\s*$/.test(text.trim()), label: 'Kết thúc câu bằng dấu . ! hoặc ?' });
@@ -946,6 +966,7 @@
   var LECTURES = {
     listening: function (c, lesson) {
       var lines = linesOf(lesson.reading.text);
+      var kanaLines = lesson.reading.kana ? linesOf(lesson.reading.kana) : null;
       return {
         html:
           tipsBox([
@@ -967,9 +988,11 @@
               '<label class="toggle"><input type="checkbox" data-show-text /> Hiện lời</label>' +
               '<label class="toggle"><input type="checkbox" data-show-vi /> Hiện bản dịch</label>' +
             '</div>' +
-            '<div class="listen-lines hide-text">' + lines.map(function (l) {
+            '<div class="listen-lines hide-text">' + lines.map(function (l, i) {
+              // Japanese: the kana reading of each line, shown together with the text.
+              var kana = kanaLines && kanaLines[i] ? '<div class="line-text ex-reading">' + esc(kanaLines[i].text) + '</div>' : '';
               return '<div class="listen-line">' + speakBtn(l.text) + '<div>' + (l.speaker ? '<b class="speaker">' + esc(l.speaker) + ':</b> ' : '') +
-                '<span class="line-text">' + esc(l.text) + '</span></div></div>';
+                '<span class="line-text">' + esc(l.text) + '</span>' + kana + '</div></div>';
             }).join('') + '</div>' +
             '<div class="translation-box" hidden>' + multiline(lesson.reading.vi) + '</div></section>' +
           '<section class="panel"><h2>3️⃣ Nghe cấu trúc của bài</h2><p class="muted">' + esc(lesson.grammar.title) + ' – nghe và chú ý cách người bản xứ nói các câu này.</p>' +
@@ -977,7 +1000,7 @@
               var key = L.exercises.normalize(s.en, c);
               return all.findIndex(function (o) { return L.exercises.normalize(o.en, c) === key; }) === i;
             }).map(function (s) {
-              return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div></div>';
+              return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div><div class="ex-en">' + esc(s.en) + '</div>' + rd(s) + '<div class="ex-vi">' + esc(s.vi) + '</div></div></div>';
             }).join('') + '</div></section>',
         bind: function (root) {
           var rows = $$('.listen-line', root);
@@ -1001,7 +1024,7 @@
       var unit = c.units[lesson.unitIndex];
       return {
         html:
-          tipsBox([
+          tipsBox((c.tips && c.tips.speaking) || [
             'Nghe mẫu rồi nói theo <b>ngay lập tức</b>, bắt chước cả ngữ điệu (shadowing).',
             'Chú ý <b>âm cuối</b> (s, t, d, k) – người Việt hay quên đọc. Xem thêm mục 👄 Phát âm.',
             'Dấu <b>ˈ</b> trong phiên âm đứng trước âm tiết được <b>nhấn mạnh</b>.',
@@ -1013,7 +1036,7 @@
           }).join('') + '</div></section>' +
           '<section class="panel"><h2>2️⃣ Nói theo mẫu</h2><p class="muted">Nghe từng câu, nói theo 3 lần, rồi bấm 🎤 để kiểm tra.</p><div class="examples">' +
             lesson.sentences.map(function (s) {
-              return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div>' + micBtn(s.en) + '</div>';
+              return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(s.en) + '</div>' + rd(s) + '<div class="ex-vi">' + esc(s.vi) + '</div></div>' + micBtn(s.en) + '</div>';
             }).join('') + '</div></section>' +
           '<section class="panel"><h2>3️⃣ Bài tập nói tự do</h2>' +
             '<p>Hãy nói về chủ đề <b>"' + esc(unit.title) + '"</b> (' + esc(lesson.title) + '). Dùng cấu trúc <b>' + esc(lesson.grammar.title) + '</b> và ít nhất ' + minVocab + ' từ mới.</p>' +
@@ -1078,16 +1101,20 @@
           ]) +
           '<section class="panel"><h2>📖 ' + esc(r.title) + '</h2>' +
             '<div class="player-bar">' + speakBtn(r.text, { slow: true }) + '<span class="muted">Nghe cả bài</span>' +
+            (r.kana ? '<label class="toggle"><input type="checkbox" data-show-kana /> Hiện cách đọc (kana)</label>' : '') +
             '<label class="toggle"><input type="checkbox" data-show-vi /> Hiện bản dịch</label></div>' +
             '<p class="passage-text big">' + highlightVocab(r.text, lesson.vocab) + '</p>' +
-            '<div class="translation-box" hidden>' + multiline(r.vi) + '</div></section>' +
+            (r.kana ? '<div class="translation-box kana-box" hidden>' + multiline(r.kana) + '</div>' : '') +
+            '<div class="translation-box vi-box" hidden>' + multiline(r.vi) + '</div></section>' +
           '<section class="panel"><h2>🔑 Từ vựng trong bài (' + found.length + ')</h2><div class="chips">' +
             found.map(function (v) { return '<button class="chip-word" data-speak="' + esc(v.en) + '">' + esc(v.en) + ' – ' + esc(v.vi) + '</button>'; }).join('') +
           '</div></section>' +
           '<section class="panel"><h2>❓ Đọc và tìm câu trả lời</h2><p class="muted">Bạn sẽ trả lời các câu hỏi này trong phần bài tập. Hãy tìm câu trả lời trong bài đọc trước nhé.</p><ol class="steps">' +
             r.questions.map(function (q) { return '<li>' + esc(q.q) + '</li>'; }).join('') + '</ol></section>',
         bind: function (root) {
-          $('[data-show-vi]', root).addEventListener('change', function (e) { $('.translation-box', root).hidden = !e.target.checked; });
+          $('[data-show-vi]', root).addEventListener('change', function (e) { $('.vi-box', root).hidden = !e.target.checked; });
+          var kana = $('[data-show-kana]', root);
+          if (kana) kana.addEventListener('change', function (e) { $('.kana-box', root).hidden = !e.target.checked; });
         },
       };
     },
@@ -1101,7 +1128,7 @@
       var g = lesson.grammar;
       return {
         html:
-          tipsBox([
+          tipsBox((c.tips && c.tips.writing) || [
             'Mỗi câu tiếng Anh cần có <b>chủ ngữ + động từ</b>: I <b>am</b> a student (không viết "I student").',
             'Trật tự cơ bản: <b>Chủ ngữ – Động từ – Tân ngữ – Nơi chốn – Thời gian</b>: I read books at home every evening.',
             '<b>Viết hoa</b> chữ cái đầu câu, chữ I và tên riêng; kết thúc câu bằng dấu <b>.</b> hoặc <b>?</b>',
@@ -1115,7 +1142,7 @@
           '<section class="panel"><h2>3️⃣ Bài tập viết đoạn văn</h2>' +
             '<p>Viết <b>' + minSentences + '–' + (minSentences + 3) + ' câu</b> về chủ đề <b>"' + esc(unit.title) + '"</b> (' + esc(lesson.title) + '). Dùng cấu trúc <b>' + esc(g.title) + '</b> và ít nhất ' + minVocab + ' từ mới.</p>' +
             '<p class="muted">Gợi ý: ' + lesson.sentences.slice(0, 3).map(function (s) { return '<i>' + esc(s.en) + '</i>'; }).join(' · ') + '</p>' +
-            '<textarea class="free-text" rows="7" spellcheck="false" placeholder="Viết đoạn văn của bạn bằng tiếng Anh…"></textarea>' +
+            '<textarea class="free-text" rows="7" spellcheck="false" placeholder="Viết đoạn văn của bạn bằng ' + langLower() + '…"></textarea>' +
             '<div class="player-bar"><button class="btn btn-ghost-dark" data-read-mine>🔊 Nghe bài của bạn</button><span class="muted save-state"></span></div>' +
             '<div class="free-check"></div></section>',
         bind: function (root) {
@@ -1219,7 +1246,7 @@
         }).join('') + '</div>';
       }).join('') + '</div></section>' : '') +
       '<section class="panel"><h2>🗣️ Luyện câu</h2><div class="examples">' + p.sentences.map(function (s) {
-        return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(s.en) + '</div><div class="ex-vi">' + esc(s.vi) + '</div></div>' + micBtn(s.en) + '</div>';
+        return '<div class="example">' + speakBtn(s.en, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(s.en) + '</div>' + rd(s) + '<div class="ex-vi">' + esc(s.vi) + '</div></div>' + micBtn(s.en) + '</div>';
       }).join('') + '</div></section>' +
       '<div class="study-foot"><a class="btn btn-red btn-lg" href="#/practice/' + p.id + '/pron">✏️ Làm bài tập phát âm →</a>' +
         (nextP ? '<a class="btn btn-ghost" href="#/pron/' + nextP.id + '">Bài tiếp: ' + esc(nextP.title) + ' →</a>' : '') + '</div>';
@@ -1333,7 +1360,7 @@
   R.dictation = {
     html: function (ex) {
       return '<div class="listen-box">' + speakBtn(ex.audio, { big: true, slow: true }) + '</div>' +
-        '<input class="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Gõ những gì bạn nghe được…" />';
+        '<input class="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + esc(course().inputHint || 'Gõ những gì bạn nghe được…') + '" />';
     },
     bind: function (root, ex, ctx) {
       bindInput(root, ex, ctx, ex.answers, ex.audio + ' — ' + ex.vi);
@@ -1360,7 +1387,7 @@
   R.translate = {
     html: function (ex) {
       return '<div class="prompt-card"><span class="prompt-emoji">' + (ex.hint || '💬') + '</span><span class="prompt-vi">' + esc(ex.vi) + '</span></div>' +
-        '<input class="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Viết bằng tiếng Anh…" />';
+        '<input class="answer-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + esc(course().inputHint || 'Viết bằng ' + langLower() + '…') + '" />';
     },
     bind: function (root, ex, ctx) { bindInput(root, ex, ctx, ex.answers); },
   };
@@ -1374,7 +1401,7 @@
     },
     bind: function (root, ex, ctx) {
       var full = ex.before + ex.answer + ex.after;
-      if (ex.strict) {
+      if (ex.strict && !ex.blankOnly) {
         // Compare the whole sentence so capitals inside it still count (a ≠ A mid-sentence).
         bindInput(root, ex, ctx, [full], full, function (v) { return ex.before + v.trim() + ex.after; });
       } else {
@@ -1491,7 +1518,7 @@
 
   R.read_choose = {
     html: function (ex) {
-      return '<div class="read-sentence">' + speakBtn(ex.text) + '<span>' + esc(ex.text) + '</span></div>' + optionsHtml(ex.options);
+      return '<div class="read-sentence">' + speakBtn(ex.text) + '<span>' + esc(ex.text) + (ex.ipa && course().script === 'ja' ? '<span class="ex-reading">' + esc(ex.ipa) + '</span>' : '') + '</span></div>' + optionsHtml(ex.options);
     },
     bind: function (root, ex, ctx) { bindOptions(root, ex, ctx); },
   };
@@ -1500,6 +1527,7 @@
     html: function (ex) {
       return '<article class="passage"><div class="passage-head"><h3>' + esc(ex.reading.title) + '</h3><span class="speak-group">' + speakBtn(ex.reading.text, { slow: true }) + '</span></div>' +
         '<p class="passage-text">' + multiline(ex.reading.text) + '</p>' +
+        (ex.reading.kana ? '<details class="translation"><summary>Xem cách đọc (kana)</summary><p>' + multiline(ex.reading.kana) + '</p></details>' : '') +
         '<details class="translation"><summary>Xem bản dịch</summary><p>' + multiline(ex.reading.vi) + '</p></details></article>' +
         '<p class="question">❓ ' + esc(ex.question) + '</p>' + optionsHtml(ex.options);
     },
@@ -1666,7 +1694,7 @@
       var ex = exs[i];
       $('.progress-bar span', app).style.width = (i / exs.length * 100) + '%';
       $('.counter', app).textContent = (i + 1) + '/' + exs.length;
-      hint.textContent = ex.prompt || HINTS[ex.type] || '';
+      hint.textContent = (ex.prompt || HINTS[ex.type] || '').replace('tiếng Anh', langLower());
       body.innerHTML = R[ex.type].html(ex);
 
       var state = { locked: false, check: null, key: null };
@@ -1846,8 +1874,72 @@
   // =====================================================================
   // ALPHABET
   // =====================================================================
-  function viewAlphabet() {
+  // ---- Japanese kana charts (Hiragana / Katakana) ----
+  function kanaCells(c, script) {
+    var conv = function (r) { var h = L.ja.romajiToHira(r === 'n' ? "n'" : r); return script === 'kata' ? L.ja.hiraToKata(h) : h; };
+    return c.kana.groups.map(function (g) {
+      return { title: g.title, cols: g.rows[0].length, cells: g.rows.reduce(function (all, row) {
+        return all.concat(row.map(function (r) { return r ? { romaji: r, kana: conv(r) } : null; }));
+      }, []) };
+    });
+  }
+
+  function kanaExercises(c, script) {
+    var all = kanaCells(c, script).reduce(function (a, g) { return a.concat(g.cells.filter(Boolean)); }, []);
+    var pick = L.exercises.sample(all, 10);
+    return pick.map(function (cell, i) {
+      var others = L.exercises.sample(all.filter(function (x) { return x.kana !== cell.kana; }), 3);
+      if (i % 2 === 0) {
+        var o = L.exercises.shuffle([cell.kana].concat(others.map(function (x) { return x.kana; })));
+        return { type: 'listen_choose', prompt: '🎧 Nghe và chọn chữ đúng', audio: cell.kana, options: o, answer: o.indexOf(cell.kana), reveal: cell.kana + ' = ' + cell.romaji };
+      }
+      var r = L.exercises.shuffle([cell.romaji].concat(others.map(function (x) { return x.romaji; })));
+      return { type: 'read_choose', prompt: '📖 Chữ này đọc là gì?', text: cell.kana, options: r, answer: r.indexOf(cell.romaji) };
+    });
+  }
+
+  function viewKana(c, script) {
+    script = script || 'hira';
+    var name = script === 'kata' ? 'Katakana' : 'Hiragana';
+    var res = store.skillResult('kana-' + script, 'kana');
+    var groups = kanaCells(c, script).map(function (g) {
+      return '<h3>' + esc(g.title) + '</h3><div class="kana-grid" style="--cols:' + g.cols + '">' + g.cells.map(function (cell) {
+        return cell
+          ? '<button class="kana-cell" data-speak="' + esc(cell.kana) + '"><span class="kana-char">' + esc(cell.kana) + '</span><span class="kana-romaji">' + esc(cell.romaji) + '</span></button>'
+          : '<span class="kana-cell empty"></span>';
+      }).join('') + '</div>';
+    }).join('');
+    app.innerHTML = '<div class="page-head"><h1>🔤 Bảng chữ ' + name + '</h1>' +
+      '<p class="muted">Tiếng Nhật dùng hai bảng chữ mềm (kana) và chữ Hán (kanji). Hãy thuộc Hiragana trước khi vào Bài 1, rồi học Katakana song song.</p></div>' +
+      '<nav class="tabs"><a class="tab' + (script === 'hira' ? ' active' : '') + '" href="#/alphabet/hira">あ Hiragana</a>' +
+        '<a class="tab' + (script === 'kata' ? ' active' : '') + '" href="#/alphabet/kata">ア Katakana</a></nav>' +
+      '<div class="panel"><div class="tips"><b>💡 Mẹo học</b><ul class="steps">' + c.kana.tips[script].map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>' +
+        '<p class="player-bar"><button class="btn btn-red" data-kana-practice>✏️ Luyện nhận mặt chữ ' + name + '</button>' +
+        (res ? starsHtml(res.stars) + ' <span class="muted">Cao nhất ' + Math.round(res.best * 100) + '%</span>' : '<span class="muted">Bấm vào chữ để nghe cách đọc.</span>') + '</p>' +
+        groups + '</div>';
+    $('[data-kana-practice]', app).addEventListener('click', function () {
+      runExercises({
+        exs: kanaExercises(c, script),
+        title: '🔤 Luyện ' + name,
+        backHref: '#/alphabet/' + script,
+        onDone: function (correct, total) {
+          var r = store.recordSkill('kana-' + script, 'kana', correct, total);
+          renderStats();
+          app.innerHTML = '<div class="result panel"><div class="result-icon">' + (r.stars ? '🎉' : '🌱') + '</div>' +
+            '<h1>' + name + ': ' + Math.round(r.score * 100) + '%</h1><div class="result-stars">' + starsHtml(r.stars) + '</div>' +
+            '<p>' + starMessage(r.stars) + '</p><p class="muted">Đúng ' + correct + '/' + total + ' câu · +' + r.xp + ' ⭐</p>' +
+            '<div class="result-actions"><a class="btn btn-ghost-dark" href="#/alphabet/' + script + '" data-again>↻ Luyện lại</a>' +
+            '<a class="btn btn-red" href="#/course">Đến lộ trình</a></div></div>';
+          $('[data-again]', app).addEventListener('click', function (e) { e.preventDefault(); viewKana(c, script); $('[data-kana-practice]', app).click(); });
+          if (r.stars >= 2) celebrate();
+        },
+      });
+    });
+  }
+
+  function viewAlphabet(script) {
     var c = course();
+    if (c.kana) return viewKana(c, script);
     var letters = (c.alphabet || []).map(function (a) {
       return '<button class="letter-card" data-letter="' + esc(a.letter) + '" data-word="' + esc(a.word) + '">' +
         '<span class="letter">' + esc(a.letter) + '<small>' + esc(a.letter.toLowerCase()) + '</small></span>' +
@@ -1903,7 +1995,7 @@
     var rate = $('.rate', app);
     rate.addEventListener('input', function () { $('.rate-val', app).textContent = (+rate.value).toFixed(2); store.setSetting('rate', +rate.value); });
     $('.voice', app).addEventListener('change', function (e) { store.setSetting('voice', e.target.value); });
-    $('.test-voice', app).addEventListener('click', function () { L.speech.speak('Hello! Welcome to Lea. Happy learning!'); });
+    $('.test-voice', app).addEventListener('click', function () { L.speech.speak(c.sampleSentence || 'Hello! Welcome to Lea. Happy learning!'); });
     $('.dark-toggle', app).addEventListener('change', function (e) { setTheme(e.target.checked ? 'dark' : 'light'); });
     $('.rain-toggle', app).addEventListener('change', function (e) { setRain(e.target.checked); });
     $('.unlock-toggle', app).addEventListener('change', function (e) { store.setSetting('unlockAll', e.target.checked); });
@@ -1936,6 +2028,11 @@
       page === 'pron' ? 'pronunciation' :
       page === 'practice' ? (parts[2] === 'pron' ? 'pronunciation' : 'course') : page;
     $$('#nav a').forEach(function (a) { a.classList.toggle('active', a.getAttribute('data-nav') === navPage); });
+    // Menu items a course doesn't have (e.g. no pronunciation lessons in Japanese yet).
+    var cur = course();
+    $('#nav a[data-nav="pronunciation"]').hidden = !(cur.pronunciation && cur.pronunciation.length);
+    $('#nav a[data-nav="talk"]').hidden = !(cur.talk && Object.keys(cur.talk).length);
+    $('#nav a[data-nav="alphabet"]').textContent = cur.kana ? 'Bảng chữ kana' : 'Bảng chữ cái';
     stopPlayback();
     document.body.classList.toggle('in-practice', page === 'practice');
     if (page === 'home') viewHome();
@@ -1949,7 +2046,7 @@
     else if (page === 'review') viewReview();
     else if (page === 'test') viewTest(parts[1]);
     else if (page === 'talk') { if (parts[1]) viewTalk(parts[1], parts[2]); else viewTalkList(); }
-    else if (page === 'alphabet') viewAlphabet();
+    else if (page === 'alphabet') viewAlphabet(parts[1]);
     else if (page === 'settings') viewSettings();
     else viewNotFound();
     renderStats();

@@ -17,7 +17,38 @@ window.LEA = window.LEA || {};
     { code: 'fr', name: 'Tiếng Pháp', flag: '🇫🇷' },
   ];
 
+  /**
+   * Japanese items are written { ja, kana, romaji, vi }. The engine reads the target text
+   * from `en`, so copy ja → en, show "kana · romaji" where English shows IPA, and keep a
+   * text → kana map so answers typed in kana or romaji can be checked.
+   */
+  function prepJapanese(course) {
+    var readings = course.readings = course.readings || {};
+    function prep(item) {
+      if (!item || item.ja === undefined) return;
+      item.en = item.ja;
+      var kana = item.kana || item.ja;
+      item.ipa = (kana !== item.ja ? kana + ' · ' : '') + (item.romaji || '');
+      readings[item.ja] = kana;
+      (item.alts || []).forEach(function (a) { if (!readings[a]) readings[a] = a; });
+    }
+    course.units.forEach(function (unit) {
+      unit.lessons.forEach(function (lesson) {
+        lesson.vocab.forEach(prep);
+        lesson.sentences.forEach(prep);
+        lesson.grammar.examples.forEach(prep);
+        // Grammar-test answers: a blank's reading, or the kana of a corrected sentence.
+        if (lesson.quiz) {
+          (lesson.quiz.write || []).forEach(function (w) {
+            if (!readings[w.answer]) readings[w.answer] = w.reading || w.kana || w.answer;
+          });
+        }
+      });
+    });
+  }
+
   function index(course) {
+    if (course.script === 'ja') prepJapanese(course);
     course.lessonList = [];
     course.lessonById = {};
     course.units.forEach(function (unit, ui) {

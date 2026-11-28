@@ -1,7 +1,9 @@
 # 📚 Lea – Học ngoại ngữ mỗi ngày
 
 Website học ngoại ngữ cho người Việt, giao diện tiếng Việt, theme "góc học tập" ấm áp (kem – đất nung – tím lavender), có chế độ sáng/tối và hiệu ứng mưa nhẹ.
-Khoá đầu tiên: **Tiếng Anh từ con số 0 đến B2** – 4 cấp, 40 chặng, 80 bài, đủ 4 kỹ năng **Nghe – Nói – Đọc – Viết**.
+Hai khoá học, đều luyện đủ 4 kỹ năng **Nghe – Nói – Đọc – Viết**:
+- **Tiếng Anh từ con số 0 đến B2** – 4 cấp, 40 chặng, 80 bài.
+- **Tiếng Nhật sơ cấp (N5 → N4)** – theo trình tự ngữ pháp Minna no Nihongo (50 bài), có bảng chữ Hiragana / Katakana; hiện có Bài 1 – 5.
 
 Web tĩnh thuần HTML/CSS/JS, không cần build, không cần cài thư viện.
 
@@ -52,6 +54,15 @@ Mỗi bài gồm: **Từ vựng** (12 từ, IPA, phát âm – tổng 960 từ) 
 
 **📝 Kiểm tra ngữ pháp** (`#/test/<id>`): sau mỗi 2 chặng (4 bài) có một bài kiểm tra 10 câu, mở khi học xong các bài đó. Phần I trắc nghiệm (6 câu: chọn từ điền vào chỗ trống, chọn câu đúng ngữ pháp); phần II tự luận (4 câu: viết dạng đúng của từ trong ngoặc, tìm lỗi sai và viết lại câu). Câu hỏi được sinh ngẫu nhiên từ phần ngữ pháp và câu mẫu (`builders.test` trong `js/core/exercises.js`), chỉ dùng các nhóm từ ngữ pháp đóng (am/is/are, a/an, have/has, -s ngôi thứ 3, for/since…) để mỗi chỗ trống có đúng một đáp án. Tự luận chấm chính xác từng ký tự; chỉ chấp nhận chữ cái đầu câu viết thường và dạng viết tắt/viết đầy đủ (doesn't = does not).
 
+## Khoá tiếng Nhật
+
+Dữ liệu ở `data/ja.js` (`script: 'ja'`). Mỗi "Bài" theo trình tự ngữ pháp của Minna no Nihongo là một chặng gồm 2 bài học; hội thoại, câu ví dụ và nhân vật là nội dung tự biên soạn (không chép từ sách). Giáo trình liệt kê đủ 50 bài, các bài chưa có nội dung hiện "Sắp có".
+
+- **Bảng chữ kana** (`#/alphabet/hira`, `#/alphabet/kata`): âm cơ bản, âm đục, âm ghép; bấm để nghe; bài luyện nhận mặt chữ.
+- Mỗi mục viết dạng `{ ja, kana, romaji, vi }`; câu viết cách theo cụm từ như sách sơ cấp (`私は 学生です。`) để có bài sắp xếp câu và điền trợ từ. Câu có kanji luôn hiện kèm cách đọc kana · romaji.
+- **Chấm bài** (`js/core/japanese.js`): người học gõ kanji, kana hoặc romaji. Không tha lỗi gõ; chỉ chấp nhận khác biệt do cách viết: shi/si, tsu/tu, ō/ou/oo, trợ từ は/へ/を gõ "wa/e/o" (khi gõ romaji), dấu cách và dấu câu.
+- **Kiểm tra ngữ pháp**: trợ từ tiếng Nhật thường có nhiều lựa chọn đúng nên câu hỏi được viết sẵn trong mỗi bài (`quiz`), máy bốc ngẫu nhiên 6 trắc nghiệm + 4 tự luận.
+
 ## Thêm ngôn ngữ mới
 
 1. Tạo `data/<mã>.js` (ví dụ `data/ja.js`) theo cấu trúc của `data/en.js` và gọi `LEA.registerLanguage({...})`:
@@ -72,9 +83,11 @@ js/core/registry.js      Đăng ký ngôn ngữ, danh sách 4 kỹ năng
 js/core/storage.js       Tiến độ, sao, chuỗi ngày, ôn tập (localStorage)
 js/core/speech.js        Đọc (speechSynthesis) & nhận diện giọng nói
 js/core/exercises.js     Sinh bài tập & chấm đáp án
+js/core/japanese.js      Romaji → kana, chấm đáp án tiếng Nhật
 js/ui/rain.js            Hiệu ứng mưa nhẹ (tuỳ chọn)
 js/app.js                Router + các trang
 data/en.js               Khoá tiếng Anh (en-a2/b1/b2.js: cấp 2–4, en-pron.js: phát âm, en-talk.js: giao tiếp)
+data/ja.js               Khoá tiếng Nhật (kana, giáo trình 50 bài, Bài 1–5)
 tools/serve.js           Server tĩnh
 tools/validate.js        Kiểm tra dữ liệu khoá học
 ```

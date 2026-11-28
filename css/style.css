@@ -611,6 +611,21 @@ body.in-practice .site-footer { display: none; }
 .review-item { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--bad); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
 .review-wrong { text-decoration: line-through; color: var(--muted); }
 
+/* Japanese: readings and kana charts */
+.ex-reading { font-size: 0.86rem; color: var(--accent-2); font-weight: 600; letter-spacing: .2px; }
+.read-sentence .ex-reading { display: block; margin-top: 2px; }
+.kana-grid { display: grid; grid-template-columns: repeat(var(--cols, 5), minmax(0, 1fr)); gap: 8px; margin: 8px 0 18px; max-width: 560px; }
+.kana-cell {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px; cursor: pointer; font: inherit; color: var(--text);
+  transition: transform .15s, border-color .2s;
+}
+.kana-cell:hover { transform: translateY(-2px); border-color: var(--accent); }
+.kana-cell.playing { border-color: var(--gold); background: var(--gold-soft); }
+.kana-cell.empty { visibility: hidden; }
+.kana-char { font-size: 1.8rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
+.kana-romaji { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+
 /* Communication (giao tiếp) */
 .talk-card {
   display: flex; align-items: center; gap: 18px; flex-wrap: wrap;

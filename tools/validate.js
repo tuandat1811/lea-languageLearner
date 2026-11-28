@@ -13,7 +13,7 @@ sandbox.window = sandbox;
 sandbox.LEA = undefined;
 vm.createContext(sandbox);
 const load = (f) => vm.runInContext(fs.readFileSync(path.join(root, f), 'utf8'), sandbox, { filename: f });
-['js/core/registry.js', 'js/core/storage.js', 'js/core/exercises.js'].forEach(load);
+['js/core/registry.js', 'js/core/storage.js', 'js/core/japanese.js', 'js/core/exercises.js'].forEach(load);
 // Base course files (en.js) must load before their extensions (en-a2.js).
 fs.readdirSync(path.join(root, 'data')).filter((f) => f.endsWith('.js'))
   .sort((a, b) => (a.includes('-') - b.includes('-')) || a.localeCompare(b))
@@ -127,6 +127,38 @@ for (const [input, answers, want] of cases) {
 }
 const sp = L.exercises.checkSpeech(['good morning'], ['Good morning'], en);
 if (!sp.ok) fail('checkSpeech exact match failed');
+
+// Japanese: every word and sentence typed exactly as its own romaji / kana must be accepted
+// (this also catches typos in the romaji and kana columns of the data).
+const ja = L.languages.ja;
+if (ja) {
+  let checked = 0;
+  for (const l of ja.lessonList) {
+    for (const item of [...l.vocab, ...l.sentences, ...l.grammar.examples]) {
+      if (item.romaji && !L.exercises.checkText(item.romaji, [item.ja], ja).ok) fail(`ja/${l.id}: romaji "${item.romaji}" ≠ "${item.ja}"`);
+      if (!L.exercises.checkText(item.kana || item.ja, [item.ja], ja).ok) fail(`ja/${l.id}: kana of "${item.ja}" not accepted`);
+      checked++;
+    }
+    for (const w of (l.quiz && l.quiz.write) || []) {
+      if (!L.exercises.checkStrict(w.reading || w.kana || w.answer, [w.answer], ja).ok) fail(`ja/${l.id}: quiz answer "${w.answer}" not accepted in kana`);
+    }
+  }
+  const jaCases = [
+    ['watashi wa gakusei desu', '私は 学生です。', true],
+    ['watashiha gakuseidesu', '私は 学生です。', true],
+    ['わたしはがくせいです', '私は 学生です。', true],
+    ['わたしわがくせいです', '私は 学生です。', false], // particle は must be written は in kana
+    ['watashi wa gakuse desu', '私は 学生です。', false], // no typo forgiven
+    ['koohii', 'コーヒー', true],
+    ['Tanaka-san wa sensei desu', '田中さんは 先生です。', true],
+    ['densha de kaisha e ikimasu', '電車で 会社へ 行きます。', true],
+    ['densha ni kaisha e ikimasu', '電車で 会社へ 行きます。', false],
+  ];
+  for (const [input, answer, want] of jaCases) {
+    if (L.exercises.checkText(input, [answer], ja).ok !== want) fail(`ja checkText(${JSON.stringify(input)}) should be ${want}`);
+  }
+  console.log(`${ja.flag} ${ja.name}: ${checked} words/sentences accept their own romaji and kana`);
+}
 
 // Grammar tests: exact checking (only a lowercase first letter is forgiven).
 const strictCases = [
