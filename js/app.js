@@ -408,8 +408,19 @@
 
   function viewTalkList() {
     var c = course();
-    var list = c.units.filter(function (u) { return c.talk && c.talk[u.id]; }).map(function (u) { return c.talk[u.id]; });
-    var cards = list.map(function (t) {
+    function cardsFor(units) {
+      return units.filter(function (u) { return c.talk && c.talk[u.id]; }).map(function (u) { return talkListCard(c.talk[u.id]); }).join('');
+    }
+    // Group the situations by level, like the course map.
+    var levelMap = levelOfUnit(c);
+    var groups = (c.syllabus || []).map(function (lv, li) {
+      var cards = cardsFor(c.units.filter(function (u) { return (levelMap[u.id] || 0) === li; }));
+      return cards ? '<div class="level-banner"><span class="level-icon">' + lv.icon + '</span><div>' +
+        '<div class="unit-label">Cấp ' + (li + 1) + ' · ' + esc(lv.cefr) + '</div><h2>' + esc(lv.name) + '</h2></div></div>' +
+        '<div class="skill-cards">' + cards + '</div>' : '';
+    }).join('') || '<div class="skill-cards">' + cardsFor(c.units) + '</div>';
+
+    function talkListCard(t) {
       var open = talkUnlocked(c, t), s = talkStatus(t), u = talkUnit(c, t);
       return '<div class="skill-card' + (s.done ? ' passed' : '') + (open ? '' : ' locked-card') + '">' +
         '<span class="skill-step">' + (u.index + 1) + '</span><span class="skill-icon">' + (open ? t.icon : '🔒') + '</span>' +
@@ -421,7 +432,7 @@
             '<div class="skill-actions"><a class="btn btn-small btn-green" href="#/talk/' + t.unitId + '">💬 Vào tình huống</a></div>'
           : '<span class="skill-score">Học xong chặng ' + (u.index + 1) + ' (' + esc(u.title) + ') để mở</span>') +
         '</div>';
-    }).join('');
+    }
     app.innerHTML =
       '<div class="page-head"><h1>💬 Giao tiếp</h1><p class="muted">Mỗi chặng có một tình huống thực tế. Học mẫu câu, nghe hội thoại mẫu, rồi tự nhập vai nói chuyện với nhân vật.</p></div>' +
       '<div class="panel"><div class="tips"><b>Cách học một tình huống</b><ol>' +
@@ -430,8 +441,7 @@
         '<li><b>Hội thoại mẫu</b>: nghe từng câu, nói theo.</li>' +
         '<li><b>Nhập vai</b>: máy đóng vai nhân vật, bạn nói phần của mình (hoặc chọn câu nếu không dùng micro).</li>' +
         '<li><b>Bài tập</b>: chọn câu đáp phù hợp, sắp xếp hội thoại, nói câu đáp.</li>' +
-      '</ol></div><div class="skill-cards">' + cards + '</div>' +
-      '<p class="muted center small">Tình huống cho Cấp 2 – 4 đang được biên soạn.</p></div>';
+      '</ol></div></div>' + groups;
   }
 
   function viewTalk(unitId, mode) {
