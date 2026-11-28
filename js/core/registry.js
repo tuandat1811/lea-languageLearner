@@ -77,6 +77,16 @@ window.LEA = window.LEA || {};
     if (extra.noLooseContractions) {
       course.noLooseContractions = (course.noLooseContractions || []).concat(extra.noLooseContractions);
     }
+    if (extra.talk) {
+      // Communication situations, keyed by unit id: { u1: { title, phrases, dialogue, ... } }.
+      course.talk = course.talk || {};
+      Object.keys(extra.talk).forEach(function (unitId) {
+        var t = extra.talk[unitId];
+        t.id = 'talk-' + unitId;
+        t.unitId = unitId;
+        course.talk[unitId] = t;
+      });
+    }
     if (extra.pronunciation) {
       course.pronunciation = (course.pronunciation || []).concat(extra.pronunciation);
       course.pronById = {};

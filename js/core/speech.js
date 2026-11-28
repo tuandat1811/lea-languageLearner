@@ -52,8 +52,18 @@
         if (v) u.voice = v;
         var rate = L.store.settings().rate || 0.85;
         u.rate = opts.slow ? Math.max(0.5, rate * 0.65) : rate;
-        u.onend = resolve;
-        u.onerror = resolve;
+        // Chrome sometimes never fires onend (hidden tab, no voice). Resolve anyway after
+        // roughly the time the text takes to read, so dialogues and role-play never stall.
+        var finished = false;
+        var timer = setTimeout(finish, 1500 + text.length * 110 / u.rate);
+        function finish() {
+          if (finished) return;
+          finished = true;
+          clearTimeout(timer);
+          resolve();
+        }
+        u.onend = finish;
+        u.onerror = finish;
         synth.speak(u);
       });
     },

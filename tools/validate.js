@@ -146,6 +146,36 @@ for (const [input, answer, want] of strictCases) {
   if (got !== want) fail(`checkStrict(${JSON.stringify(input)}) = ${got}, want ${want}`);
 }
 
+// Communication situations: complete data and buildable exercises.
+for (const code of L.languageOrder) {
+  const c = L.languages[code];
+  const talk = c.talk || {};
+  for (const [unitId, t] of Object.entries(talk)) {
+    const where = `${code}/talk ${unitId}`;
+    if (!c.units.some((u) => u.id === unitId)) fail(`${where}: unknown unit`);
+    for (const k of ['title', 'titleEn', 'icon', 'situation', 'partner']) if (!t[k]) fail(`${where}: missing ${k}`);
+    if (!t.phrases || !t.phrases.length || t.phrases.some((g) => !g.fn || !g.items.length || g.items.some((p) => !p.en || !p.vi))) fail(`${where}: phrases need fn + items with en/vi`);
+    if (!t.culture || t.culture.length < 2) fail(`${where}: needs ≥2 culture notes`);
+    if (!t.dialogue || t.dialogue.length < 6) fail(`${where}: needs ≥6 dialogue lines`);
+    (t.dialogue || []).forEach((d, i) => {
+      if (!d.en || !d.vi) fail(`${where}: dialogue line ${i} needs en and vi`);
+      if (!d.you && !d.who) fail(`${where}: dialogue line ${i} needs who (or you: true)`);
+    });
+    const yours = (t.dialogue || []).filter((d, i) => d.you && i > 0 && !t.dialogue[i - 1].you).length;
+    if (yours < 2) fail(`${where}: needs ≥2 of your lines that answer the partner`);
+    (t.responses || []).forEach((r, i) => {
+      if (!(r.answer >= 0 && r.answer < r.options.length) || !r.why || !(r.say || r.context)) fail(`${where}: response ${i} needs say/context, valid answer and why`);
+      if (new Set(r.options).size !== r.options.length) fail(`${where}: response ${i} has repeated options`);
+    });
+    if (!t.responses || t.responses.length < 3) fail(`${where}: needs ≥3 responses`);
+    for (let run = 0; run < 10; run++) {
+      const exs = L.exercises.buildTalk(c, t);
+      if (!exs.some((e) => e.type === 'talk_order') || exs.filter((e) => e.type === 'talk_speak').length !== 2) { fail(`${where}: exercises incomplete`); break; }
+    }
+  }
+  if (Object.keys(talk).length) console.log(`${c.flag} ${c.name}: ${Object.keys(talk).length} communication situations`);
+}
+
 // Every grammar test must build 6 multiple-choice + 4 written questions.
 for (const code of L.languageOrder) {
   const c = L.languages[code];

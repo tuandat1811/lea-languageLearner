@@ -48,6 +48,8 @@ Mỗi bài gồm: **Từ vựng** (12 từ, IPA, phát âm – tổng 960 từ) 
 
 Đạt ≥ 60% mỗi kỹ năng để mở khoá bài tiếp theo (1–3 sao). Có **Ôn tập** từ vựng theo phương pháp lặp lại ngắt quãng, chuỗi ngày học 🔥 và điểm sao ⭐. Tiến độ lưu trong `localStorage`.
 
+**💬 Giao tiếp** (`#/talk`, dữ liệu `data/en-talk.js`): mỗi chặng có một tình huống thực tế, mở khi học xong chặng đó (hiện có 10 tình huống của Cấp 1). Mỗi tình huống gồm mẫu câu theo chức năng, lưu ý văn hoá, hội thoại mẫu, **nhập vai** (máy đóng vai nhân vật, người học nói câu của mình bằng micro hoặc chọn câu) và bài tập: chọn câu đáp phù hợp, sắp xếp hội thoại, nói câu đáp. Mỗi lượt nói có thể khai báo nhiều câu đáp được chấp nhận (`accept`).
+
 **📝 Kiểm tra ngữ pháp** (`#/test/<id>`): sau mỗi 2 chặng (4 bài) có một bài kiểm tra 10 câu, mở khi học xong các bài đó. Phần I trắc nghiệm (6 câu: chọn từ điền vào chỗ trống, chọn câu đúng ngữ pháp); phần II tự luận (4 câu: viết dạng đúng của từ trong ngoặc, tìm lỗi sai và viết lại câu). Câu hỏi được sinh ngẫu nhiên từ phần ngữ pháp và câu mẫu (`builders.test` trong `js/core/exercises.js`), chỉ dùng các nhóm từ ngữ pháp đóng (am/is/are, a/an, have/has, -s ngôi thứ 3, for/since…) để mỗi chỗ trống có đúng một đáp án. Tự luận chấm chính xác từng ký tự; chỉ chấp nhận chữ cái đầu câu viết thường và dạng viết tắt/viết đầy đủ (doesn't = does not).
 
 ## Thêm ngôn ngữ mới
@@ -72,7 +74,7 @@ js/core/speech.js        Đọc (speechSynthesis) & nhận diện giọng nói
 js/core/exercises.js     Sinh bài tập & chấm đáp án
 js/ui/rain.js            Hiệu ứng mưa nhẹ (tuỳ chọn)
 js/app.js                Router + các trang
-data/en.js               Khoá tiếng Anh
+data/en.js               Khoá tiếng Anh (en-a2/b1/b2.js: cấp 2–4, en-pron.js: phát âm, en-talk.js: giao tiếp)
 tools/serve.js           Server tĩnh
 tools/validate.js        Kiểm tra dữ liệu khoá học
 ```

@@ -478,8 +478,43 @@
     return { ok: false, exact: false };
   }
 
+  /**
+   * Communication practice for one situation (talk): choose the right reply,
+   * put dialogue lines in order, and say your own lines.
+   */
+  builders.talk = function (course, t) {
+    var ex = [];
+    t.responses.forEach(function (r) {
+      var opts = shuffle(r.options);
+      ex.push({
+        type: 'talk_choose', prompt: 'Chọn câu đáp phù hợp nhất',
+        say: r.say || '', context: r.context || '',
+        options: opts, answer: opts.indexOf(r.options[r.answer]),
+        reveal: r.options[r.answer] + ' — ' + r.why,
+      });
+    });
+    // Four consecutive lines of the dialogue, shuffled.
+    var start = Math.floor(Math.random() * Math.max(1, t.dialogue.length - 3));
+    var part = t.dialogue.slice(start, start + 4).map(function (d) { return { who: d.you ? 'Bạn' : d.who, en: d.en }; });
+    var order;
+    do { order = shuffle(part.map(function (p, i) { return i; })); } while (part.length > 1 && order.join() === part.map(function (p, i) { return i; }).join());
+    ex.push({ type: 'talk_order', prompt: 'Sắp xếp các câu thành đoạn hội thoại đúng', lines: part, order: order });
+    // Two of your lines, answered out loud right after the partner's line.
+    var yours = [];
+    t.dialogue.forEach(function (d, i) { if (d.you && i > 0 && !t.dialogue[i - 1].you) yours.push(i); });
+    sample(yours, 2).sort(function (a, b) { return a - b; }).forEach(function (i) {
+      var d = t.dialogue[i], before = t.dialogue[i - 1];
+      ex.push({
+        type: 'talk_speak', prompt: 'Nghe ' + before.who + ' nói, rồi nói câu đáp của bạn',
+        partner: before.who, line: before.en, vi: d.vi, text: d.en, answers: [d.en].concat(d.accept || []),
+      });
+    });
+    return ex;
+  };
+
   L.exercises = {
     build: function (skillId, course, lesson) { return builders[skillId](course, lesson); },
+    buildTalk: function (course, t) { return builders.talk(course, t); },
     buildTest: function (course, test) { return builders.test(course, test.lessons); },
     grammarSlots: grammarSlots,
     checkStrict: checkStrict,

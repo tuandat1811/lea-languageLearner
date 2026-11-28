@@ -88,6 +88,8 @@
 }
 
 * { box-sizing: border-box; }
+/* The hidden attribute must win over display rules like .speak-hint { display: flex }. */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -609,6 +611,46 @@ body.in-practice .site-footer { display: none; }
 .review-item { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--bad); border-radius: 12px; padding: 10px 14px; margin-bottom: 8px; }
 .review-wrong { text-decoration: line-through; color: var(--muted); }
 
+/* Communication (giao tiếp) */
+.talk-card {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  margin: -6px 0 22px; padding: 18px 22px; border-radius: var(--radius);
+  background: var(--accent-soft); border: 2px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.talk-card.passed { border-style: solid; border-color: var(--ok); background: var(--ok-soft); }
+.talk-card.locked { opacity: .7; }
+.talk-card .unit-label { color: var(--accent); }
+.locked-card { opacity: .65; }
+.phrase-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px 18px; }
+.phrase-group h3 { margin: 4px 0 8px; color: var(--accent-2); }
+.phrase-group .example { margin-bottom: 8px; }
+.you-line { background: var(--accent-2-soft); }
+.talk-context { font-weight: 700; margin: 0 0 12px; }
+.chat { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 14px; }
+.chat:empty { display: none; }
+.bubble {
+  align-self: flex-start; max-width: 80%; background: var(--card); border: 1px solid var(--border);
+  border-radius: 18px 18px 18px 6px; padding: 10px 14px; box-shadow: var(--shadow-sm); margin-bottom: 14px;
+}
+.chat .bubble { margin-bottom: 0; }
+.bubble.mine { align-self: flex-end; background: var(--accent-2-soft); border-color: transparent; border-radius: 18px 18px 6px 18px; }
+.bubble-who { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 2px; }
+.bubble-text { font-weight: 700; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bubble .speak-btn { width: 32px; height: 32px; font-size: .9rem; }
+.your-turn {
+  align-self: flex-end; width: min(520px, 100%); background: var(--surface); border: 2px dashed var(--accent-2);
+  border-radius: 18px; padding: 14px 16px;
+}
+.turn-label { font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--accent-2); }
+.turn-vi { font-size: 1.15rem; font-weight: 800; margin: 4px 0 10px; }
+.turn-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.small-mic { width: 56px; height: 56px; font-size: 1.5rem; }
+.turn-hint { margin-top: 8px; display: flex; align-items: center; gap: 8px; }
+.turn-status { margin-top: 8px; }
+.turn-options { display: grid; gap: 8px; margin-top: 10px; }
+.order-lines { flex-direction: column; align-items: stretch; }
+.line-tile { text-align: left; border-radius: 14px; font-weight: 600; }
+
 /* Level banner (course map) */
 .level-banner {
   display: flex; gap: 16px; align-items: center;
@@ -691,7 +733,8 @@ body.in-practice .site-footer { display: none; }
 @keyframes fall { to { transform: translateY(110vh) rotate(540deg); opacity: 0.3; } }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 960px) {
+/* The header puts the menu on its own scrolling row before it would wrap. */
+@media (max-width: 1120px) {
   .header-inner { flex-wrap: wrap; gap: 8px 12px; }
   .nav { order: 3; flex: 0 0 100%; overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; padding-bottom: 4px; }
   .nav a { white-space: nowrap; }

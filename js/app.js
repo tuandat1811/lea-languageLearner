@@ -372,9 +372,242 @@
         html += unlocked ? '<a class="' + cls + '" href="#/lesson/' + l.id + '">' + inner + '</a>' : '<div class="' + cls + '">' + inner + '</div>';
       });
       html += '</div></section>';
+      if (c.talk && c.talk[u.id]) html += talkCard(c, c.talk[u.id]);
       if (c.testAfterUnit[u.id]) html += testCard(c, c.testAfterUnit[u.id]);
     });
     app.innerHTML = html;
+  }
+
+  // =====================================================================
+  // COMMUNICATION (one situation per unit, opens when the unit is done)
+  // =====================================================================
+  function talkUnit(c, t) { return c.units.find(function (u) { return u.id === t.unitId; }); }
+  function talkUnlocked(c, t) {
+    var u = talkUnit(c, t);
+    return store.settings().unlockAll || (u && unitProgress(c, u).complete);
+  }
+  function talkStatus(t) {
+    var r = store.skillResult(t.id, 'talk');
+    var role = store.lectureSeen(t.id, 'roleplay');
+    return { result: r, roleplay: role, done: !!(r && r.stars) };
+  }
+
+  function talkCard(c, t) {
+    var open = talkUnlocked(c, t), s = talkStatus(t), u = talkUnit(c, t);
+    var status = !open
+      ? '<span class="muted">🔒 Học xong chặng ' + (u.index + 1) + ' để mở</span>'
+      : '<div class="stars-line">' + (s.result ? starsHtml(s.result.stars) : '') + (s.roleplay ? ' <span class="tag ok">🎭 Đã nhập vai</span>' : '') + '</div>' +
+        '<a class="btn ' + (s.done ? 'btn-ghost-dark' : 'btn-green') + '" href="#/talk/' + t.unitId + '">💬 ' + (s.done ? 'Luyện lại' : 'Vào tình huống') + '</a>';
+    return '<section class="talk-card' + (open ? '' : ' locked') + (s.done ? ' passed' : '') + '">' +
+      '<div class="test-icon">' + t.icon + '</div>' +
+      '<div class="test-info"><div class="unit-label">Giao tiếp · Chặng ' + (u.index + 1) + '</div>' +
+        '<h2>' + esc(t.title) + ' <span class="muted">· ' + esc(t.titleEn) + '</span></h2>' +
+        '<p class="muted">' + esc(t.situation) + '</p></div>' +
+      '<div class="test-status">' + status + '</div></section>';
+  }
+
+  function viewTalkList() {
+    var c = course();
+    var list = c.units.filter(function (u) { return c.talk && c.talk[u.id]; }).map(function (u) { return c.talk[u.id]; });
+    var cards = list.map(function (t) {
+      var open = talkUnlocked(c, t), s = talkStatus(t), u = talkUnit(c, t);
+      return '<div class="skill-card' + (s.done ? ' passed' : '') + (open ? '' : ' locked-card') + '">' +
+        '<span class="skill-step">' + (u.index + 1) + '</span><span class="skill-icon">' + (open ? t.icon : '🔒') + '</span>' +
+        '<span class="skill-name">' + esc(t.title) + '</span>' +
+        '<span class="skill-desc">' + esc(t.titleEn) + '</span>' +
+        (open
+          ? (s.result ? starsHtml(s.result.stars) : '<span class="skill-score">Chưa luyện</span>') +
+            (s.roleplay ? '<span class="tag ok">🎭 Đã nhập vai</span>' : '') +
+            '<div class="skill-actions"><a class="btn btn-small btn-green" href="#/talk/' + t.unitId + '">💬 Vào tình huống</a></div>'
+          : '<span class="skill-score">Học xong chặng ' + (u.index + 1) + ' (' + esc(u.title) + ') để mở</span>') +
+        '</div>';
+    }).join('');
+    app.innerHTML =
+      '<div class="page-head"><h1>💬 Giao tiếp</h1><p class="muted">Mỗi chặng có một tình huống thực tế. Học mẫu câu, nghe hội thoại mẫu, rồi tự nhập vai nói chuyện với nhân vật.</p></div>' +
+      '<div class="panel"><div class="tips"><b>Cách học một tình huống</b><ol>' +
+        '<li><b>Mẫu câu</b>: học các cách nói theo chức năng (gọi món, hỏi đường, từ chối…) và cách đáp lại.</li>' +
+        '<li><b>Lưu ý văn hoá</b>: điều người nói tiếng Anh coi là lịch sự hay bất lịch sự.</li>' +
+        '<li><b>Hội thoại mẫu</b>: nghe từng câu, nói theo.</li>' +
+        '<li><b>Nhập vai</b>: máy đóng vai nhân vật, bạn nói phần của mình (hoặc chọn câu nếu không dùng micro).</li>' +
+        '<li><b>Bài tập</b>: chọn câu đáp phù hợp, sắp xếp hội thoại, nói câu đáp.</li>' +
+      '</ol></div><div class="skill-cards">' + cards + '</div>' +
+      '<p class="muted center small">Tình huống cho Cấp 2 – 4 đang được biên soạn.</p></div>';
+  }
+
+  function viewTalk(unitId, mode) {
+    var c = course();
+    var t = c.talk && c.talk[unitId];
+    if (!t) return viewNotFound();
+    if (!talkUnlocked(c, t)) { location.hash = '#/talk'; return; }
+    if (mode === 'practice') return talkPractice(c, t);
+    var u = talkUnit(c, t);
+
+    var phrases = t.phrases.map(function (g) {
+      return '<div class="phrase-group"><h3>' + esc(g.fn) + '</h3>' + g.items.map(function (p) {
+        var first = p.en.split(' / ')[0];
+        return '<div class="example">' + speakBtn(first, { slow: true }) + '<div class="grow"><div class="ex-en">' + esc(p.en) + '</div>' +
+          '<div class="ex-vi">' + esc(p.vi) + (p.note ? ' · <i>' + esc(p.note) + '</i>' : '') + '</div></div>' + micBtn(first) + '</div>';
+      }).join('') + '</div>';
+    }).join('');
+
+    var lines = t.dialogue.map(function (d) { return { text: d.en, speaker: d.you ? 'Bạn' : d.who }; });
+
+    app.innerHTML =
+      '<div class="breadcrumb"><a href="#/talk">Giao tiếp</a> › Chặng ' + (u.index + 1) + '</div>' +
+      '<div class="lesson-hero"><div class="lesson-icon">' + t.icon + '</div><div>' +
+        '<div class="unit-label">Giao tiếp · Chặng ' + (u.index + 1) + ' · ' + esc(u.title) + '</div>' +
+        '<h1>' + esc(t.title) + ' <span class="muted">· ' + esc(t.titleEn) + '</span></h1>' +
+        '<p>🎬 ' + esc(t.situation) + '</p></div></div>' +
+      '<section class="panel"><h2>1️⃣ Mẫu câu theo chức năng</h2><div class="phrase-groups">' + phrases + '</div></section>' +
+      '<section class="panel"><h2>2️⃣ Lưu ý văn hoá</h2><ul class="grammar-points">' + t.culture.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></section>' +
+      '<section class="panel"><h2>3️⃣ Hội thoại mẫu</h2>' +
+        '<div class="player-bar">' +
+          '<button class="btn btn-red" data-play="normal">▶ Phát cả bài</button>' +
+          '<button class="btn btn-ghost-dark" data-play="slow">🐢 Phát chậm</button>' +
+          '<button class="btn btn-ghost-dark" data-stop>⏹ Dừng</button>' +
+          '<label class="toggle"><input type="checkbox" data-show-vi /> Hiện bản dịch</label>' +
+        '</div>' +
+        '<div class="listen-lines">' + t.dialogue.map(function (d) {
+          return '<div class="listen-line' + (d.you ? ' you-line' : '') + '">' + speakBtn(d.en) + '<div><b class="speaker">' + esc(d.you ? 'Bạn' : d.who) + ':</b> ' +
+            '<span class="line-text">' + esc(d.en) + '</span><div class="ex-vi line-vi" hidden>' + esc(d.vi) + '</div></div></div>';
+        }).join('') + '</div></section>' +
+      '<section class="panel"><h2>4️⃣ Nhập vai</h2>' +
+        '<p class="muted">Bạn đóng vai <b>Bạn</b>, máy đóng vai <b>' + esc(t.partner) + '</b>. Đến lượt mình, hãy nói câu tiếng Anh theo ý gợi ý bằng tiếng Việt. ' +
+          (L.speech.sttSupported ? 'Bấm 🎤 để nói, hoặc bấm "Chọn câu" nếu không tiện dùng micro.' : 'Trình duyệt này chưa nhận diện được giọng nói (hãy dùng Chrome hoặc Edge) – bạn sẽ chọn câu đáp đúng.') + '</p>' +
+        '<div class="chat" aria-live="polite"></div>' +
+        '<p class="center"><button class="btn btn-red btn-lg" data-roleplay>🎭 Bắt đầu nhập vai</button></p></section>' +
+      '<div class="study-foot"><a class="btn btn-red btn-lg" href="#/talk/' + t.unitId + '/practice">✏️ Làm bài tập giao tiếp →</a>' +
+        '<a class="btn btn-ghost" href="#/talk">Tất cả tình huống</a></div>';
+
+    bindMiniMics(app);
+    var rows = $$('.listen-line', app);
+    $$('[data-play]', app).forEach(function (b) {
+      b.addEventListener('click', function () { playLines(lines, rows, b.getAttribute('data-play') === 'slow'); });
+    });
+    $('[data-stop]', app).addEventListener('click', stopPlayback);
+    $('[data-show-vi]', app).addEventListener('change', function (e) { $$('.line-vi', app).forEach(function (x) { x.hidden = !e.target.checked; }); });
+    var startBtn = $('[data-roleplay]', app);
+    startBtn.addEventListener('click', function () {
+      stopPlayback();
+      startBtn.textContent = '↻ Nhập vai lại';
+      roleplay($('.chat', app), t);
+    });
+  }
+
+  /** Scripted role-play: the app speaks the partner's lines, the learner says (or picks) theirs. */
+  function roleplay(chat, t) {
+    var token = (roleplay.token = (roleplay.token || 0) + 1);
+    var i = 0;
+    chat.innerHTML = '';
+    L.speech.stopListening();
+    function alive() { return token === roleplay.token && document.body.contains(chat); }
+    function bubble(who, text, mine, extra) {
+      var b = document.createElement('div');
+      b.className = 'bubble' + (mine ? ' mine' : '');
+      b.innerHTML = '<div class="bubble-who">' + esc(who) + '</div><div class="bubble-text">' + esc(text) + (extra || '') + '</div>';
+      chat.appendChild(b);
+      b.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return b;
+    }
+    function step() {
+      if (!alive()) return;
+      if (i >= t.dialogue.length) {
+        store.markLecture(t.id, 'roleplay');
+        var end = document.createElement('div');
+        end.className = 'success';
+        end.textContent = '🎉 Bạn đã hoàn thành đoạn hội thoại! Hãy làm bài tập giao tiếp để củng cố.';
+        chat.appendChild(end);
+        return;
+      }
+      var d = t.dialogue[i];
+      if (!d.you) {
+        bubble(d.who, d.en, false, ' ' + speakBtn(d.en));
+        L.speech.speak(d.en).then(function () { i++; setTimeout(step, 350); });
+        return;
+      }
+      yourTurn(d);
+    }
+    function yourTurn(d) {
+      var answers = [d.en].concat(d.accept || []);
+      var box = document.createElement('div');
+      box.className = 'your-turn';
+      box.innerHTML =
+        '<div class="turn-label">Lượt của bạn · nói ý này bằng tiếng Anh:</div>' +
+        '<div class="turn-vi">' + esc(d.vi) + '</div>' +
+        '<div class="turn-actions">' +
+          (L.speech.sttSupported ? '<button class="mic-btn small-mic" aria-label="Bấm để nói">🎤</button>' : '') +
+          '<button class="btn btn-small btn-ghost-dark" data-hint>👀 Gợi ý</button>' +
+          '<button class="btn btn-small btn-ghost-dark" data-pick>☝️ Chọn câu</button>' +
+        '</div>' +
+        '<div class="turn-hint muted" hidden>' + esc(d.en) + ' ' + speakBtn(d.en, { slow: true }) + '</div>' +
+        '<div class="turn-status muted"></div><div class="turn-options"></div>';
+      chat.appendChild(box);
+      box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      var status = $('.turn-status', box);
+      function done(said) {
+        box.remove();
+        bubble('Bạn', said, true);
+        i++;
+        setTimeout(step, 300);
+      }
+      $('[data-hint]', box).addEventListener('click', function () { $('.turn-hint', box).hidden = false; });
+      $('[data-pick]', box).addEventListener('click', function () {
+        // The right line plus other lines of yours from this dialogue, which don't fit here.
+        var others = t.dialogue.filter(function (x) { return x.you && x !== d; }).map(function (x) { return x.en; });
+        var opts = L.exercises.shuffle([d.en].concat(L.exercises.sample(others, Math.min(2, others.length))));
+        var wrap = $('.turn-options', box);
+        wrap.innerHTML = opts.map(function (o, k) { return '<button class="option" data-k="' + k + '"><span>' + esc(o) + '</span></button>'; }).join('');
+        $$('.option', wrap).forEach(function (b) {
+          b.addEventListener('click', function () {
+            var o = opts[+b.getAttribute('data-k')];
+            if (o === d.en) { L.speech.speak(d.en); done(d.en); }
+            else { b.classList.add('wrong'); status.textContent = 'Câu này chưa hợp với tình huống – thử câu khác nhé.'; }
+          });
+        });
+      });
+      var mic = $('.mic-btn', box);
+      if (mic) mic.addEventListener('click', function () {
+        if (mic.classList.contains('recording')) { L.speech.stopListening(); return; }
+        mic.classList.add('recording');
+        status.textContent = 'Đang nghe… hãy nói!';
+        L.speech.listen().then(function (alts) {
+          mic.classList.remove('recording');
+          if (!alive()) return;
+          if (!alts.length) { status.textContent = 'Không nghe thấy gì. Bấm 🎤 và thử lại nhé.'; return; }
+          var r = L.exercises.checkSpeech(alts, answers, course());
+          if (r.ok) done(r.heard);
+          else status.innerHTML = 'Bạn nói: <b>“' + esc(r.heard) + '”</b> – chưa khớp lắm. Thử lại, xem gợi ý hoặc chọn câu.';
+        }).catch(function (err) {
+          mic.classList.remove('recording');
+          status.textContent = err && /not-allowed/.test(err.message) ? 'Cần cho phép dùng micro – hoặc bấm "Chọn câu".' : 'Có lỗi khi nghe – thử lại hoặc bấm "Chọn câu".';
+        });
+      });
+    }
+    step();
+  }
+
+  function talkPractice(c, t) {
+    runExercises({
+      exs: L.exercises.buildTalk(c, t),
+      title: '💬 Giao tiếp · ' + esc(t.title),
+      backHref: '#/talk/' + t.unitId,
+      onDone: function (correct, total) {
+        var r = store.recordSkill(t.id, 'talk', correct, total);
+        renderStats();
+        app.innerHTML =
+          '<div class="result panel">' +
+            '<div class="result-icon">' + (r.stars ? '💬' : '🌱') + '</div>' +
+            '<h1>' + esc(t.title) + ': ' + Math.round(r.score * 100) + '%</h1>' +
+            '<div class="result-stars">' + starsHtml(r.stars) + '</div>' +
+            '<p>' + starMessage(r.stars) + '</p>' +
+            '<p class="muted">Đúng ' + correct + '/' + total + ' câu · +' + r.xp + ' ⭐</p>' +
+            '<div class="result-actions"><a class="btn btn-ghost-dark" href="#/talk/' + t.unitId + '/practice" data-retry>↻ Luyện lại</a>' +
+              '<a class="btn btn-green" href="#/talk/' + t.unitId + '">Về tình huống</a><a class="btn btn-red" href="#/course">Về lộ trình</a></div>' +
+          '</div>';
+        $('[data-retry]', app).addEventListener('click', function (e) { e.preventDefault(); talkPractice(c, t); });
+        if (r.stars >= 2) celebrate();
+      },
+    });
   }
 
   // =====================================================================
@@ -1140,6 +1373,55 @@
     },
   };
 
+  // ---- Communication ----
+  R.talk_choose = {
+    html: function (ex) {
+      return (ex.context ? '<p class="talk-context">🎬 ' + esc(ex.context) + '</p>' : '') +
+        (ex.say ? '<div class="bubble"><div class="bubble-text">' + speakBtn(ex.say) + ' ' + esc(ex.say) + '</div></div>' : '') +
+        optionsHtml(ex.options);
+    },
+    bind: function (root, ex, ctx) {
+      bindOptions(root, ex, ctx, ex.reveal);
+      if (ex.say) setTimeout(function () { L.speech.speak(ex.say); }, 300);
+    },
+  };
+
+  R.talk_order = {
+    html: function (ex) {
+      return '<div class="order-line order-lines" aria-label="Thứ tự của bạn"></div>' +
+        '<div class="order-bank order-lines">' + ex.order.map(function (k) {
+          var l = ex.lines[k];
+          return '<button class="tile line-tile" data-k="' + k + '"><b>' + esc(l.who) + ':</b> ' + esc(l.en) + '</button>';
+        }).join('') + '</div>';
+    },
+    bind: function (root, ex, ctx) {
+      var line = $('.order-line', root), bank = $('.order-bank', root);
+      root.addEventListener('click', function (e) {
+        var tile = e.target.closest('.tile');
+        if (!tile || ctx.locked()) return;
+        (tile.parentNode === bank ? line : bank).appendChild(tile);
+        ctx.ready(bank.children.length === 0);
+      });
+      ctx.setCheck(function () {
+        var got = $$('.tile', line).map(function (x) { return +x.getAttribute('data-k'); });
+        var ok = got.every(function (k, i) { return k === i; });
+        line.classList.add(ok ? 'correct' : 'wrong');
+        return { ok: ok, answer: ex.lines.map(function (l) { return l.who + ': ' + l.en; }).join('  →  ') };
+      });
+    },
+  };
+
+  R.talk_speak = {
+    html: function (ex) {
+      return '<div class="bubble"><div class="bubble-who">' + esc(ex.partner) + '</div><div class="bubble-text">' + speakBtn(ex.line) + ' ' + esc(ex.line) + '</div></div>' +
+        speakHtml(ex, true);
+    },
+    bind: function (root, ex, ctx) {
+      bindSpeak(root, ex, ctx);
+      setTimeout(function () { L.speech.speak(ex.line); }, 300);
+    },
+  };
+
   // ---- Grammar test ----
   R.fill_choice = {
     html: function (ex) {
@@ -1656,6 +1938,7 @@
     else if (page === 'pron') viewPronLesson(parts[1]);
     else if (page === 'review') viewReview();
     else if (page === 'test') viewTest(parts[1]);
+    else if (page === 'talk') { if (parts[1]) viewTalk(parts[1], parts[2]); else viewTalkList(); }
     else if (page === 'alphabet') viewAlphabet();
     else if (page === 'settings') viewSettings();
     else viewNotFound();
