@@ -13,7 +13,7 @@ Dữ liệu giáo trình nằm ở `data/en.js` → `syllabus`. Trên web, xem t
 | 3 · Tiền trung cấp | B1 | 10 / 20 | Kể trải nghiệm, nguyên nhân – kết quả, giả thiết, mô tả chi tiết | Đã có trên web (`data/en-b1.js`) |
 | 4 · Trung cấp | B2 | 10 / 20 | Đoạn văn mạch lạc, tường thuật, lập luận, câu phức (nền tảng IELTS) | Đã có trên web (`data/en-b2.js`) |
 
-Mỗi bài gồm: **Từ vựng** (8–10 từ, phiên âm, phát âm) → **Ngữ pháp** (giải thích bằng tiếng Việt) → **Câu mẫu** → luyện **Nghe – Nói – Đọc – Viết**. Đạt từ 60% mỗi kỹ năng thì mở khoá bài tiếp theo.
+Mỗi bài gồm: **Từ vựng** (12 từ, phiên âm, phát âm – tổng 960 từ cho 80 bài) → **Ngữ pháp** (giải thích bằng tiếng Việt) → **Câu mẫu** → luyện **Nghe – Nói – Đọc – Viết**. Đạt từ 60% mỗi kỹ năng thì mở khoá bài tiếp theo.
 
 ## Cấp 1 · Nền tảng (A0 – A1)
 

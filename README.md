@@ -35,7 +35,7 @@ Các cấp tiếp theo: Cấp 2 (A2, chặng 11–20: mua sắm, quá khứ đơ
 
 Trước bài 1 có trang **Bảng chữ cái** (26 chữ cái + từ ví dụ, bấm để nghe).
 
-Mỗi bài gồm: **Từ vựng** (8–10 từ, IPA, phát âm) → **Ngữ pháp** → **Câu mẫu** → **4 kỹ năng**, mỗi kỹ năng có **bài giảng** (`#/study/<bài>/<kỹ năng>`, dựng từ dữ liệu bài học) và **bài tập** chấm điểm:
+Mỗi bài gồm: **Từ vựng** (12 từ, IPA, phát âm – tổng 960 từ) → **Ngữ pháp** → **Câu mẫu** → **4 kỹ năng**, mỗi kỹ năng có **bài giảng** (`#/study/<bài>/<kỹ năng>`, dựng từ dữ liệu bài học) và **bài tập** chấm điểm:
 
 | Kỹ năng | Bài giảng | Bài tập |
 |---|---|---|
